@@ -22,6 +22,10 @@ Build the acoord.co landing experience for “solving artificial coordination”
 - Stored request-access modal with validation, success/error states, duplicate handling, and Mongo persistence.
 - Backend regression suite for health, valid waitlist creation, idempotent duplicates, and validation.
 - Verified frontend routes, interactions, responsive overflow, API persistence, and concurrent waitlist submissions.
+- Added the supplied Calendly booking flow across navigation, conversion sections, stories, articles, and the waitlist success state.
+- Added a modular legal and trust center covering privacy, terms, acceptable use, security, browser storage, enterprise DPA, service providers, and role-based contact aliases.
+- Added consent-version persistence to request-access submissions.
+- Added an SEO/GEO-ready technical publishing system with six field notes, search, topic filters, dynamic metadata, structured data, sitemap, robots.txt, and llms.txt.
 
 ## Prioritized Backlog
 
@@ -31,9 +35,8 @@ Build the acoord.co landing experience for “solving artificial coordination”
 
 ### P1
 
-- Replace the private-alpha follow-up process with a scheduling link once the business URL is available.
 - Add consent/retention language and an internal request-management view before handling real enterprise lead volume.
-- Add privacy, security, and terms pages aligned with Acoord’s final operating entity.
+- Have qualified counsel review the published legal drafts before accepting production customers or regulated data.
 
 ### P2
 
@@ -44,6 +47,6 @@ Build the acoord.co landing experience for “solving artificial coordination”
 
 ## Next Tasks
 
-1. Supply the preferred booking/calendar URL and final contact destination.
-2. Review claims, metrics, and fictionalized company names with legal/brand stakeholders.
-3. Connect the product demo to authenticated Ahi workspace APIs when they are available.
+1. Review claims, metrics, fictionalized company names, and legal text with legal/brand stakeholders.
+2. Connect the product demo to authenticated Ahi workspace APIs when they are available.
+3. Publish verified production subprocessors and assurance reports before processing customer workspace data.

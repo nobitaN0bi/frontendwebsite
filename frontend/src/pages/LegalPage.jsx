@@ -27,7 +27,7 @@ export default function LegalPage() {
             {section.paragraphs?.map((paragraph, index) => <p key={`${section.id}-${index}`}>{paragraph}</p>)}
             {section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}
           </section>)}
-          <div className="legal-help"><Mail size={20} /><div><strong>Questions about this document?</strong><p>Email <a href="mailto:legal@acoord.co">legal@acoord.co</a>. Privacy requests can go directly to <a href="mailto:privacy@acoord.co">privacy@acoord.co</a>.</p></div></div>
+          <div className="legal-help"><Mail size={20} /><div><strong>Questions about this document?</strong><p>Email <a href="mailto:legal@acoord.co" data-testid="legal-help-legal-email-link">legal@acoord.co</a>. Privacy requests can go directly to <a href="mailto:privacy@acoord.co" data-testid="legal-help-privacy-email-link">privacy@acoord.co</a>.</p></div></div>
         </div>
       </div>
       <Link className="legal-next" to={`/legal/${nextDocument.slug}`} data-testid="legal-next-document-link"><span>Next document</span><strong>{nextDocument.title}</strong><ArrowRight size={22} /></Link>
