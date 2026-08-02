@@ -40,11 +40,11 @@ export const SiteChrome = ({ children, onJoin }) => {
         </div>
         <div className="footer-directory" data-testid="footer-links">
           <div><strong>Product</strong><a href="/#capabilities" data-testid="footer-system-link">System</a><Link to="/demo" data-testid="footer-demo-link">Watch demo</Link><a href="/#use-cases" data-testid="footer-stories-link">Use cases</a><button onClick={onJoin} data-testid="footer-access-button">Join waitlist</button></div>
-          <div><strong>Learn</strong><Link to="/resources">Field notes</Link><Link to="/resources/what-is-an-agentic-operating-system">Agentic OS</Link><Link to="/resources/hybrid-rag-postgresql-rrf">Enterprise RAG</Link><Link to="/resources/human-in-the-loop-agent-checkpoints">Human checkpoints</Link></div>
-          <div><strong>Trust</strong><Link to="/legal">Legal center</Link><Link to="/legal/security">Security</Link><Link to="/legal/privacy">Privacy</Link><Link to="/legal/acceptable-use">Acceptable use</Link></div>
-          <div><strong>Legal</strong><Link to="/legal/terms">Terms</Link><Link to="/legal/cookies">Cookies</Link><Link to="/legal/dpa">DPA</Link><Link to="/legal/subprocessors">Service providers</Link></div>
+          <div><strong>Learn</strong><Link to="/resources" data-testid="footer-field-notes-link">Field notes</Link><Link to="/resources/what-is-an-agentic-operating-system" data-testid="footer-agentic-os-link">Agentic OS</Link><Link to="/resources/hybrid-rag-postgresql-rrf" data-testid="footer-enterprise-rag-link">Enterprise RAG</Link><Link to="/resources/human-in-the-loop-agent-checkpoints" data-testid="footer-checkpoints-link">Human checkpoints</Link></div>
+          <div><strong>Trust</strong><Link to="/legal" data-testid="footer-legal-center-link">Legal center</Link><Link to="/legal/security" data-testid="footer-security-link">Security</Link><Link to="/legal/privacy" data-testid="footer-privacy-link">Privacy</Link><Link to="/legal/acceptable-use" data-testid="footer-acceptable-use-link">Acceptable use</Link></div>
+          <div><strong>Legal</strong><Link to="/legal/terms" data-testid="footer-terms-link">Terms</Link><Link to="/legal/cookies" data-testid="footer-cookies-link">Cookies</Link><Link to="/legal/dpa" data-testid="footer-dpa-link">DPA</Link><Link to="/legal/subprocessors" data-testid="footer-subprocessors-link">Service providers</Link></div>
         </div>
-        <div className="footer-bottom"><span className="footer-signal" data-testid="footer-status"><i /> Acoord system / alpha</span><span>© 2026 Acoord.co</span><a href="mailto:legal@acoord.co">legal@acoord.co</a><a href="mailto:support@acoord.co">support@acoord.co</a></div>
+        <div className="footer-bottom"><span className="footer-signal" data-testid="footer-status"><i /> Acoord system / alpha</span><span>© 2026 Acoord.co</span><a href="mailto:legal@acoord.co" data-testid="footer-legal-email-link">legal@acoord.co</a><a href="mailto:support@acoord.co" data-testid="footer-support-email-link">support@acoord.co</a></div>
       </footer>
     </div>
   );

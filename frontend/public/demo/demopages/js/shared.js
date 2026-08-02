@@ -79,7 +79,7 @@
       { id: 'apps', label: 'Apps', icon: `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>`, href: 'apps.html' },
       { id: 'code', label: 'Code', icon: `<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>`, href: 'code.html' },
       { id: 'browser', label: 'Browser', icon: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>`, href: 'browser.html' },
-      { id: 'teamspaces', label: 'Teamspaces', icon: `<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 1-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`, href: 'teamspaces.html' },
+      { id: 'teamspaces', label: 'Teamspaces', icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`, href: 'teamspaces.html' },
       { id: 'ontology', label: 'Ontology', icon: `<path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"/>`, href: 'ontology.html' }
     ];
 
