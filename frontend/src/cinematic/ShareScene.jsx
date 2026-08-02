@@ -5,11 +5,13 @@ import { FilmScene } from './FilmScene';
 export const ShareScene = ({ scenario, innerRef }) => {
   const [state, setState] = useState('idle');
   const [link, setLink] = useState('');
+  const [poster, setPoster] = useState('');
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setState('idle');
     setLink('');
+    setPoster('');
     setCopied(false);
   }, [scenario.id]);
 
@@ -23,7 +25,8 @@ export const ShareScene = ({ scenario, innerRef }) => {
       });
       if (!response.ok) throw new Error('Map creation failed');
       const data = await response.json();
-      setLink(`${window.location.origin}${data.path}`);
+      setLink(`${window.location.origin}${data.share_path || data.path}`);
+      setPoster(`${window.location.origin}${data.poster_path}`);
       setState('ready');
     } catch (error) {
       setState('error');
@@ -75,6 +78,7 @@ export const ShareScene = ({ scenario, innerRef }) => {
           )}
           {state === 'ready' && (
             <div className="share-ticket" data-testid="share-ticket">
+              <img className="ticket-poster" src={poster} alt={`${scenario.label} Acoord decision map preview`} data-testid="share-preview-poster" />
               <div className="ticket-head">
                 <span>ACOORD / DECISION MAP</span>
                 <b data-testid="share-ticket-industry">{scenario.label.toUpperCase()}</b>

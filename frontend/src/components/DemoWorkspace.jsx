@@ -18,7 +18,7 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onScenarioChange }) => {
+export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: controlledId, onScenarioChange }) => {
   const [active, setActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
@@ -72,7 +72,7 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
   const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
 
   return (
-    <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''}`} data-testid="exported-html-demo">
+    <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''} ${showcase ? 'exported-demo-showcase' : ''}`} data-testid="exported-html-demo">
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
           <span data-testid="demo-channel-label">Choose the enterprise channel</span>

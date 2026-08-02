@@ -1,7 +1,9 @@
 """Backend API tests for the /api/decision-maps feature."""
 import os
+import io
 import pytest
 import requests
+from PIL import Image
 
 BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "").rstrip("/")
 if not BASE_URL:
@@ -41,6 +43,8 @@ def test_create_decision_map_each_industry(api, industry):
     assert data["industry"] == industry
     assert isinstance(data["id"], str) and len(data["id"]) > 0
     assert data["path"] == f"/map/{data['id']}"
+    assert data["share_path"] == f"/api/decision-maps/{data['id']}/share"
+    assert data["poster_path"] == f"/api/decision-maps/{data['id']}/poster.png"
     assert data["views"] == 0
     assert "created_at" in data
 
@@ -71,6 +75,60 @@ def test_get_decision_map_increments_views(api):
 def test_get_unknown_id_returns_404(api):
     r = api.get(f"{BASE_URL}/api/decision-maps/doesnotexist_zzz", timeout=10)
     assert r.status_code == 404
+
+
+def test_share_page_contains_social_preview(api):
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "logistics"}, timeout=10)
+    map_id = created.json()["id"]
+    response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/share", timeout=10, allow_redirects=False)
+    assert response.status_code == 200
+    assert 'property="og:image"' in response.text
+    assert f"/api/decision-maps/{map_id}/poster.png" in response.text
+    assert f"/map/{map_id}" in response.text
+
+
+def test_share_page_contains_absolute_metadata_and_redirect(api):
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "finance"}, timeout=10)
+    map_id = created.json()["id"]
+    response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/share", timeout=10, allow_redirects=False)
+    assert response.status_code == 200
+    html = response.text
+
+    expected_share_url = f"{BASE_URL}/api/decision-maps/{map_id}/share"
+    expected_map_url = f"{BASE_URL}/map/{map_id}"
+    expected_poster_url = f"{BASE_URL}/api/decision-maps/{map_id}/poster.png"
+
+    assert f'property="og:url" content="{expected_share_url}"' in html
+    assert f'property="og:image" content="{expected_poster_url}"' in html
+    assert f'name="twitter:image" content="{expected_poster_url}"' in html
+    assert f'<link rel="canonical" href="{expected_map_url}">' in html
+    assert f'<meta http-equiv="refresh" content="0;url={expected_map_url}">' in html
+
+
+def test_poster_is_social_card_png(api):
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "fashion"}, timeout=10)
+    map_id = created.json()["id"]
+    response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/poster.png", timeout=10)
+    assert response.status_code == 200
+    assert response.headers["content-type"].startswith("image/png")
+    assert response.content[:8] == b"\x89PNG\r\n\x1a\n"
+    assert len(response.content) > 10000
+
+
+def test_poster_dimensions_are_1200x630(api):
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "saas"}, timeout=10)
+    map_id = created.json()["id"]
+    response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/poster.png", timeout=10)
+    assert response.status_code == 200
+    image = Image.open(io.BytesIO(response.content))
+    assert image.size == (1200, 630)
+
+
+def test_share_and_poster_missing_map_return_404(api):
+    share_resp = api.get(f"{BASE_URL}/api/decision-maps/not_real_map/share", timeout=10, allow_redirects=False)
+    poster_resp = api.get(f"{BASE_URL}/api/decision-maps/not_real_map/poster.png", timeout=10)
+    assert share_resp.status_code == 404
+    assert poster_resp.status_code == 404
 
 
 def test_invalid_industry_returns_422(api):

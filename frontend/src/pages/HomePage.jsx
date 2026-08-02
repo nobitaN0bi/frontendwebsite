@@ -3,7 +3,6 @@ import { ArrowRight, Braces, Cable, Download, GitBranch, LockKeyhole, Network, S
 import { Link } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
 import { AsciiNarrative } from '../components/AsciiNarrative';
-import { DemoWorkspace } from '../components/DemoWorkspace';
 import { NewsletterForm } from '../components/NewsletterForm';
 import { Seo } from '../components/Seo';
 import { AsciiArt } from '../cinematic/AsciiArt';
@@ -15,6 +14,7 @@ import { IndustryScene } from '../cinematic/IndustryScene';
 import { InfiniteScene } from '../cinematic/InfiniteScene';
 import { PortraitScene } from '../cinematic/PortraitScene';
 import { ShareScene } from '../cinematic/ShareScene';
+import { MacBookDemoHero } from '../cinematic/MacBookDemoHero';
 import { buildFilm } from '../cinematic/filmScript';
 import { useScenarios } from '../cinematic/useScenarios';
 import { capabilities, faqs, operatingSteps } from '../data/marketingContent';
@@ -96,17 +96,7 @@ export default function HomePage({ onJoin }) {
         <FilmHud industry={scenario.label} chapter={chapter + 1} total={film.length} playing={playing} onToggle={toggleFilm} />
       </div>
 
-      <section className="watch-demo-section scene-demo scene-snap" id="watch-demo" data-testid="watch-demo-section">
-        <div className="demo-story-head">
-          <div>
-            <p className="section-number">14 / THE REAL PRODUCT</p>
-            <h2 data-testid="watch-demo-title">Now open the interface<br />you just watched.</h2>
-          </div>
-          <p data-testid="watch-demo-description">The same nine surfaces, running as the exported Ahi desktop application. Every run explainable, every step traceable. Scenario data and runs are modeled simulations.</p>
-        </div>
-        <DemoWorkspace compact scenarioId={industryId} onScenarioChange={setIndustryId} />
-        <Link className="demo-deep-link" to="/demo" data-testid="watch-demo-page-link">Open the full product walkthrough <ArrowRight size={17} /></Link>
-      </section>
+      <MacBookDemoHero scenarioId={industryId} onScenarioChange={setIndustryId} />
 
       <section className="story-problem editorial-section inverted-section ascii-stage scene-snap" data-testid="problem-solution-section">
         <AsciiNarrative mode="signal" tone="dark" label="HUMAN / AGENT / ONE TEAM" />
