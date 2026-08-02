@@ -63,6 +63,18 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - All previously shipped editorial/SEO sections were retained after the film and given full-screen framing.
 - Verified on 2026-06 (iteration_6): 100% frontend pass — hero/ASCII rendering, staged infinite scene, eye reveal, all eight industry switches rebuilding all nine chapters, HUD autoplay/pause, demo light theme and channel sync, portrait scene, retained sections, waitlist end-to-end, mobile 390x844, no console errors.
 
+- **2026-06 cinematic experience rework (this fork):**
+- Removed the agent-ecosystem section ("The right specialist. One governing intent.") and the trust section ("Every action leaves a reconstructable line.") per user request.
+- Rewrote the problem headline to "The interface for AI and human team collaboration."
+- Rebuilt "Fluid above. Strict beneath." as a dark cinematic section with a living eye backdrop (ellipse + ASCII iris + pupil, slow gaze drift + blink) behind four pillars: **ASK** (understand via 1,000+ integrations into one ontology), **ACT** (connectors become proactive hands), **EXPERT** (hire ontology-grounded digital experts, e.g. a social GTM expert supervised by the adjacent marketing team), **EXPLAINABLE** (traceable, replayable executions); plus a scrolling 1,000+ connector marquee.
+- Removed the Meridian Capital scenario-story block (company/hook/trigger/human-line/outcome) from DemoWorkspace on / and /demo; the workflow story now lives only in the film; demo copy now says "Every step explainable."
+- Moved newsletter capture into the blog/knowledge section as a light "Architecture & updates" dispatch block; removed the standalone dark newsletter section.
+- Switched all global CTAs to "Download the desktop app" (opens waitlist modal, tagged WAITLIST) and "Book a demo" (Calendly): hero, header, footer, join section, demo page, resources page. WaitlistModal reframed as the desktop-app download waitlist.
+- Rebuilt the final scene as a pure cinematic close: full-bleed ASCII portrait backdrop with scroll-linked zoom, letterbox bars, scanline/flicker/jitter, "Magic that you can trust." headline, Download + Book a demo CTAs — no email link, no contact form.
+- Added a cinematic wipe overlay between film chapters (one-continuous-shot feel) with full reduced-motion fallbacks.
+- Fixed AsciiBackdrop: removed AbortController logic that poisoned the shared fetch cache under StrictMode (fallback "COORDINATE" art was rendering); switched ASCII assets to local /ascii/*.txt files.
+- Verified on 2026-06 (iteration_7 + follow-up self-test): backend 6/6 pass (health, waitlist create/duplicate/validation, newsletter subscribe/consent); frontend pass — film flow, hero CTAs, waitlist + newsletter end-to-end, pillar section, removed sections absent, finale without contact, mobile 390x844, no console errors; scenario-story removal re-verified on / and /demo after test-run revert.
+
 ## Prioritized Backlog
 
 ### P0
@@ -86,9 +98,10 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 ## Next Tasks
 
-1. Add per-chapter narration/soundless "video" polish: optional cinematic camera moves between chapters and a shareable branded decision map at the end of each industry film.
-2. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
-2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
-3. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
-4. Publish verified production subprocessors and assurance reports before processing customer workspace data.
-5. Validate the eight modeled enterprise narratives with domain experts before using any outcome language in external sales material.
+1. Shareable Film: generate a branded decision-map link after each completed industry tour for sales follow-up.
+2. Conversion analytics: track which industry and chapter visitors watch before booking a demo or joining the download waitlist.
+3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.
+4. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
+5. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
+6. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
+7. Publish verified production subprocessors and assurance reports before processing customer workspace data.

@@ -85,13 +85,6 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
         </div>
       </div>
 
-      <div className="demo-scenario-story" key={scenario.id} data-testid="demo-scenario-story">
-        <div className="demo-scenario-title"><span data-testid="demo-scenario-company">{scenario.company}</span><h3 data-testid="demo-scenario-hook">{scenario.hook}</h3></div>
-        <div className="demo-story-beat"><span>01 / Trigger</span><p data-testid="demo-scenario-trigger">{scenario.trigger}</p></div>
-        <div className="demo-story-beat"><span>02 / Human line</span><p data-testid="demo-scenario-checkpoint">{scenario.checkpoint}</p></div>
-        <div className="demo-story-beat demo-story-outcome"><span>03 / Modeled outcome</span><p data-testid="demo-scenario-outcome">{scenario.outcome}</p><strong data-testid="demo-scenario-metric">{scenario.metric}</strong></div>
-      </div>
-
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">
         <div className="demo-chapter-copy">
           <span data-testid="demo-active-scene-number">0{active + 1} / 0{scenes.length}</span>
