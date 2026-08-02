@@ -1,129 +1,125 @@
-import { ArrowRight, Braces, Cable, CheckCircle2, GitBranch, LockKeyhole, MousePointer2, Network, Sparkles } from 'lucide-react';
+import { ArrowRight, Braces, Cable, Check, GitBranch, LockKeyhole, Network, Play, Search, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
-import { DemoWorkspace } from '../components/DemoWorkspace';
-import { useCases } from '../data/useCases';
-import { Seo } from '../components/Seo';
-import { resources } from '../data/resources';
 import { AsciiNarrative } from '../components/AsciiNarrative';
+import { DemoWorkspace } from '../components/DemoWorkspace';
+import { NewsletterForm } from '../components/NewsletterForm';
+import { Seo } from '../components/Seo';
+import { agentRoles, capabilities, faqs, operatingSteps, trustLayers } from '../data/marketingContent';
+import { resources } from '../data/resources';
+import { useCases } from '../data/useCases';
 
-const systemLayers = [
-  { icon: MousePointer2, code: '01 / INTENT', title: 'Humans describe outcomes.', text: 'Start with a conversation, not a brittle workflow specification.' },
-  { icon: GitBranch, code: '02 / COMPILE', title: 'Acoord builds the graph.', text: 'Visual topologies compile into strict, versioned execution contracts.' },
-  { icon: Network, code: '03 / ORCHESTRATE', title: 'Agents coordinate work.', text: 'Lead agents route specialized workers, tools, knowledge, and approvals.' },
-  { icon: LockKeyhole, code: '04 / TRUST', title: 'You stay in control.', text: 'Checkpoints, isolated execution, and audit lineage make magic accountable.' }
-];
+const iconSet = [GitBranch, Search, Users, LockKeyhole, Cable, Braces, Network];
+const homeSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'SoftwareApplication', name: 'Acoord Ahi', applicationCategory: 'BusinessApplication', operatingSystem: 'Web and desktop', description: 'An agentic operating system for orchestrating AI agents, enterprise knowledge, tools, human checkpoints, and auditable decisions.', url: process.env.REACT_APP_SITE_URL },
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }
+  ]
+};
 
 export default function HomePage({ onJoin }) {
   return (
     <>
-      <Seo title="Acoord — The Agentic Operating System" description="Acoord coordinates people, AI agents, enterprise tools, and trusted decisions in one collaborative operating system." path="/" schema={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Acoord', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', description: 'An agent-human coordination operating system for collaborative, auditable AI workflows.', url: process.env.REACT_APP_SITE_URL }} />
-      <section className="hero" data-testid="home-hero">
+      <Seo title="Acoord Ahi — Agentic Operating System for Enterprise AI" description="Move AI agents from prototype to production with visual orchestration, hybrid RAG, CRDT collaboration, secure sandboxes, MCP tools, and human checkpoints." path="/" schema={homeSchema} />
+
+      <section className="hero mono-hero" data-testid="home-hero">
         <AsciiBackdrop art="space" />
-        <div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />
         <div className="hero-content">
-          <div className="hero-status" data-testid="hero-status"><span /> AH-I / AGENT HUMAN INTERFACE / ALPHA</div>
-          <h1 data-testid="hero-title">Artificial intelligence<br />has a <em>coordination</em> problem.</h1>
-          <p className="hero-copy" data-testid="hero-description">Acoord is the operating system where people, agents, tools, and trusted decisions move together—without losing the thread.</p>
+          <p className="hero-status" data-testid="hero-status"><span /> AHI / AGENTIC OPERATING SYSTEM / PRIVATE ALPHA</p>
+          <h1 data-testid="hero-title"><span>Intelligence</span><br />needs an operating system.</h1>
+          <p className="hero-copy" data-testid="hero-description">Acoord turns human intent into coordinated, inspectable work across AI agents, enterprise knowledge, tools, secure sandboxes, and the decisions only people should make.</p>
           <div className="hero-actions" data-testid="hero-actions">
-            <Link className="button button-white" to="/demo" data-testid="hero-demo-button">Enter the live canvas <ArrowRight size={17} /></Link>
-            <a className="button button-ghost" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="hero-book-demo-link">Book a 30-minute demo</a>
-            <button className="hero-text-action" onClick={onJoin} data-testid="hero-access-button">Request private access</button>
+            <a className="button button-white" href="#watch-demo" data-testid="hero-watch-demo-link"><Play size={15} fill="currentColor" /> Watch the product demo</a>
+            <a className="button button-ghost" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="hero-book-call-link">Book a call <ArrowRight size={16} /></a>
+            <button className="hero-text-action" onClick={onJoin} data-testid="hero-waitlist-button">Join the private waitlist</button>
           </div>
         </div>
-        <div className="hero-coordinates" data-testid="hero-coordinates">51.5072° N / 0.1276° W<br />TRUST GRAPH ONLINE</div>
-        <div className="scroll-marker" data-testid="hero-scroll-marker"><span>SCROLL TO COORDINATE</span><i /></div>
+        <div className="hero-index" data-testid="hero-index">ACOORD.CO<br />SYSTEM 01—12</div>
       </section>
 
-      <section className="manifesto-band ascii-stage" data-testid="manifesto-band">
-        <AsciiNarrative mode="signal" label="INTENT / SIGNAL" />
-        <p><span>10× agents.</span> More tools. More context. More motion.</p>
-        <strong>Without coordination, intelligence becomes noise.</strong>
-      </section>
-
-      <section className="system-section section-pad ascii-stage" id="system" data-testid="system-section">
-        <AsciiNarrative mode="compile" label="VISUAL / COMPILE" />
-        <div className="section-heading split-heading">
-          <div><p className="eyebrow" data-testid="system-eyebrow">The coordination layer</p><h2 data-testid="system-title">One surface for<br />intent and execution.</h2></div>
-          <p data-testid="system-description">Acoord connects the warm ambiguity of human work to the deterministic machinery required for reliable agent execution.</p>
-        </div>
-        <div className="system-grid" data-testid="system-layer-grid">
-          {systemLayers.map(({ icon: Icon, code, title, text }, index) => (
-            <article className="system-card reveal-card" style={{ '--stagger': `${index * 110}ms` }} key={code} data-testid={`system-layer-${index + 1}`}>
-              <div className={`system-motion motion-${index + 1}`}><i /><i /><i /></div><div className="system-icon"><Icon size={21} strokeWidth={1.5} /></div><span className="mono-kicker">{code}</span>
-              <h3>{title}</h3><p>{text}</p><i className="card-axis" />
-            </article>
-          ))}
+      <section className="story-problem editorial-section inverted-section ascii-stage" data-testid="problem-solution-section">
+        <AsciiNarrative mode="signal" tone="dark" label="PROTOTYPE / PRODUCTION" />
+        <p className="section-number" data-testid="problem-section-number">02 / THE COORDINATION GAP</p>
+        <div className="editorial-split">
+          <h2 data-testid="problem-title">More agents create<br /><em>more motion.</em><br />Not more progress.</h2>
+          <div className="problem-copy" data-testid="problem-copy">
+            <p>Enterprise AI rarely fails because the model cannot answer. It fails when context fragments, permissions drift, generated code escapes its boundary, and the human decision disappears into another tool.</p>
+            <strong>Acoord is the missing coordination plane between fluid intent and reliable execution.</strong>
+          </div>
         </div>
       </section>
 
-      <section className="demo-section ascii-stage" data-testid="home-demo-section">
-        <AsciiNarrative mode="collaborate" tone="dark" label="MULTIPLAYER / CONVERGE" />
-        <div className="demo-intro section-pad">
-          <div><p className="eyebrow" data-testid="demo-eyebrow">The Ahi workspace</p><h2 data-testid="demo-title">Conversation on the left.<br />Architecture on the right.</h2></div>
-          <div className="demo-caption" data-testid="demo-description"><Sparkles size={18} /><p>Try a scenario. Watch intent compile into a trustworthy agent graph.</p></div>
+      <section className="editorial-section operating-section" id="system" data-testid="how-it-works-section">
+        <div className="section-lead">
+          <p className="section-number" data-testid="how-section-number">03 / HOW AHI WORKS</p>
+          <h2 data-testid="how-title">Fluid above.<br />Strict beneath.</h2>
+          <p data-testid="how-description">A four-stage contract for turning ambiguous work into accountable agent execution.</p>
         </div>
-        <DemoWorkspace />
-      </section>
-
-      <section className="trust-section section-pad ascii-stage" data-testid="trust-section">
-        <AsciiNarrative mode="trust" label="GUARDRAILS / PROOF" />
-        <div className="trust-visual" data-testid="trust-visual">
-          <div className="trust-ring ring-a"><span>HUMAN</span></div><div className="trust-ring ring-b"><span>AGENT</span></div>
-          <div className="trust-core"><Cable size={26} /><strong>TRUST<br />GRAPH</strong></div>
-          <div className="trust-packet packet-a">checkpoint.write</div><div className="trust-packet packet-b">policy.validate</div>
-        </div>
-        <div className="trust-copy">
-          <p className="eyebrow" data-testid="trust-eyebrow">Magic you can trust</p>
-          <h2 data-testid="trust-title">Move fast.<br />Keep the proof.</h2>
-          <p data-testid="trust-description">Acoord treats trust as architecture—not a disclaimer after the model responds.</p>
-          <ul data-testid="trust-feature-list">
-            <li><CheckCircle2 /> Every workflow compiles through structural topology guards.</li>
-            <li><CheckCircle2 /> Every consequential action can pause for human judgment.</li>
-            <li><CheckCircle2 /> Every tool call stays tenant-scoped, observable, and reversible.</li>
-            <li><CheckCircle2 /> Every untrusted script runs outside your production surface.</li>
-          </ul>
+        <div className="operating-grid" data-testid="operating-step-grid">
+          {operatingSteps.map((step) => <article key={step.number} data-testid={`operating-step-${step.number}`}><span>{step.number} / {step.label}</span><h3>{step.title}</h3><p>{step.text}</p></article>)}
         </div>
       </section>
 
-      <section className="usecase-section section-pad ascii-stage" id="use-cases" data-testid="use-cases-section">
-        <AsciiNarrative mode="stories" label="TEN STORIES / ONE LAYER" />
-        <div className="section-heading split-heading">
-          <div><p className="eyebrow" data-testid="use-cases-eyebrow">Coordination in the wild / 10 stories</p><h2 data-testid="use-cases-title">Different stakes.<br />The same missing layer.</h2></div>
-          <p data-testid="use-cases-description">From regulated banks to five-person startups, the hard part is not intelligence. It is making intelligence operate as a system.</p>
-        </div>
-        <div className="story-grid" data-testid="use-case-card-grid">
-          {useCases.map((story, index) => (
-            <Link to={`/use-cases/${story.slug}`} className={`story-card ${index < 2 ? 'story-featured' : ''}`} style={{ '--accent': story.accent }} key={story.slug} data-testid={`use-case-${story.slug}-link`}>
-              <div className="story-top"><span>{story.number}</span><span>{story.industry}</span></div>
-              <div><p className="story-company">{story.company}</p><h3>{story.headline}</h3></div>
-              <div className="story-metric"><strong>{story.metrics[0][0]}</strong><span>{story.metrics[0][1]}</span></div>
-              <ArrowRight className="story-arrow" size={20} />
-            </Link>
-          ))}
+      <section className="editorial-section capability-section ascii-stage" id="capabilities" data-testid="capabilities-section">
+        <AsciiNarrative mode="compile" label="CAPABILITY / SYSTEM" />
+        <div className="section-lead wide-lead"><p className="section-number">04 / THE PLATFORM</p><h2 data-testid="capabilities-title">One system.<br />Seven hard problems.</h2><p data-testid="capabilities-description">Build the differentiated product—not the orchestration, retrieval, collaboration, and security substrate beneath it.</p></div>
+        <div className="capability-grid" data-testid="capability-grid">
+          {capabilities.map((item, index) => { const Icon = iconSet[index]; return <article className={index === 0 || index === 4 ? 'capability-wide' : ''} key={item.code} data-testid={`capability-${index + 1}`}><Icon size={23} strokeWidth={1.25} /><span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p></article>; })}
         </div>
       </section>
 
-      <section className="architecture-strip ascii-stage" data-testid="architecture-strip">
-        <AsciiNarrative mode="ledger" tone="dark" label="AST / LEDGER" />
-        <div className="architecture-marquee">CRDT_SYNC · AST_COMPILER · LANGGRAPH_RUNTIME · HYBRID_RAG · MCP_ROUTER · SECURE_SANDBOX · HUMAN_CHECKPOINT · </div>
-        <div className="architecture-content section-pad">
-          <Braces size={34} strokeWidth={1.2} /><h2 data-testid="architecture-title">Strict beneath.<br />Fluid above.</h2>
-          <pre data-testid="architecture-code">{`{\n  "intent": "coordinate",\n  "guardrails": true,\n  "human_checkpoint": "required",\n  "result": "accountable_magic"\n}`}</pre>
+      <section className="editorial-section agent-section inverted-section" id="agents" data-testid="agent-ecosystem-section">
+        <div className="agent-intro"><p className="section-number">05 / ROLE-BASED INTELLIGENCE</p><h2 data-testid="agents-title">The right specialist.<br />One governing intent.</h2><p data-testid="agents-description">A lead orchestrator assembles specialists around the work while policies, evidence, and approval state remain shared.</p></div>
+        <div className="agent-role-list" data-testid="agent-role-list">
+          {agentRoles.map((role, index) => <article key={role.code} data-testid={`agent-role-${index + 1}`}><span>0{index + 1}</span><strong>{role.code}</strong><h3>{role.title}</h3><p>{role.text}</p></article>)}
         </div>
       </section>
 
-      <section className="home-resources section-pad ascii-stage" data-testid="home-resources-section">
-        <AsciiNarrative mode="knowledge" label="RETRIEVAL / FUSION" />
-        <div className="section-heading split-heading"><div><p className="eyebrow">Field notes / built for citation</p><h2 data-testid="home-resources-title">Architecture without<br />the hand-waving.</h2></div><p>Direct answers to the questions platform teams ask before an agent system earns production trust.</p></div>
-        <div className="home-resource-grid">{resources.slice(0, 3).map((resource, index) => <Link to={`/resources/${resource.slug}`} key={resource.slug} data-testid={`home-resource-${resource.slug}-link`}><span>0{index + 1} / {resource.category}</span><h3>{resource.title}</h3><p>{resource.description}</p><div>{resource.readingTime}<ArrowRight size={16} /></div></Link>)}</div>
-        <Link className="all-resources-link" to="/resources" data-testid="home-all-resources-link">Explore all field notes <ArrowRight size={17} /></Link>
+      <section className="watch-demo-section" id="watch-demo" data-testid="watch-demo-section">
+        <div className="demo-story-head"><div><p className="section-number">06 / WATCH THE SYSTEM MOVE</p><h2 data-testid="watch-demo-title">Nine surfaces.<br />One operating context.</h2></div><p data-testid="watch-demo-description">This is the exported Ahi desktop experience—not a marketing mock. Play the guided tour or enter any workspace directly.</p></div>
+        <DemoWorkspace compact />
+        <Link className="demo-deep-link" to="/demo" data-testid="watch-demo-page-link">Open the full product walkthrough <ArrowRight size={17} /></Link>
       </section>
 
-      <section className="final-cta section-pad" data-testid="final-cta-section">
+      <section className="editorial-section story-section" id="use-cases" data-testid="use-cases-section">
+        <div className="section-lead wide-lead"><p className="section-number">07 / COORDINATION IN THE WILD</p><h2 data-testid="use-cases-title">Different stakes.<br />The same missing layer.</h2><p data-testid="use-cases-description">Explore modeled implementation narratives across regulated, operational, and AI-native teams.</p></div>
+        <p className="scenario-disclaimer" data-testid="scenario-disclaimer">Illustrative scenarios for product storytelling. Company names, quotations, and metrics are not presented as verified customer claims.</p>
+        <div className="editorial-story-grid" data-testid="use-case-card-grid">
+          {useCases.slice(0, 6).map((story) => <Link to={`/use-cases/${story.slug}`} key={story.slug} data-testid={`use-case-${story.slug}-link`}><span>{story.number} / {story.industry}</span><h3>{story.headline}</h3><p>{story.problem}</p><strong>{story.metrics[0][0]} <small>{story.metrics[0][1]}</small></strong><ArrowRight size={18} /></Link>)}
+        </div>
+      </section>
+
+      <section className="editorial-section trust-architecture inverted-section ascii-stage" data-testid="trust-architecture-section">
+        <AsciiNarrative mode="trust" tone="dark" label="GUARDRAILS / PROOF" />
+        <div className="trust-head"><p className="section-number">08 / MAGIC YOU CAN TRUST</p><h2 data-testid="trust-title">Every action leaves<br />a reconstructable line.</h2><p data-testid="trust-description">Trust is not a disclaimer after the model responds. It is the architecture through which the work must pass.</p></div>
+        <div className="trust-layer-list" data-testid="trust-layer-list">{trustLayers.map(([number, title, text]) => <article key={number} data-testid={`trust-layer-${number}`}><span>{number}</span><h3>{title}</h3><p>{text}</p><Check size={18} /></article>)}</div>
+        <div className="architecture-ledger" data-testid="architecture-ledger"><pre>{`HUMAN::INTENT\n  ↓\nAST::COMPILE ── POLICY::VALIDATE\n  ↓\nLANGGRAPH::CHECKPOINT\n  ├── MCP::SCOPED_TOOL\n  ├── RAG::HYBRID_CONTEXT\n  └── SANDBOX::ISOLATED_RUN\n  ↓\nAUDIT::PERSISTED`}</pre></div>
+      </section>
+
+      <section className="editorial-section knowledge-section" data-testid="knowledge-section">
+        <div className="section-lead wide-lead"><p className="section-number">09 / BUILT FOR DISCOVERY</p><h2 data-testid="resources-title">Architecture without<br />the hand-waving.</h2><p data-testid="resources-description">Technical field notes answer the production questions platform teams ask before agent systems earn trust.</p></div>
+        <div className="knowledge-list" data-testid="home-resource-grid">{resources.slice(0, 3).map((resource, index) => <Link to={`/resources/${resource.slug}`} key={resource.slug} data-testid={`home-resource-${resource.slug}-link`}><span>0{index + 1} / {resource.category}</span><h3>{resource.title}</h3><p>{resource.description}</p><ArrowRight size={17} /></Link>)}</div>
+        <div className="faq-list" data-testid="home-faq-list">{faqs.map((item, index) => <details key={item.question} data-testid={`faq-item-${index + 1}`}><summary data-testid={`faq-question-${index + 1}`}>{item.question}<span>+</span></summary><p data-testid={`faq-answer-${index + 1}`}>{item.answer}</p></details>)}</div>
+        <Link className="text-rule-link" to="/resources" data-testid="home-all-resources-link">Explore all field notes <ArrowRight size={16} /></Link>
+      </section>
+
+      <section className="newsletter-section editorial-section inverted-section" data-testid="newsletter-section">
+        <div><p className="section-number">10 / FIELD NOTES</p><h2 data-testid="newsletter-title">One useful architecture note.<br />No content machine.</h2><p data-testid="newsletter-description">Join the technical dispatch for original thinking on agent orchestration, hybrid RAG, collaborative systems, and trustworthy execution.</p></div>
+        <NewsletterForm />
+      </section>
+
+      <section className="book-call-section editorial-section" data-testid="book-call-section">
+        <p className="section-number">11 / TRY IT ON YOUR SYSTEM</p>
+        <h2 data-testid="book-call-title">Bring the workflow<br />that refuses to coordinate.</h2>
+        <p data-testid="book-call-description">In thirty minutes, map the people, agents, knowledge, tools, risk, and approval points that shape your highest-friction work.</p>
+        <a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="book-call-primary-link">Book a working session <ArrowRight size={17} /></a>
+      </section>
+
+      <section className="join-section editorial-section" data-testid="join-waitlist-section">
         <AsciiBackdrop variant="footer" art="eye" />
-        <div><p className="eyebrow" data-testid="final-cta-eyebrow">The work is already multi-agent</p><h2 data-testid="final-cta-title">Give it somewhere<br />to come together.</h2></div>
-        <div className="final-actions"><a className="button button-white" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="final-book-demo-link">Book a working session <ArrowRight size={17} /></a><button className="final-text-button" onClick={onJoin} data-testid="final-access-button">Request private access</button><Link to="/demo" data-testid="final-demo-link">Explore the workspace</Link></div>
+        <div><p className="section-number">12 / PRIVATE ALPHA</p><h2 data-testid="join-title">The work is already multi-agent.<br />Give it somewhere to come together.</h2></div>
+        <div className="join-actions"><button className="button button-white" onClick={onJoin} data-testid="join-waitlist-primary-button">Join the waitlist <ArrowRight size={17} /></button><a href="#watch-demo" data-testid="join-watch-demo-link">Watch demo</a><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="join-book-call-link">Book a call</a></div>
       </section>
     </>
   );

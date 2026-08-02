@@ -58,9 +58,21 @@ class WaitlistResponse(BaseModel):
     status: str
 
 
+class NewsletterRequest(BaseModel):
+    email: EmailStr
+    consent: Literal[True]
+
+
+class NewsletterResponse(BaseModel):
+    id: str
+    email: EmailStr
+    status: str
+
+
 @app.on_event("startup")
 async def prepare_database() -> None:
     await db.waitlist.create_index("email", unique=True)
+    await db.newsletter.create_index("email", unique=True)
 
 
 @app.get("/api/health")
@@ -112,6 +124,50 @@ async def join_waitlist(payload: WaitlistRequest) -> WaitlistResponse:
         raise HTTPException(status_code=500, detail="Unable to save your request") from exc
     return WaitlistResponse(
         id=document["id"], email=document["email"], status="joined"
+    )
+
+
+@app.post(
+    "/api/newsletter",
+    response_model=NewsletterResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def subscribe_newsletter(payload: NewsletterRequest) -> NewsletterResponse:
+    normalized_email = payload.email.lower()
+    existing = await db.newsletter.find_one(
+        {"email": normalized_email}, {"_id": 0, "id": 1, "email": 1}
+    )
+    if existing:
+        return NewsletterResponse(
+            id=existing["id"], email=existing["email"], status="already_subscribed"
+        )
+
+    document = {
+        "id": str(uuid4()),
+        "email": normalized_email,
+        "consent": payload.consent,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "consented_at": datetime.now(timezone.utc).isoformat(),
+        "privacy_notice_version": "2026-04-08",
+        "source": "acoord.co/field-notes",
+    }
+    try:
+        await db.newsletter.insert_one(document)
+    except DuplicateKeyError:
+        existing = await db.newsletter.find_one(
+            {"email": normalized_email}, {"_id": 0, "id": 1, "email": 1}
+        )
+        if existing:
+            return NewsletterResponse(
+                id=existing["id"],
+                email=existing["email"],
+                status="already_subscribed",
+            )
+        raise HTTPException(status_code=409, detail="Email is already subscribed")
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Unable to save subscription") from exc
+    return NewsletterResponse(
+        id=document["id"], email=document["email"], status="subscribed"
     )
 
 
