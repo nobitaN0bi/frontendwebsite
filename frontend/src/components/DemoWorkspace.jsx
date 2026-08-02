@@ -76,7 +76,7 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
           <span data-testid="demo-channel-label">Choose the enterprise channel</span>
-          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces.</strong>
+          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces. Every step explainable.</strong>
         </div>
         <div className="demo-channel-list" role="tablist" aria-label="Enterprise demo channels">
           {channels.map((channel) => (
@@ -117,7 +117,7 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
         <iframe ref={iframeRef} onLoad={sendScenarioToFrame} key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-forms allow-modals" data-testid="demo-export-iframe" />
         <span className="demo-tour-progress" aria-hidden="true" />
       </div>
-      <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Map this pattern to your team</a></div>
+      <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Book a demo</a></div>
     </div>
   );
 };

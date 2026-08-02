@@ -1,8 +1,8 @@
 export const operatingSteps = [
-  { number: '01', label: 'Intent', title: 'Describe the outcome.', text: 'Start in language your team already uses. A lead agent scopes the work, constraints, evidence, and decisions that need human judgment.' },
-  { number: '02', label: 'Compile', title: 'Turn intent into a contract.', text: 'Acoord translates visual state into a versioned workflow DSL, rejecting broken topology and unsafe bindings before execution.' },
-  { number: '03', label: 'Orchestrate', title: 'Coordinate specialist agents.', text: 'Agents, tools, retrieval, sandboxes, and enterprise systems move through one observable execution plan.' },
-  { number: '04', label: 'Trust', title: 'Pause, prove, and resume.', text: 'Human checkpoints preserve context, capture rationale, and resume from durable state instead of restarting the work.' }
+  { number: '01', label: 'ASK', title: 'It understands before it moves.', text: 'Ahi connects across 1,000+ integrations and reads how your organisation actually works — people, systems, policies, history — into one living ontology. Context first. Always.' },
+  { number: '02', label: 'ACT', title: 'The connectors become hands.', text: 'The same integrations that taught it your world now do the work in it. Ahi drafts, files, routes, reconciles, and ships — proactively, the moment intent is clear.' },
+  { number: '03', label: 'EXPERT', title: 'Hire the expert you never had.', text: 'Ontology-grounded digital experts join like teammates. No social-media GTM function? Hire that expert today — the adjacent marketing team supervises it. No new headcount.' },
+  { number: '04', label: 'EXPLAINABLE', title: 'Every run can be replayed.', text: 'Traceable execution end to end: who asked, what ran, which evidence it touched, who approved. You can understand all of it — and prove it.' }
 ];
 
 export const capabilities = [
@@ -13,23 +13,6 @@ export const capabilities = [
   { code: 'MCP / SCOPE', title: 'Scoped tool connectivity', text: 'Connect proprietary APIs and enterprise tools through tenant-aware, permissioned MCP routes.' },
   { code: 'MEDIA / CONTEXT', title: 'Multimodal workflows', text: 'Bring documents, images, audio, video, and generated artifacts into one coordinated execution history.' },
   { code: 'QUEUE / SCALE', title: 'Event-driven operations', text: 'Separate the collaborative interface from burstable workers so each layer can scale on its own terms.' }
-];
-
-export const agentRoles = [
-  { code: 'ROUTE', title: 'Lead orchestrator', text: 'Interprets the request, assembles the plan, and delegates work without losing the governing intent.' },
-  { code: 'DESIGN', title: 'UI design specialist', text: 'Turns brand, accessibility, and interaction constraints into coherent product surfaces.' },
-  { code: 'DISCOVER', title: 'SEO specialist', text: 'Structures technical knowledge for search intent, answer engines, citations, and qualified discovery.' },
-  { code: 'EXPLAIN', title: 'Technical writer', text: 'Translates architecture, APIs, and operational behavior into documentation people can act on.' },
-  { code: 'GROUND', title: 'Research analyst', text: 'Retrieves, compares, and cites private and public evidence through hybrid search.' },
-  { code: 'EXECUTE', title: 'Systems engineer', text: 'Tests code, runs diagnostics, and produces artifacts inside scoped, observable sandboxes.' }
-];
-
-export const trustLayers = [
-  ['01', 'Local-first collaboration', 'Yjs CRDT state converges across people, agents, text, and spatial graph edits.'],
-  ['02', 'Bidirectional compilation', 'A visual workflow becomes a typed execution plan; telemetry returns as UI-safe state.'],
-  ['03', 'Checkpointed runtime', 'Long-running work pauses for review with evidence and exact state preserved.'],
-  ['04', 'Tenant-aware knowledge', 'Retrieval, tools, and execution remain scoped to the current workspace and permissions.'],
-  ['05', 'Isolated execution', 'Untrusted scripts run outside the application process with explicit resource policies.']
 ];
 
 export const faqs = [

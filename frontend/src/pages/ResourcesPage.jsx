@@ -40,7 +40,7 @@ export default function ResourcesPage() {
       </section>
       <section className="resource-subscribe" data-testid="resource-booking-cta">
         <div><p className="eyebrow">From architecture to operating reality</p><h2>Map your coordination layer.</h2></div>
-        <a className="button button-white" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="resources-book-demo-link">Book a 30-minute session <ArrowRight size={17} /></a>
+        <a className="button button-white" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="resources-book-demo-link">Book a demo <ArrowRight size={17} /></a>
       </section>
     </div>
   );
