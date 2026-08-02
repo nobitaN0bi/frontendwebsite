@@ -1,129 +1,81 @@
 {
-  "theme": "dark",
+  "theme": "hybrid (strict monochrome default + Apple-style cinematic dark for demo section)",
   "typography": {
-    "instructions": "Use Cabinet Grotesk for headings and IBM Plex Sans for body text. Enforce tracking-tight on all headers above text-2xl.",
-    "headings": {
-      "family": "Cabinet Grotesk",
-      "weights": ["400", "800"],
-      "classes": "font-sans tracking-tight"
-    },
-    "body": {
-      "family": "IBM Plex Sans",
-      "weights": ["400", "500"],
-      "classes": "font-mono tracking-normal leading-relaxed"
-    },
-    "labels": {
-      "family": "IBM Plex Sans",
-      "classes": "font-mono uppercase tracking-[0.2em] text-xs"
-    }
+    "headings": "Inter or SF Pro Display, tight tracking (tracking-tighter), high contrast weights (Light vs Black).",
+    "body": "Clean Sans-serif, leading-relaxed, text-slate-400 in dark sections.",
+    "callouts": "Uppercase, tracking-[0.2em], text-xs, font-bold for external explanation labels."
   },
   "colors": {
-    "background": {
-      "default": "#0A0A0A",
-      "surface": "#141414",
-      "overlay": "rgba(10, 10, 10, 0.6)"
+    "global": "Strict Monochrome (Black, White, Gray scale). No gradients.",
+    "demo_section": "Deep Obsidian (#000000) background to make the laptop screen pop. Crystal Glassmorphism for floating callouts (bg-white/10, backdrop-blur-xl, border-white/20).",
+    "posters": "Vibrant abstract photography backgrounds with strict dark overlays (bg-black/50) to maintain monochrome typography readability."
+  },
+  "visual_enhancers": {
+    "laptop_frame": "High-res MacBook bezel overlay (SVG or high quality PNG). Content (Ahi iframe) goes strictly inside the screen area with rounded-sm overflow-hidden.",
+    "glassmorphism": "Used exclusively for the floating explanation cards around the laptop to emulate Apple's sleek interface overlays.",
+    "lighting": "Simulated screen glow reflecting on the background using a subtle, blurred radial gradient behind the laptop."
+  },
+  "components": {
+    "IndustryPoster": {
+      "path": "/app/frontend/src/components/ui/IndustryPoster.js",
+      "description": "Branded poster cards designed to be used as OpenGraph/meta images for Slack and email unfurls. Features abstract imagery, bold typography, and industry-specific accents."
     },
-    "text": {
-      "primary": "#FFFFFF",
-      "secondary": "#A1A1AA",
-      "muted": "#52525B"
+    "MacBookDemoHero": {
+      "path": "/app/frontend/src/cinematic/MacBookDemoHero.js",
+      "description": "Scroll-linked cinematic section. Contains a sticky container. As user scrolls, the MacBook scales up/opens, and floating explanation cards fade in around it."
     },
-    "border": {
-      "default": "rgba(255, 255, 255, 0.1)",
-      "focus": "rgba(255, 255, 255, 0.3)"
-    },
-    "accent": {
-      "primary": "#FFFFFF",
-      "hover": "#E4E4E7"
+    "FloatingCallout": {
+      "path": "/app/frontend/src/cinematic/FloatingCallout.js",
+      "description": "Framer Motion animated card connected to the laptop frame. Explains Ontology, routing, agent execution, etc. Uses crystal glassmorphism."
     }
-  },
-  "visual enhancers": {
-    "surfaces": "Retro-Futurism / Technical Look. Deep black backgrounds, stark white text, 1px solid white/10 borders.",
-    "effects": [
-      "Subtle noise overlay (grain texture) on the main background.",
-      "Tracing Beam (Aceternity style) around active channel items or active workflow steps.",
-      "Terminal-style progress loaders (e.g., [======    ] 60%) to simulate AI agent tasks."
-    ],
-    "glassmorphism": "Used only for sticky nav/header: bg-black/60, backdrop-blur-xl, border-b border-white/10."
-  },
-  "component name": {
-    "channel_selector": "EnterpriseChannelNav",
-    "demo_container": "AhiDemoWorkspace",
-    "tab_system": "WorkflowTabs",
-    "simulator": "AgentTaskSimulator"
-  },
-  "grids": {
-    "marketing": "grid-cols-1 md:grid-cols-12 gap-8",
-    "dashboard": "grid-cols-1 md:grid-cols-12 gap-1. Used for the app interface (e.g., col-span-3 for sidebar, col-span-9 for main demo area)."
   },
   "layouts": {
-    "page_structure": "Left sidebar for Enterprise Channels (Finance, Legal, etc.), Main wide area for the Ahi Demo Workspace.",
-    "workspace_structure": "Top bar inside workspace for the 9 existing product tabs. Content area below displays the active tab's scenario-specific mocked UI.",
-    "mobile_behavior": "Stack the channel selector on top as a horizontal scrollable row or a dropdown on mobile, keeping the demo workspace below it."
+    "demo_section": "Absolute positioned layers within a sticky relative container. Parent height: 300vh-400vh for generous scroll distance. Sticky child height: 100vh. Center aligned laptop to act as the focal hero.",
+    "callouts": "Arranged asymmetrically around the laptop frame using absolute positioning (e.g., top-1/4 left-10, bottom-1/3 right-10)."
   },
   "motion": {
-    "channel_switch": "framer-motion AnimatePresence mode='wait' with subtle fade and y-axis slide (10px) to indicate context shift.",
-    "task_simulation": "Staggered fade-ins for log items. Progress bars that animate width from 0% to 100% over 2-3 seconds using linear easing to simulate processing.",
-    "active_tab": "framer-motion layoutId='activeTabIndicator' for the underline on the selected tab."
+    "libraries": [
+      "framer-motion"
+    ],
+    "patterns": [
+      "Scroll-linked scaling: useScroll + useTransform to scale the laptop from 60% (and translated Y) to 100% as the user scrolls down.",
+      "Staggered callouts: as the laptop reaches 100% scale, use scroll progress thresholds to fade and slide in the external explanation cards (Ontology, Agent Execution, Approval, Audit).",
+      "Reduced motion: Check useReducedMotion() from framer-motion to fallback to simple opacity fades instead of heavy scaling."
+    ]
   },
   "accessibility": {
-    "contrast": "Ensure all text against #0A0A0A meets APCA standards. Use #A1A1AA for secondary text.",
-    "reduced_motion": "Wrap animations with prefers-reduced-motion checks.",
-    "testing": "All interactive elements MUST have data-testid attributes (e.g., data-testid='channel-selector-finance')."
+    "aria": "Add aria-hidden='true' to the laptop bezel and decorative SVG lines.",
+    "contrast": "Ensure floating callout text is readable against the dark background. Use APCA contrast guidelines."
   },
   "media": {
-    "icons": "lucide-react (stroke-width 1.5 for a crisp, technical feel)"
-  },
-  "3d libraries": {
-    "usage": "Not recommended for this specific data-dense dashboard simulation to maintain extreme performance and focus on the UI workflow."
-  },
-  "image urls": [
-    {
-      "url": "https://images.unsplash.com/photo-1693648793394-0b76b7eb042e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxkYXJrJTIwYWJzdHJhY3QlMjBtb25vY2hyb21lJTIwdGV4dHVyZXxlbnwwfHx8fDE3ODU2NzM0MDB8MA&ixlib=rb-4.1.0&q=85",
-      "category": "background",
-      "description": "Abstract black background with wavy lines for the hero section or main wrapper."
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1655841439659-0afc60676b70?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzN8MHwxfHNlYXJjaHw0fHxtaW5pbWFsaXN0JTIwYWJzdHJhY3QlMjB0ZWNobm9sb2d5JTIwZGFya3xlbnwwfHx8fDE3ODU2NzM0MDF8MA&ixlib=rb-4.1.0&q=85",
-      "category": "accent",
-      "description": "Dark teal wavy shapes on black for secondary sections or feature highlights."
-    }
-  ],
-  "mock_data_strategy": {
-    "channels": [
-      "Finance",
-      "Legal",
-      "Manufacturing",
-      "Customer Support",
-      "Logistics",
-      "E-commerce",
-      "SaaS",
-      "Fashion"
-    ],
-    "behavior": "When a channel is clicked, update the `activeChannel` state. The 9 existing tabs render content derived from a dictionary mapped to `activeChannel`. Include an elegant 'SIMULATED WORKFLOW' badge (e.g., a pulsing green or white dot).",
-    "simulation": "Each tab shows a 'processing' state before revealing the final mocked data. Use Framer Motion to animate progress bars and skeleton loaders to simulate agentic work. Example: 'Agent navigating... extracting... done.' followed by the data display."
+    "image_urls": [
+      {
+        "url": "https://images.unsplash.com/photo-1755538497211-c4ebc7cc1a94?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzl8MHwxfHNlYXJjaHw0fHxmaW5hbmNlJTIwaGVhbHRoY2FyZSUyMGxvZ2lzdGljcyUyMHRlY2glMjBhYnN0cmFjdCUyMHBvc3RlciUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzg1NzAxOTUwfDA&ixlib=rb-4.1.0&q=85",
+        "category": "Industry Poster Background - Tech/Finance",
+        "description": "Abstract glowing blue lines forming a wave pattern"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1655635643486-a17bc48771ff?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzMzl8MHwxfHNlYXJjaHwxfHxmaW5hbmNlJTIwaGVhbHRoY2FyZSUyMGxvZ2lzdGljcyUyMHRlY2glMjBhYnN0cmFjdCUyMHBvc3RlciUyMGJhY2tncm91bmR8ZW58MHx8fHwxNzg1NzAxOTUwfDA&ixlib=rb-4.1.0&q=85",
+        "category": "Industry Poster Background - Healthcare/Logistics",
+        "description": "abstract blue and pink 3D cubes"
+      }
+    ]
   },
   "instructions_to_main_agent": [
-    "Create the data structures for the Enterprise Channels in a separate file (e.g., src/data/enterpriseChannels.js). Provide distinct mocked data for each of the 9 tabs for every channel.",
-    "Implement the layout with pure HTML/Tailwind for the marketing wrapper, but use heavily customized Shadcn components for the dashboard internals (Tabs, Cards, ScrollArea, Progress).",
-    "Ensure all files created are .js, NOT .tsx.",
-    "Use framer-motion for the simulated AI processing states.",
-    "Do not rename the existing 9 Ahi tabs. Use the exact ones currently implemented.",
-    "Inject the background texture image heavily darkened (e.g., via a pseudo-element with bg-black/80 overlay) to add subtle depth to the marketing sections.",
-    "Ensure no completely transparent backgrounds behind text. Use solid #0A0A0A or #141414.",
-    "The Channel selector must be distinct from the 9 product tabs to avoid hierarchy confusion."
+    "Do NOT touch or refactor anything outside the real use-cases demo section. Maintain the strict monochrome language globally.",
+    "In the demo section, implement an Apple-inspired scroll-linked animation using Framer Motion.",
+    "Create a sticky container (e.g., `h-[400vh]`) with a `sticky top-0 h-screen overflow-hidden` inner div.",
+    "Place the existing Ahi iframe workspace inside a MacBook frame graphic. If using CSS, create a realistic bezel with inner shadows.",
+    "Use `useScroll` and `useTransform` to animate the MacBook. Start closed or scaled down, and scale up to full view as the user scrolls.",
+    "Around the laptop, render absolutely positioned `FloatingCallout` components that explain 'Ontology', 'Routing', 'Agent Execution', 'Approval', and 'Audit'. Animate their opacity and Y-position based on the same scroll progress.",
+    "For the decision-map links, build an `IndustryPoster` component that acts as the visual thumbnail/OpenGraph preview. Inject the selected abstract Unsplash images as backgrounds with a dark overlay and bold monochrome typography.",
+    "Ensure all interactive elements have `data-testid` attributes."
   ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
-    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
-    "Create depth through layered design elements with z-index hierarchy and 1px borders.",
-    "Use glass-morphism effects with backdrop filters (12-24px blur) only where appropriate (e.g., sticky headers).",
-    "You MUST NOT apply universal transition (e.g., transition: all). Add transitions for specific interactive elements.",
-    "You MUST NOT center align the app container. Do not add .App { text-align: center; }.",
-    "Always use modern button styles.",
-    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡.",
-    "Every interaction needs micro-animations - hover states, transitions.",
-    "Use 2-3x more spacing than feels comfortable.",
-    "All interactive elements MUST include a data-testid attribute."
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur) for the cinematic callouts.",
+    "Avoid generic centered layouts except for the focal MacBook hero.",
+    "Do not use complete transparent backgrounds for overlays.",
+    "Use modern pill-shaped or sharp buttons with hover transitions."
   ]
 }
