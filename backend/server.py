@@ -49,6 +49,7 @@ class WaitlistRequest(BaseModel):
         "other",
     ]
     message: str = Field(default="", max_length=1200)
+    consent: Literal[True]
 
 
 class WaitlistResponse(BaseModel):
@@ -89,6 +90,8 @@ async def join_waitlist(payload: WaitlistRequest) -> WaitlistResponse:
             "id": str(uuid4()),
             "email": normalized_email,
             "created_at": datetime.now(timezone.utc).isoformat(),
+            "consented_at": datetime.now(timezone.utc).isoformat(),
+            "privacy_notice_version": "2026-04-08",
             "source": "acoord.co",
         }
     )

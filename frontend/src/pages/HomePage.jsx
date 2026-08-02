@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
 import { DemoWorkspace } from '../components/DemoWorkspace';
 import { useCases } from '../data/useCases';
+import { Seo } from '../components/Seo';
+import { resources } from '../data/resources';
 
 const systemLayers = [
   { icon: MousePointer2, code: '01 / INTENT', title: 'Humans describe outcomes.', text: 'Start with a conversation, not a brittle workflow specification.' },
@@ -14,6 +16,7 @@ const systemLayers = [
 export default function HomePage({ onJoin }) {
   return (
     <>
+      <Seo title="Acoord — The Agentic Operating System" description="Acoord coordinates people, AI agents, enterprise tools, and trusted decisions in one collaborative operating system." path="/" schema={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Acoord', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', description: 'An agent-human coordination operating system for collaborative, auditable AI workflows.', url: process.env.REACT_APP_SITE_URL }} />
       <section className="hero" data-testid="home-hero">
         <AsciiBackdrop />
         <div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />
@@ -23,7 +26,8 @@ export default function HomePage({ onJoin }) {
           <p className="hero-copy" data-testid="hero-description">Acoord is the operating system where people, agents, tools, and trusted decisions move together—without losing the thread.</p>
           <div className="hero-actions" data-testid="hero-actions">
             <Link className="button button-white" to="/demo" data-testid="hero-demo-button">Enter the live canvas <ArrowRight size={17} /></Link>
-            <button className="button button-ghost" onClick={onJoin} data-testid="hero-access-button">Request private access</button>
+            <a className="button button-ghost" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="hero-book-demo-link">Book a 30-minute demo</a>
+            <button className="hero-text-action" onClick={onJoin} data-testid="hero-access-button">Request private access</button>
           </div>
         </div>
         <div className="hero-coordinates" data-testid="hero-coordinates">51.5072° N / 0.1276° W<br />TRUST GRAPH ONLINE</div>
@@ -102,10 +106,16 @@ export default function HomePage({ onJoin }) {
         </div>
       </section>
 
+      <section className="home-resources section-pad" data-testid="home-resources-section">
+        <div className="section-heading split-heading"><div><p className="eyebrow">Field notes / built for citation</p><h2 data-testid="home-resources-title">Architecture without<br />the hand-waving.</h2></div><p>Direct answers to the questions platform teams ask before an agent system earns production trust.</p></div>
+        <div className="home-resource-grid">{resources.slice(0, 3).map((resource, index) => <Link to={`/resources/${resource.slug}`} key={resource.slug} data-testid={`home-resource-${resource.slug}-link`}><span>0{index + 1} / {resource.category}</span><h3>{resource.title}</h3><p>{resource.description}</p><div>{resource.readingTime}<ArrowRight size={16} /></div></Link>)}</div>
+        <Link className="all-resources-link" to="/resources" data-testid="home-all-resources-link">Explore all field notes <ArrowRight size={17} /></Link>
+      </section>
+
       <section className="final-cta section-pad" data-testid="final-cta-section">
         <AsciiBackdrop variant="footer" />
         <div><p className="eyebrow" data-testid="final-cta-eyebrow">The work is already multi-agent</p><h2 data-testid="final-cta-title">Give it somewhere<br />to come together.</h2></div>
-        <div className="final-actions"><button className="button button-white" onClick={onJoin} data-testid="final-access-button">Request private access <ArrowRight size={17} /></button><Link to="/demo" data-testid="final-demo-link">Or explore the workspace</Link></div>
+        <div className="final-actions"><a className="button button-white" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="final-book-demo-link">Book a working session <ArrowRight size={17} /></a><button className="final-text-button" onClick={onJoin} data-testid="final-access-button">Request private access</button><Link to="/demo" data-testid="final-demo-link">Explore the workspace</Link></div>
       </section>
     </>
   );

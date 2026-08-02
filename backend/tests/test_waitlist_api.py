@@ -49,6 +49,7 @@ def test_waitlist_create_and_duplicate_idempotent(api_client):
         "role": "QA Engineer",
         "use_case": "ai-native",
         "message": "Testing waitlist flow",
+        "consent": True,
     }
 
     create_response = api_client.post(f"{base}/api/waitlist", json=payload, timeout=25)
@@ -79,6 +80,28 @@ def test_waitlist_invalid_email_rejected(api_client):
         "role": "QA Engineer",
         "use_case": "ai-native",
         "message": "Validation check",
+        "consent": True,
+    }
+
+    response = api_client.post(f"{base}/api/waitlist", json=payload, timeout=25)
+
+    assert response.status_code == 422
+    data = response.json()
+    assert "detail" in data
+    assert isinstance(data["detail"], list)
+
+
+# Feature: consent enforcement on waitlist submissions
+def test_waitlist_without_consent_rejected(api_client):
+    base = _require_base_url()
+    payload = {
+        "name": "TEST QA Runner",
+        "email": f"test_noconsent_{uuid4().hex[:8]}@example.com",
+        "company": "TEST Systems",
+        "role": "QA Engineer",
+        "use_case": "ai-native",
+        "message": "Consent validation check",
+        "consent": False,
     }
 
     response = api_client.post(f"{base}/api/waitlist", json=payload, timeout=25)

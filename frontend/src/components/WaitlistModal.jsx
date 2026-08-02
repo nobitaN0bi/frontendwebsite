@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Check, LoaderCircle, X } from 'lucide-react';
 
-const initialForm = { name: '', email: '', company: '', role: '', use_case: 'ai-native', message: '' };
+const initialForm = { name: '', email: '', company: '', role: '', use_case: 'ai-native', message: '', consent: false };
 
 export const WaitlistModal = ({ open, onClose }) => {
   const [form, setForm] = useState(initialForm);
@@ -21,7 +21,7 @@ export const WaitlistModal = ({ open, onClose }) => {
 
   if (!open) return null;
 
-  const update = (event) => setForm({ ...form, [event.target.name]: event.target.value });
+  const update = (event) => setForm({ ...form, [event.target.name]: event.target.type === 'checkbox' ? event.target.checked : event.target.value });
   const submit = async (event) => {
     event.preventDefault();
     setStatus('loading');
@@ -50,7 +50,7 @@ export const WaitlistModal = ({ open, onClose }) => {
             <p className="eyebrow">Request received</p>
             <h2 id="waitlist-title">You’re in the coordination loop.</h2>
             <p>We’ll reach out to <strong>{form.email}</strong> with a focused path into Acoord.</p>
-            <button className="button button-ink" onClick={onClose} data-testid="waitlist-success-close-button">Return to Acoord</button>
+            <div className="success-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="waitlist-success-book-link">Book a 30-minute session</a><button className="button button-outline" onClick={onClose} data-testid="waitlist-success-close-button">Return to Acoord</button></div>
           </div>
         ) : (
           <>
@@ -78,6 +78,7 @@ export const WaitlistModal = ({ open, onClose }) => {
                 <textarea name="message" rows="3" value={form.message} onChange={update} placeholder="Agents, people, tools, decisions..." data-testid="waitlist-message-input" />
               </label>
               {error && <p className="form-error" role="alert" data-testid="waitlist-error-message">{error}</p>}
+              <label className="consent-row"><input required type="checkbox" name="consent" checked={form.consent} onChange={update} data-testid="waitlist-consent-checkbox" /><span>I agree that Acoord may process this information to respond to my request. See the <a href="/legal/privacy" target="_blank">Privacy Policy</a> and <a href="/legal/terms" target="_blank">Terms</a>.</span></label>
               <button className="button button-ink form-submit" disabled={status === 'loading'} data-testid="waitlist-submit-button">
                 {status === 'loading' ? <><LoaderCircle className="spin" size={17} /> Saving request</> : 'Request access'}
               </button>

@@ -5,6 +5,10 @@ import { WaitlistModal } from './components/WaitlistModal';
 import HomePage from './pages/HomePage';
 import DemoPage from './pages/DemoPage';
 import UseCasePage from './pages/UseCasePage';
+import LegalCenterPage from './pages/LegalCenterPage';
+import LegalPage from './pages/LegalPage';
+import ResourcesPage from './pages/ResourcesPage';
+import ArticlePage from './pages/ArticlePage';
 
 export default function App() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -20,6 +24,10 @@ export default function App() {
         <Route path="/" element={<HomePage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/demo" element={<DemoPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/use-cases/:slug" element={<UseCasePage onJoin={() => setWaitlistOpen(true)} />} />
+        <Route path="/resources" element={<ResourcesPage />} />
+        <Route path="/resources/:slug" element={<ArticlePage />} />
+        <Route path="/legal" element={<LegalCenterPage />} />
+        <Route path="/legal/:document" element={<LegalPage />} />
         <Route path="*" element={<HomePage onJoin={() => setWaitlistOpen(true)} />} />
       </Routes>
       <WaitlistModal open={waitlistOpen} onClose={() => setWaitlistOpen(false)} />

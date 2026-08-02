@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2, Quote } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
 import { getUseCase, useCases } from '../data/useCases';
+import { Seo } from '../components/Seo';
 
 export default function UseCasePage({ onJoin }) {
   const { slug } = useParams();
@@ -11,6 +12,7 @@ export default function UseCasePage({ onJoin }) {
 
   return (
     <article className="case-page" style={{ '--case-accent': story.accent }} data-testid={`use-case-page-${story.slug}`}>
+      <Seo title={`${story.industry} Agentic OS Use Case`} description={`${story.company}: ${story.headline} Explore how Acoord coordinates agents, people, tools, and trusted decisions.`} path={`/use-cases/${story.slug}`} type="article" />
       <section className="case-hero" data-testid="use-case-hero">
         <AsciiBackdrop variant="case" />
         <Link className="back-link" to="/#use-cases" data-testid="use-case-back-link"><ArrowLeft size={16} /> All stories</Link>
@@ -50,7 +52,7 @@ export default function UseCasePage({ onJoin }) {
 
       <section className="case-cta section-pad" data-testid="use-case-cta">
         <div><p className="eyebrow">Your operating reality is specific</p><h2>Let’s map the coordination layer.</h2></div>
-        <button className="button button-ink" onClick={onJoin} data-testid="use-case-access-button">Request a working session <ArrowRight size={16} /></button>
+        <div className="inline-cta-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="use-case-book-link">Book a working session <ArrowRight size={16} /></a><button className="text-button" onClick={onJoin} data-testid="use-case-access-button">Request private access</button></div>
       </section>
     </article>
   );
