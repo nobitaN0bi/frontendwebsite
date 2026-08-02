@@ -1,0 +1,133 @@
+{
+  "theme_and_context": {
+    "type": "marketing_site",
+    "theme": "Minimalist Monochrome (Pure Black & White)",
+    "vibe": "Cinematic, Agentic OS, Architecturally precise, High-Contrast Swiss Brutalism"
+  },
+  "typography": {
+    "headings": {
+      "font_family": "Cormorant Garamond, serif",
+      "classes": "font-serif tracking-tighter leading-none",
+      "h1": "text-5xl sm:text-6xl lg:text-7xl",
+      "h2": "text-3xl sm:text-4xl lg:text-5xl",
+      "h3": "text-xl sm:text-2xl"
+    },
+    "body": {
+      "font_family": "JetBrains Mono, monospace",
+      "classes": "font-mono tracking-tight leading-relaxed",
+      "base": "text-base sm:text-lg"
+    },
+    "labels_overlines": {
+      "classes": "uppercase tracking-[0.2em] text-xs font-mono font-bold"
+    },
+    "alignment": "Optical alignment, primarily left-aligned text to anchor the strict grid, intentional asymmetric off-center large headings."
+  },
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#FFFFFF",
+    "accents": "#1A1A1A",
+    "text": {
+      "light": "text-black",
+      "dark": "text-white",
+      "inverted": "bg-black text-white"
+    },
+    "background": {
+      "light": "bg-white",
+      "dark": "bg-black"
+    },
+    "borders": {
+      "light": "border-black",
+      "dark": "border-white"
+    },
+    "rules": "PURE MONOCHROME. Strictly black and white. Use inverted sections (white on black) to create emphasis without color."
+  },
+  "visual_enhancers": {
+    "corners": "rounded-none (Sharp corners only)",
+    "borders": "Line-based structure. Heavy horizontal rules (border-t-4, border-b-4) to separate major sections. 1px borders for grid items.",
+    "textures": "Layered subtle textures like monochromatic noise/grain overlays using CSS mix-blend-mode or pseudo-elements to prevent digital flatness.",
+    "surfaces": "Solid colors only. NO gradients. NO glassmorphism. Flat solid backgrounds to maintain brutalist clarity.",
+    "decorations": "ASCII art motifs in backgrounds or loaders to reinforce the 'Agentic OS' narrative."
+  },
+  "grids_and_layouts": {
+    "strategy": "The Bento/Tetris Grid Protocol",
+    "classes": "grid grid-cols-1 md:grid-cols-12 gap-0 (using border-collapse strategies)",
+    "spacing": "Generous. p-8, p-12, py-24, py-32 to provide breathing room inside sharp containers. All bordered containers MUST have internal padding.",
+    "sections_list": [
+      "1. Header/Nav: Stark, fixed, line separated.",
+      "2. Cinematic Hero & Brand Story: Massive serif typography, noise texture, and motion-intensity toggle.",
+      "3. Agentic OS Problem/Solution: Split screen, inverted colors (black bg, white text).",
+      "4. How it Works: 4-step linear grid (Intent, AST compilation, Orchestration, Trust) with heavy borders.",
+      "5. Product Capabilities (Bento Grid): Visual builder, Hybrid RAG, CRDT, Sandboxing, MCP, Multimodal, Autoscaling.",
+      "6. Role-based Agent Ecosystem: List-based layout.",
+      "7. Watch Demo: Interactive iframe embed wrapped in a strict structural box.",
+      "8. Industry/ICP Stories: Minimalist cinematic portraits with large quote typography.",
+      "9. Trust/Security/Architecture Proof: Diagrammatic/ASCII representations.",
+      "10. Resources/SEO Field notes: Ticker/Marquee or dense list layout.",
+      "11. Newsletter Capture (P2): Brutalist form input.",
+      "12. Footer with CTAs: 'Watch Demo', 'Book a Call', 'Join Waitlist'."
+    ]
+  },
+  "motion": {
+    "philosophy": "Cinematic and Intentional, but highly accessible.",
+    "types": "Sharp reveals, simple opacity fades, discrete line-drawing animations.",
+    "motion_intensity_control": "MANDATORY (P2 item). A visible toggle in the header/nav to switch between 'Cinematic (High Motion)' and 'Reduced Motion'.",
+    "accessibility": "Must heavily utilize `prefers-reduced-motion` media queries and the custom motion-intensity state. When reduced, replace parallax and heavy transitions with instantaneous or simple opacity changes."
+  },
+  "accessibility": {
+    "contrast": "Exceeds APCA and WCAG AAA (pure black and white).",
+    "focus_states": "High contrast 2px solid outlines (ring-2 ring-offset-2 ring-black dark:ring-white).",
+    "motion": "Respect prefers-reduced-motion via CSS and JS."
+  },
+  "media": {
+    "handling": "Images should be strictly monochromatic (grayscale) or heavily desaturated to fit the pure black/white theme. Max overlay opacity: bg-black/50."
+  },
+  "3d_libraries": {
+    "usage": "Use raw Canvas/WebGL for a subtle ascii or noise generation. Avoid heavy 3D models to keep the strict minimalist 2D typography vibe."
+  },
+  "image_urls": [
+    {
+      "category": "Hero / Abstract Tech Background",
+      "url": "https://images.unsplash.com/photo-1540409262741-0e479fa446c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwYWJzdHJhY3QlMjBhcmNoaXRlY3R1cmV8ZW58MHx8fGJsYWNrX2FuZF93aGl0ZXwxNzg1NjcyNTAyfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Shaded lines illustration, perfect for architectural precision backdrop"
+    },
+    {
+      "category": "Trust / Security Architecture",
+      "url": "https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwxfHxkYXJrJTIwdGVjaG5vbG9neSUyMGFic3RyYWN0fGVufDB8fHxibGFja19hbmRfd2hpdGV8MTc4NTY3MjUwMnww&ixlib=rb-4.1.0&q=85",
+      "description": "Dark technology building abstract, use for server/architecture sections"
+    },
+    {
+      "category": "Industry / ICP Stories",
+      "url": "https://images.unsplash.com/photo-1628070395216-d70b35a95774?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwY2luZW1hdGljJTIwcG9ydHJhaXR8ZW58MHx8fGJsYWNrX2FuZF93aGl0ZXwxNzg1NjcyNTAyfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Minimalist cinematic portrait for customer testimonials"
+    }
+  ],
+  "component_path": [
+    "/app/frontend/src/components/ui/button.js",
+    "/app/frontend/src/components/ui/input.js",
+    "/app/frontend/src/components/ui/form.js",
+    "/app/frontend/src/components/SiteChrome.jsx",
+    "/app/frontend/src/pages/HomePage.jsx",
+    "/app/frontend/src/components/DemoWorkspace.jsx"
+  ],
+  "instructions_to_main_agent": [
+    "Strictly adhere to the Monochrome Minimalist design: ONLY use black (#000) and white (#FFF).",
+    "Replace generic fonts. Use Cormorant Garamond (or similar display serif) for headings, JetBrains Mono (or similar mono) for body and labels.",
+    "Implement sharp corners (`rounded-none`) everywhere. Do not use border radius.",
+    "Structure the layout using heavy lines (`border-t-2`, `border-b-4`, `border-black/white`).",
+    "Create a 'Motion Intensity' toggle (Low/High) in the SiteChrome header to satisfy the P2 requirement, and tie it into Framer Motion/CSS classes.",
+    "Embed the existing exported HTML demo (from `frontend/demo`) securely into an iframe inside the 'Watch Demo' section.",
+    "Ensure 'Book a Call', 'Join Waitlist', and 'Watch Demo' are distinctly separated CTA sections.",
+    "Build the 'Newsletter Capture' component inside the footer or a dedicated section using sharp, brutalist form inputs.",
+    "Tell the 'Agentic OS' story using alternating inverted sections (black bg with white text vs white bg with black text).",
+    "Use data-testid on all interactive elements."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Do not converge toward generic 'SaaS' aesthetics. Avoid rounded corners, soft drop shadows, and gradients.",
+    "Create depth through strict typography sizing and extreme contrast.",
+    "Implement the 'Tetris' grid strictly using CSS grid with pure HTML/Tailwind.",
+    "Do not center-align everything. Use optical alignment, often left-aligning large blocks for readability and architectural rigidity.",
+    "Use generous padding (2x-3x normal) inside bordered containers to avoid cramped text.",
+    "Do not use AI assistant emojis 🤖🧠. Use sharp, technical SVG icons (Lucide/Phosphor) if required.",
+    "All interactive elements MUST have hover states (e.g. inverted colors on hover) and focus rings."
+  ]
+}
