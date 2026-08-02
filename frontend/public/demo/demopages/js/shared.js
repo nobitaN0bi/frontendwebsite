@@ -5,6 +5,11 @@
    ========================================================================== */
 
 (function () {
+  const scenarioScript = document.createElement('script');
+  scenarioScript.src = 'js/scenario-runtime.js';
+  scenarioScript.async = false;
+  document.head.appendChild(scenarioScript);
+
   window.addEventListener('DOMContentLoaded', () => {
     const page = window.location.pathname.split('/').pop().replace('.html', '') || 'workspace';
     const selectors = 'button, a, input, select, textarea, h1, h2, h3, [role], .badge';

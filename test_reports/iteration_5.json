@@ -1,0 +1,46 @@
+{
+  "summary": "Completed frontend-only validation on public preview URL for demo channels/scenario continuity/simulations, motion modes, responsiveness (768 + 320), and homepage regression paths.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Embedded demo iframe sandboxing",
+        "issue": "Console repeatedly logs browser warning: iframe uses sandbox with both allow-scripts and allow-same-origin, which can weaken sandbox isolation.",
+        "affected_selectors": [
+          "[data-testid=\"demo-export-iframe\"]"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/root/.emergent/automation_output/20260802_123640/console_20260802_123640.log",
+    "/root/.emergent/automation_output/20260802_123741/console_20260802_123741.log",
+    "/root/.emergent/automation_output/20260802_123539/console_20260802_123539.log",
+    "/root/.emergent/automation_output/20260802_123554/console_20260802_123554.log"
+  ],
+  "action_items": [
+    "Review iframe sandbox policy tradeoff (allow-scripts + allow-same-origin) and tighten if product behavior allows.",
+    "Optional: reduce expected net::ERR_ABORTED console noise from interrupted asset loads during rapid route changes."
+  ],
+  "critical_code_review_comments": [
+    "Demo iframe currently combines allow-scripts and allow-same-origin in sandbox; this triggers browser security warnings and reduces isolation guarantees.",
+    "No malformed HTML/SVG parse errors were observed in this run; previous malformed path issue appears resolved."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_5.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (frontend-only request)",
+    "frontend": "97%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated all 8 channels switch correctly and all 72 channel-tab combinations show scenario-specific content. Verified tab labels preserved (case-insensitive text match), mock label visible, fullscreen preserves scenario query, iframe internal links/onclick continuity retain scenario param, play run adds autoplay=1 and advances tabs, pause works, and simulate step completes. Reduced-motion manual + prefers-reduced-motion both suppress scenario animation (scenario-trace animation none|0s). 768 and 320 checks show no horizontal overflow or clipping. Homepage regression checks (demo nav, waitlist modal open/close, resources route, newsletter input) passed.",
+  "rca of the issue": "RCA-1 (console warning): Reproducible across demo tabs; browser warns because sandboxed iframe includes both allow-scripts and allow-same-origin, enabling stronger iframe capabilities than strict sandboxing. Mitigation: remove allow-same-origin if feasible, or document this as an accepted risk if same-origin scripting is required for scenario runtime. RCA-2 (non-blocking abort logs): During route transitions/reloads, in-flight asset/script requests are canceled by navigation, producing net::ERR_ABORTED lines; behavior is timing-related and not a functional failure."
+}

@@ -944,3 +944,52 @@ button, .button, input, select, textarea { border-radius: 0; }
   .ascii-narrative { opacity: .16; transform: none; }
   .ascii-exact-art { opacity: .24; transform: none; }
 }
+
+/* Enterprise channel storytelling for the exported Ahi demo */
+.demo-channel-shell { padding: 30px clamp(22px, 4vw, 68px); display: grid; grid-template-columns: minmax(210px, .45fr) 1.55fr; align-items: end; gap: 45px; border-bottom: 1px solid #fff; }
+.demo-channel-heading { display: flex; flex-direction: column; gap: 8px; }
+.demo-channel-heading span, .demo-mock-label { color: #8f8f8f; font: 600 8px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
+.demo-channel-heading strong { font: 500 21px/1.15 var(--display); }
+.demo-channel-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid #fff; border-left: 1px solid #fff; }
+.demo-channel-list button { min-height: 46px; padding: 0 11px; color: #aaa; background: #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; cursor: pointer; font: 600 8px var(--mono); text-transform: uppercase; letter-spacing: .04em; }
+.demo-channel-list button.active { color: #000; background: #fff; }
+.demo-scenario-story { padding: clamp(32px, 4vw, 58px) clamp(22px, 4vw, 68px); display: grid; grid-template-columns: minmax(270px, 1.2fr) repeat(3, minmax(160px, .65fr)); gap: 0; border-bottom: 1px solid #fff; animation: scenario-story-enter 480ms cubic-bezier(.19,1,.22,1) both; }
+.demo-scenario-title { padding-right: clamp(25px, 4vw, 65px); }
+.demo-scenario-title span, .demo-story-beat > span { display: block; margin-bottom: 18px; color: #8f8f8f; font: 600 8px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+.demo-scenario-title h3 { max-width: 580px; margin: 0; font: 500 clamp(27px, 3vw, 45px)/1.02 var(--display); }
+.demo-story-beat { min-height: 180px; padding: 0 clamp(18px, 2vw, 32px); border-left: 1px solid #444; }
+.demo-story-beat p { margin: 0; color: #c9c9c9; font-size: 12px; line-height: 1.65; }
+.demo-story-outcome strong { display: block; margin-top: 30px; font: 500 22px var(--display); }
+.demo-mock-label { margin-right: 10px; color: #bdbdbd; }
+.demo-window-bar b { margin-left: auto; max-width: 48%; overflow: hidden; color: #676767; font-weight: 500; text-overflow: ellipsis; white-space: nowrap; }
+.demo-story-continuity { min-height: 52px; padding: 0 clamp(22px, 4vw, 68px); display: flex; align-items: center; gap: 13px; color: #8f8f8f; border-top: 1px solid #333; font: 600 8px var(--mono); text-transform: uppercase; letter-spacing: .08em; }
+.demo-story-continuity i { width: clamp(25px, 6vw, 90px); height: 1px; background: #555; }
+.demo-story-continuity strong { color: #fff; }
+.demo-story-continuity a { margin-left: auto; padding: 10px 12px; color: #000; background: #fff; border: 1px solid #fff; }
+
+@keyframes scenario-story-enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+@media (hover: hover) and (pointer: fine) {
+  .demo-channel-list button:hover { color: #000; background: #fff; }
+}
+
+@media (max-width: 1100px) {
+  .demo-channel-shell { grid-template-columns: 1fr; }
+  .demo-scenario-story { grid-template-columns: 1fr 1fr; }
+  .demo-scenario-title { grid-column: 1 / -1; padding: 0 0 38px; }
+  .demo-story-beat { padding: 25px; border-top: 1px solid #444; border-left: 1px solid #444; }
+}
+
+@media (max-width: 680px) {
+  .demo-channel-shell { padding: 25px 22px; }
+  .demo-channel-list { grid-template-columns: 1fr 1fr; }
+  .demo-scenario-story { padding: 35px 22px; grid-template-columns: 1fr; }
+  .demo-scenario-title { grid-column: auto; }
+  .demo-story-beat { min-height: 0; padding: 24px 0; border-left: 0; border-top: 1px solid #444; }
+  .demo-mock-label { width: 100%; margin: 0 0 8px; }
+  .demo-chapter-actions { flex-wrap: wrap; }
+  .demo-story-continuity { padding-top: 15px; padding-bottom: 15px; flex-wrap: wrap; }
+  .demo-story-continuity a { width: 100%; margin-left: 0; text-align: center; }
+}
+
+[data-motion="reduced"] .demo-scenario-story { animation: none; }

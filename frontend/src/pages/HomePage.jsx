@@ -77,7 +77,7 @@ export default function HomePage({ onJoin }) {
       </section>
 
       <section className="watch-demo-section" id="watch-demo" data-testid="watch-demo-section">
-        <div className="demo-story-head"><div><p className="section-number">06 / WATCH THE SYSTEM MOVE</p><h2 data-testid="watch-demo-title">Nine surfaces.<br />One operating context.</h2></div><p data-testid="watch-demo-description">This is the exported Ahi desktop experience—not a marketing mock. Play the guided tour or enter any workspace directly.</p></div>
+        <div className="demo-story-head"><div><p className="section-number">06 / WATCH THE SYSTEM MOVE</p><h2 data-testid="watch-demo-title">Choose the stakes.<br />Follow the decision.</h2></div><p data-testid="watch-demo-description">Select an enterprise channel, then follow one continuous operating problem across all nine Ahi surfaces. The interface is the exported product; scenario data and runs are explicitly modeled simulations.</p></div>
         <DemoWorkspace compact />
         <Link className="demo-deep-link" to="/demo" data-testid="watch-demo-page-link">Open the full product walkthrough <ArrowRight size={17} /></Link>
       </section>

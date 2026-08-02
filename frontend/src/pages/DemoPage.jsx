@@ -6,12 +6,12 @@ import { AsciiNarrative } from '../components/AsciiNarrative';
 export default function DemoPage({ onJoin }) {
   return (
     <div className="page-shell demo-page" data-testid="demo-page">
-      <Seo title="Watch the Ahi Agentic Operating System Demo" description="Tour the real exported Ahi desktop workspace across dispatch, ontology, visual agent builder, collaborative documents, knowledge, chat, sandboxed code, browser agents, and teamspaces." path="/demo" />
+      <Seo title="Enterprise Ahi Agentic Operating System Simulations" description="Choose Finance, Legal, Manufacturing, Customer Support, Logistics, E-commerce, SaaS, or Fashion and follow one modeled enterprise decision across all nine Ahi product surfaces." path="/demo" />
       <section className="page-hero compact-hero ascii-stage" data-testid="demo-page-hero">
         <AsciiNarrative mode="compile" label="INTENT / EXECUTION" />
-        <p className="eyebrow" data-testid="demo-page-eyebrow">Exported product walkthrough / nine connected surfaces</p>
-        <h1 data-testid="demo-page-title">Watch the system,<br /><em>not a mockup.</em></h1>
-        <p data-testid="demo-page-description">Move through the actual exported Ahi desktop experience. Play the guided sequence or inspect each workspace directly.</p>
+        <p className="eyebrow" data-testid="demo-page-eyebrow">Eight enterprise channels / nine connected surfaces</p>
+        <h1 data-testid="demo-page-title">Choose the enterprise.<br /><em>Follow the work.</em></h1>
+        <p data-testid="demo-page-description">Enter the exported Ahi desktop interface through Finance, Legal, Manufacturing, Customer Support, Logistics, E-commerce, SaaS, or Fashion. Every working run is a clearly labeled modeled simulation.</p>
       </section>
       <section className="full-demo" data-testid="full-demo-section"><DemoWorkspace /></section>
       <section className="demo-page-cta" data-testid="demo-page-cta">

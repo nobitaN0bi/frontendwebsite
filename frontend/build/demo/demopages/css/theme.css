@@ -548,3 +548,49 @@ html, body {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Scenario-specific sales simulation layer */
+.scenario-workbar {
+  position: relative;
+  min-height: 72px;
+  padding: 10px 16px;
+  display: grid;
+  grid-template-columns: minmax(190px, .7fr) minmax(250px, 1.3fr) auto;
+  align-items: center;
+  gap: 18px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  overflow: hidden;
+}
+.scenario-identity { display: flex; flex-direction: column; gap: 4px; }
+.scenario-identity span { color: var(--accent-primary); font-size: .63rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.scenario-identity strong { color: var(--text-primary); font-size: .86rem; }
+.scenario-live-copy { min-width: 0; display: flex; align-items: center; gap: 9px; color: var(--text-secondary); font-size: .74rem; line-height: 1.4; }
+.scenario-live-copy i { width: 7px; height: 7px; flex: 0 0 auto; background: var(--color-warning); border-radius: 50%; box-shadow: 0 0 0 0 rgba(245,158,11,.3); }
+.scenario-workbar button { min-height: 38px; padding: 0 14px; display: inline-flex; align-items: center; gap: 10px; color: var(--bg-primary); background: var(--text-primary); border: 1px solid var(--text-primary); border-radius: 3px; cursor: pointer; font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; }
+.scenario-workbar button:disabled { cursor: default; }
+.scenario-trace { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent-primary); transform: scaleX(0); transform-origin: left; }
+.scenario-workbar.is-running .scenario-trace { animation: scenario-trace 2.35s linear both; }
+.scenario-workbar.is-running .scenario-live-copy i { animation: scenario-pulse .8s ease-in-out infinite; }
+.scenario-workbar.is-complete .scenario-live-copy i { background: var(--color-success); }
+.scenario-workbar.is-complete button { color: #fff; background: var(--color-success); border-color: var(--color-success); }
+.scenario-workbar.is-complete .scenario-trace { background: var(--color-success); transform: scaleX(1); }
+body:has(.scenario-workbar) .page-container { padding-top: 18px; }
+
+@keyframes scenario-trace { to { transform: scaleX(1); } }
+@keyframes scenario-pulse { 50% { transform: scale(1.25); box-shadow: 0 0 0 6px rgba(245,158,11,0); } }
+
+@media (hover: hover) and (pointer: fine) {
+  .scenario-workbar button:hover { color: var(--text-primary); background: transparent; }
+}
+
+@media (max-width: 760px) {
+  .scenario-workbar { grid-template-columns: 1fr auto; }
+  .scenario-live-copy { grid-column: 1 / -1; grid-row: 2; }
+}
+
+[data-motion="reduced"] .scenario-workbar * { animation: none !important; transition: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .scenario-workbar * { animation: none !important; transition: none !important; }
+}

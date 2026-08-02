@@ -1,26 +1,42 @@
-import { useEffect, useState } from 'react';
-import { Maximize2, Pause, Play } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import { ArrowRight, Maximize2, Pause, Play } from 'lucide-react';
 
 const scenes = [
-  { id: 'home', label: 'Dispatch', caption: 'Ask, act, or route work to specialists.' },
-  { id: 'ontology', label: 'Ontology', caption: 'Explore the shared graph for agents and the organization.' },
-  { id: 'apps', label: 'Agent builder', caption: 'Compose and execute visual agent workflows.' },
-  { id: 'doc-workspace', label: 'Docs + thread', caption: 'Co-author decisions with people and agents.' },
-  { id: 'library', label: 'Knowledge', caption: 'Search enterprise knowledge across formats.' },
-  { id: 'chat', label: 'Collaboration', caption: 'Bring agents into channels, email, and meetings.' },
-  { id: 'code', label: 'Sandbox', caption: 'Run code in an isolated engineering workspace.' },
-  { id: 'browser', label: 'Browser', caption: 'Observe an autonomous web task step by step.' },
-  { id: 'teamspaces', label: 'Teamspaces', caption: 'Move between collaborative docs and operational boards.' }
+  { id: 'home', label: 'Dispatch', caption: 'Route the enterprise intent and assemble the right specialists.' },
+  { id: 'ontology', label: 'Ontology', caption: 'Ground people, policies, systems, and evidence in one graph.' },
+  { id: 'apps', label: 'Agent builder', caption: 'Compile the operating plan with explicit boundaries and checkpoints.' },
+  { id: 'doc-workspace', label: 'Docs + thread', caption: 'Co-author the decision rationale with cited evidence.' },
+  { id: 'library', label: 'Knowledge', caption: 'Retrieve private context through hybrid enterprise search.' },
+  { id: 'chat', label: 'Collaboration', caption: 'Coordinate people and specialist agents in the flow of work.' },
+  { id: 'code', label: 'Sandbox', caption: 'Execute bounded analysis away from the application host.' },
+  { id: 'browser', label: 'Browser', caption: 'Collect current external evidence from approved sources.' },
+  { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist owners, work state, approvals, and the final decision.' }
 ];
+
+const fallbackChannels = [
+  ['finance', 'Finance'], ['legal', 'Legal'], ['manufacturing', 'Manufacturing'], ['customer-support', 'Customer Support'],
+  ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
+].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
 export const DemoWorkspace = ({ compact = false }) => {
   const [active, setActive] = useState(0);
   const [touring, setTouring] = useState(false);
+  const [scenarioId, setScenarioId] = useState('finance');
+  const [channels, setChannels] = useState(fallbackChannels);
   const scene = scenes[active];
+  const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
+
+  useEffect(() => {
+    let activeRequest = true;
+    fetch('/demo/scenarios.json').then((response) => response.json()).then((data) => {
+      if (activeRequest && Array.isArray(data) && data.length) setChannels(data);
+    }).catch(() => undefined);
+    return () => { activeRequest = false; };
+  }, []);
 
   useEffect(() => {
     if (!touring) return undefined;
-    const interval = window.setInterval(() => setActive((current) => (current + 1) % scenes.length), 5000);
+    const interval = window.setInterval(() => setActive((current) => (current + 1) % scenes.length), 6000);
     return () => window.clearInterval(interval);
   }, [touring]);
 
@@ -29,8 +45,35 @@ export const DemoWorkspace = ({ compact = false }) => {
     setTouring(false);
   };
 
+  const selectScenario = (id) => {
+    setScenarioId(id);
+    setActive(0);
+    setTouring(false);
+  };
+
+  const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
+
   return (
     <div className={`exported-demo ${compact ? 'exported-demo-compact' : ''}`} data-testid="exported-html-demo">
+      <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
+        <div className="demo-channel-heading">
+          <span data-testid="demo-channel-label">Choose the enterprise channel</span>
+          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces.</strong>
+        </div>
+        <div className="demo-channel-list" role="tablist" aria-label="Enterprise demo channels">
+          {channels.map((channel) => (
+            <button key={channel.id} type="button" role="tab" aria-selected={channel.id === scenarioId} className={channel.id === scenarioId ? 'active' : ''} onClick={() => selectScenario(channel.id)} data-testid={`demo-channel-${channel.id}-tab`}>{channel.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div className="demo-scenario-story" key={scenario.id} data-testid="demo-scenario-story">
+        <div className="demo-scenario-title"><span data-testid="demo-scenario-company">{scenario.company}</span><h3 data-testid="demo-scenario-hook">{scenario.hook}</h3></div>
+        <div className="demo-story-beat"><span>01 / Trigger</span><p data-testid="demo-scenario-trigger">{scenario.trigger}</p></div>
+        <div className="demo-story-beat"><span>02 / Human line</span><p data-testid="demo-scenario-checkpoint">{scenario.checkpoint}</p></div>
+        <div className="demo-story-beat demo-story-outcome"><span>03 / Modeled outcome</span><p data-testid="demo-scenario-outcome">{scenario.outcome}</p><strong data-testid="demo-scenario-metric">{scenario.metric}</strong></div>
+      </div>
+
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">
         <div className="demo-chapter-copy">
           <span data-testid="demo-active-scene-number">0{active + 1} / 0{scenes.length}</span>
@@ -38,11 +81,12 @@ export const DemoWorkspace = ({ compact = false }) => {
           <p data-testid="demo-active-scene-caption">{scene.caption}</p>
         </div>
         <div className="demo-chapter-actions">
+          <span className="demo-mock-label" data-testid="demo-mock-label">MOCKED SCENARIO / WORKING SIMULATION</span>
           <button type="button" onClick={() => setTouring((current) => !current)} data-testid="demo-guided-tour-button">
             {touring ? <Pause size={15} /> : <Play size={15} fill="currentColor" />}
-            {touring ? 'Pause tour' : 'Play guided tour'}
+            {touring ? 'Pause enterprise run' : 'Play enterprise run'}
           </button>
-          <a href={`/demo/demopages/${scene.id}.html`} target="_blank" rel="noreferrer" aria-label="Open current demo scene full screen" data-testid="demo-fullscreen-link"><Maximize2 size={16} /></a>
+          <a href={`/demo/demopages/${scene.id}.html?scenario=${encodeURIComponent(scenarioId)}`} target="_blank" rel="noreferrer" aria-label="Open current demo scene full screen" data-testid="demo-fullscreen-link"><Maximize2 size={16} /></a>
         </div>
       </div>
       <div className="demo-scene-tabs" role="tablist" aria-label="Ahi workspace scenes" data-testid="demo-scene-tabs">
@@ -51,10 +95,11 @@ export const DemoWorkspace = ({ compact = false }) => {
         ))}
       </div>
       <div className={`demo-frame-shell ${touring ? 'is-touring' : ''}`}>
-        <div className="demo-window-bar" aria-hidden="true"><i /><i /><i /><span>AHI DESKTOP / EXPORTED PRODUCT WALKTHROUGH</span></div>
-        <iframe key={scene.id} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html`} title={`Ahi desktop ${scene.label} demo`} sandbox="allow-scripts allow-same-origin allow-forms allow-modals" data-testid="demo-export-iframe" />
+        <div className="demo-window-bar" aria-hidden="true"><i /><i /><i /><span>{scenario.label.toUpperCase()} / {scene.label.toUpperCase()} / AHI DESKTOP</span><b>{scene.caption}</b></div>
+        <iframe key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-same-origin allow-forms allow-modals" data-testid="demo-export-iframe" />
         <span className="demo-tour-progress" aria-hidden="true" />
       </div>
+      <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Map this pattern to your team</a></div>
     </div>
   );
 };
