@@ -8,11 +8,13 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field
+from pymongo.errors import DuplicateKeyError
 
 load_dotenv()
 
 mongo_url = os.environ.get("MONGO_URL")
 db_name = os.environ.get("DB_NAME")
+app_url = os.environ.get("APP_URL")
 if not mongo_url or not db_name:
     raise RuntimeError("MONGO_URL and DB_NAME are required")
 
@@ -21,8 +23,8 @@ db = client[db_name]
 app = FastAPI(title="Acoord Website API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=[app_url] if app_url else [],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -92,6 +94,17 @@ async def join_waitlist(payload: WaitlistRequest) -> WaitlistResponse:
     )
     try:
         await db.waitlist.insert_one(document)
+    except DuplicateKeyError:
+        existing = await db.waitlist.find_one(
+            {"email": normalized_email}, {"_id": 0, "id": 1, "email": 1}
+        )
+        if existing:
+            return WaitlistResponse(
+                id=existing["id"],
+                email=existing["email"],
+                status="already_joined",
+            )
+        raise HTTPException(status_code=409, detail="Email is already registered")
     except Exception as exc:
         raise HTTPException(status_code=500, detail="Unable to save your request") from exc
     return WaitlistResponse(
