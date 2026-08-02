@@ -5,7 +5,7 @@ import { FilmScene } from './FilmScene';
 export const PortraitScene = ({ onJoin }) => (
   <FilmScene id="contact" tone="dark" className="scene-portrait" slate="FINAL SCENE" meta="THE PERSON BEHIND IT" testId="film-scene-portrait">
     <div className="portrait-stage" data-testid="portrait-stage">
-      <AsciiArt src="/ascii/portrait-ascii.txt" className="portrait-art" />
+      <AsciiArt src="/ascii/portrait-ascii.txt" className="portrait-art" testId="portrait-ascii" />
       <span className="portrait-scan" aria-hidden="true" />
       <span className="portrait-frame" aria-hidden="true" />
     </div>

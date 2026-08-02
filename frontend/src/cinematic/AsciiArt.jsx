@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const cache = new Map();
 
-export const AsciiArt = ({ src, className = '' }) => {
+export const AsciiArt = ({ src, className = '', testId }) => {
   const [text, setText] = useState(() => cache.get(src) || '');
 
   useEffect(() => {
@@ -21,5 +21,5 @@ export const AsciiArt = ({ src, className = '' }) => {
     return () => { live = false; };
   }, [src]);
 
-  return <pre className={`ascii-plate ${className}`} aria-hidden="true">{text}</pre>;
+  return <pre className={`ascii-plate ${className}`} data-testid={testId} aria-hidden="true">{text}</pre>;
 };

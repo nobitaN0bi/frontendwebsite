@@ -5,7 +5,7 @@ import { FilmScene } from './FilmScene';
 export const HandsScene = ({ onJoin }) => (
   <FilmScene id="opening" tone="dark" className="scene-hands" slate="SCENE 01" meta="THE REACH" testId="film-scene-hands">
     <div className="hands-stage" aria-hidden="true">
-      <AsciiArt src="/ascii/hands-ascii.txt" className="hands-art" />
+      <AsciiArt src="/ascii/hands-ascii.txt" className="hands-art" testId="hands-ascii" />
     </div>
     <div className="hands-copy">
       <p className="film-eyebrow" data-testid="hands-eyebrow"><i />AHI / AGENTIC OPERATING SYSTEM / PRIVATE ALPHA</p>

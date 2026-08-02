@@ -54,6 +54,15 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Tightened iframe isolation by removing `allow-same-origin`; scenario data and motion settings now arrive through parent messaging, and local storage access inside the strict sandbox is safely guarded.
 - Verified on 2026-08-02: all 72 channel-by-tab combinations contain scenario-specific data, every simulation works, guided autoplay/pause works, scenario continuity persists, reduced motion works, mobile/tablet layouts do not overflow, regressions pass, and strict sandbox execution completes without the prior security warning.
 
+- **2026-06 cinematic rebuild:** Rebuilt the homepage as a full-viewport scroll film with soft snap: Scene 01 "Solving artificial coordination" (Creation-of-Adam ASCII hands generated from the supplied artwork, scroll-linked zoom "getting closer"), Scene 02 "magic that you can trust" escalating into "infinite time / infinite intelligence / infinite quality" with growing type, Scene 03 an eye that opens on scroll to reveal "Ahi — Agent Human Interface", Scene 04 an in-your-face "Select your industry" picker for all eight channels.
+- Added nine cinematic, data-driven chapters per industry (Dispatch, Ontology, Agent builder, Docs + thread, Knowledge, Collaboration, **Code** — the full coding agent panel, replacing the Sandbox framing — Browser, Teamspaces) built from `scenarios.json`, each with its own animated box diagram: routing fan-out with drawn wires, graph edges drawing, compile stack with COMPILED stamps, document lines filling with citations, hybrid retrieval score bars, live thread with typing bubbles, IDE panel with run policy and terminal, browser evidence capture, approval card plus audit ledger.
+- Added a sticky film HUD with industry label, chapter counter, progress rail, "Play the film" auto-scroll (7s per chapter, pausable), and skip-to-product.
+- Switched the exported demo workspace and its nine surfaces to the light (white) theme by default and made the industry selection bidirectional between the film and the demo channel tabs.
+- Added a final contact scene rendering the founder's supplied portrait as animated ASCII (scanline sweep, character flicker, line-by-line reveal) with Book a call, email, and waitlist actions.
+- Motion follows the animation guidelines in use: transform/opacity only, ease-out entrances with 60-110ms staggers, scroll-linked CSS variables written outside React renders, and full `prefers-reduced-motion` plus motion-control fallbacks.
+- All previously shipped editorial/SEO sections were retained after the film and given full-screen framing.
+- Verified on 2026-06 (iteration_6): 100% frontend pass — hero/ASCII rendering, staged infinite scene, eye reveal, all eight industry switches rebuilding all nine chapters, HUD autoplay/pause, demo light theme and channel sync, portrait scene, retained sections, waitlist end-to-end, mobile 390x844, no console errors.
+
 ## Prioritized Backlog
 
 ### P0
@@ -77,7 +86,8 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 ## Next Tasks
 
-1. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
+1. Add per-chapter narration/soundless "video" polish: optional cinematic camera moves between chapters and a shareable branded decision map at the end of each industry film.
+2. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
 3. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
 4. Publish verified production subprocessors and assurance reports before processing customer workspace data.

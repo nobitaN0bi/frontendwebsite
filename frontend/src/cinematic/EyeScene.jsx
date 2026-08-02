@@ -8,7 +8,7 @@ export const EyeScene = () => (
     <div className="eye-column">
       <div className="eye-shape" aria-hidden="true">
         <div className="eye-iris">
-          <AsciiArt src="/ascii/iris-ascii.txt" className="eye-art" />
+          <AsciiArt src="/ascii/iris-ascii.txt" className="eye-art" testId="eye-ascii" />
           <span className="eye-pupil" />
         </div>
       </div>
