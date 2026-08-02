@@ -16,7 +16,7 @@ export default function DemoPage({ onJoin }) {
       <section className="full-demo" data-testid="full-demo-section"><DemoWorkspace /></section>
       <section className="demo-page-cta" data-testid="demo-page-cta">
         <div><span className="mono-kicker">READY / PRIVATE ALPHA</span><h2 data-testid="demo-page-cta-title">Bring this operating context to your workflow.</h2></div>
-        <div className="inline-cta-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-page-book-link">Book a working session <ArrowRight size={16} /></a><button className="text-button" onClick={onJoin} data-testid="demo-page-access-button">Join the waitlist</button></div>
+        <div className="inline-cta-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-page-book-link">Book a demo <ArrowRight size={16} /></a><button className="text-button" onClick={onJoin} data-testid="demo-page-access-button">Download the desktop app</button></div>
       </section>
     </div>
   );

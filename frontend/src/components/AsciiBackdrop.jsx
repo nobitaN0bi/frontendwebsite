@@ -7,49 +7,36 @@ const IMAGES = {
 };
 
 const ASCII_ART = {
-  space: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/cnmyl6e6_3spaceascii.txt',
-  eye: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/uohmnzne_eye3spaceascii.txt',
-  mesh: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/t6tdqfqc_ascii-art%20%281%29.txt',
-  network: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/l47tcvzr_ascii-art%20%282%29.txt',
-  field: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/62yk0f4i_ascii-art%20%283%29.txt'
+  space: '/ascii/space.txt',
+  eye: '/ascii/eye.txt',
+  mesh: '/ascii/a1.txt',
+  network: '/ascii/a2.txt',
+  field: '/ascii/a3.txt'
 };
 
 const artCache = new Map();
 const requestCache = new Map();
-const abortControllers = new Map();
 const FALLBACK_ART = `░░░▒▒▓▓████▓▓▒▒░░░\n░▒▓█  COORDINATE  █▓▒░\n░░░▒▒▓▓████▓▓▒▒░░░`;
 
 const loadAsciiArt = (art) => {
   if (artCache.has(art)) return Promise.resolve(artCache.get(art));
-  if (requestCache.has(art)) return requestCache.get(art);
-  
-  const controller = new AbortController();
-  abortControllers.set(art, controller);
-  
-  const request = fetch(ASCII_ART[art] || ASCII_ART.space, { 
-    cache: 'force-cache',
-    signal: controller.signal
-  })
-    .then((response) => {
-      if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
-      return response.text();
-    })
-    .then((text) => {
-      artCache.set(art, text);
-      abortControllers.delete(art);
-      return text;
-    })
-    .catch((error) => {
-      requestCache.delete(art);
-      abortControllers.delete(art);
-      if (error.name === 'AbortError') {
+  if (!requestCache.has(art)) {
+    requestCache.set(art, fetch(ASCII_ART[art] || ASCII_ART.space, { cache: 'force-cache' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
+        return response.text();
+      })
+      .then((text) => {
+        artCache.set(art, text);
+        return text;
+      })
+      .catch((error) => {
+        requestCache.delete(art);
+        console.warn(`[Acoord ASCII] ${art} could not load`, error);
         return FALLBACK_ART;
-      }
-      console.warn(`[Acoord ASCII] ${art} could not load`, error);
-      return FALLBACK_ART;
-    });
-  requestCache.set(art, request);
-  return request;
+      }));
+  }
+  return requestCache.get(art);
 };
 
 export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
@@ -62,13 +49,7 @@ export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
       return undefined;
     }
     loadAsciiArt(art).then((text) => active && setContent(text));
-    return () => { 
-      active = false;
-      if (abortControllers.has(art)) {
-        abortControllers.get(art).abort();
-        abortControllers.delete(art);
-      }
-    };
+    return () => { active = false; };
   }, [art]);
 
   return (

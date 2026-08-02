@@ -1,13 +1,20 @@
 import os
+import html
+import io
+import random
+import secrets
 from datetime import datetime, timezone
 from typing import Literal
 from uuid import uuid4
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse, Response
 from motor.motor_asyncio import AsyncIOMotorClient
+from PIL import Image, ImageDraw, ImageFont
 from pydantic import BaseModel, EmailStr, Field
+from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 
 load_dotenv()
@@ -69,10 +76,109 @@ class NewsletterResponse(BaseModel):
     status: str
 
 
+DecisionMapIndustry = Literal[
+    "finance",
+    "legal",
+    "manufacturing",
+    "customer-support",
+    "logistics",
+    "ecommerce",
+    "saas",
+    "fashion",
+]
+
+
+class DecisionMapRequest(BaseModel):
+    industry: DecisionMapIndustry
+
+
+class DecisionMapResponse(BaseModel):
+    id: str
+    industry: str
+    path: str
+    share_path: str
+    poster_path: str
+    created_at: str
+    views: int
+
+
+INDUSTRY_POSTERS = {
+    "finance": ("FINANCE", "A cited risk decision before market open."),
+    "legal": ("LEGAL", "Clause-level evidence with counsel in control."),
+    "manufacturing": ("MANUFACTURING", "From sensor drift to bounded containment."),
+    "customer-support": ("CUSTOMER SUPPORT", "Grounded resolution at enterprise scale."),
+    "logistics": ("LOGISTICS", "A disrupted network, replanned with authority visible."),
+    "ecommerce": ("E-COMMERCE", "Margin, trust, and exceptions in one record."),
+    "saas": ("SAAS", "A renewal plan grounded across every customer signal."),
+    "fashion": ("FASHION", "Evidence and economics without automating taste."),
+}
+
+
+def response_paths(map_id: str) -> dict[str, str]:
+    return {
+        "path": f"/map/{map_id}",
+        "share_path": f"/api/decision-maps/{map_id}/share",
+        "poster_path": f"/api/decision-maps/{map_id}/poster.png",
+    }
+
+
+def public_request_origin(request: Request) -> str:
+    forwarded_proto = request.headers.get("x-forwarded-proto", "").split(",")[0].strip()
+    forwarded_host = request.headers.get("x-forwarded-host", "").split(",")[0].strip()
+    scheme = forwarded_proto if forwarded_proto in {"http", "https"} else request.url.scheme
+    host = forwarded_host or request.headers.get("host", request.url.netloc)
+    return f"{scheme}://{host}".rstrip("/")
+
+
+def poster_font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+    candidates = (
+        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    )
+    for path in candidates:
+        if os.path.exists(path):
+            return ImageFont.truetype(path, size=size)
+    return ImageFont.load_default()
+
+
+def build_poster(industry: str, map_id: str) -> bytes:
+    label, statement = INDUSTRY_POSTERS[industry]
+    image = Image.new("RGB", (1200, 630), "#000000")
+    draw = ImageDraw.Draw(image)
+    rng = random.Random(f"{industry}:{map_id}")
+    points: list[tuple[int, int]] = []
+
+    for index in range(12):
+        x = rng.randint(710, 1080)
+        y = rng.randint(125, 495)
+        size = rng.randint(7, 19)
+        draw.rectangle((x - size, y - size, x + size, y + size), outline="#ffffff", width=2)
+        if index:
+            px, py = points[-1]
+            draw.line((px, py, x, y), fill="#5f5f5f", width=2)
+        points.append((x, y))
+
+    draw.rectangle((70, 26, 118, 74), fill="#ffffff")
+    draw.text((82, 32), "a:", fill="#000000", font=poster_font(25))
+    draw.text((136, 32), "ACOORD / DECISION MAP", fill="#ffffff", font=poster_font(25))
+    draw.line((70, 94, 1130, 94), fill="#ffffff", width=2)
+    draw.text((70, 124), label, fill="#ffffff", font=poster_font(31))
+    draw.text((70, 190), "ONE DECISION.", fill="#ffffff", font=poster_font(67))
+    draw.text((70, 266), "NINE CHAPTERS.", fill="#ffffff", font=poster_font(67))
+    draw.multiline_text((73, 377), statement, fill="#ffffff", font=poster_font(34), spacing=8)
+    draw.rectangle((0, 510, 1200, 630), fill="#ffffff")
+    draw.text((70, 535), f"REEL {map_id[:8].upper()}  /  MODELED RUN  /  4 MIN READ", fill="#000000", font=poster_font(24))
+
+    output = io.BytesIO()
+    image.save(output, format="PNG", optimize=True)
+    return output.getvalue()
+
+
 @app.on_event("startup")
 async def prepare_database() -> None:
     await db.waitlist.create_index("email", unique=True)
     await db.newsletter.create_index("email", unique=True)
+    await db.decision_maps.create_index("id", unique=True)
 
 
 @app.get("/api/health")
@@ -169,6 +275,105 @@ async def subscribe_newsletter(payload: NewsletterRequest) -> NewsletterResponse
     return NewsletterResponse(
         id=document["id"], email=document["email"], status="subscribed"
     )
+
+
+@app.post(
+    "/api/decision-maps",
+    response_model=DecisionMapResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_decision_map(payload: DecisionMapRequest) -> DecisionMapResponse:
+    document = {
+        "id": secrets.token_urlsafe(6),
+        "industry": payload.industry,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "views": 0,
+        "source": "acoord.co/film",
+    }
+    try:
+        await db.decision_maps.insert_one(document)
+    except DuplicateKeyError:
+        document["id"] = secrets.token_urlsafe(8)
+        await db.decision_maps.insert_one(document)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Unable to create the decision map") from exc
+    paths = response_paths(document["id"])
+    return DecisionMapResponse(
+        id=document["id"],
+        industry=document["industry"],
+        **paths,
+        created_at=document["created_at"],
+        views=document["views"],
+    )
+
+
+@app.get("/api/decision-maps/{map_id}", response_model=DecisionMapResponse)
+async def get_decision_map(map_id: str) -> DecisionMapResponse:
+    document = await db.decision_maps.find_one_and_update(
+        {"id": map_id},
+        {"$inc": {"views": 1}},
+        projection={"_id": 0},
+        return_document=ReturnDocument.AFTER,
+    )
+    if not document:
+        raise HTTPException(status_code=404, detail="Decision map not found")
+    paths = response_paths(document["id"])
+    return DecisionMapResponse(
+        id=document["id"],
+        industry=document["industry"],
+        **paths,
+        created_at=document["created_at"],
+        views=document["views"],
+    )
+
+
+@app.get("/api/decision-maps/{map_id}/poster.png")
+async def decision_map_poster(map_id: str) -> Response:
+    document = await db.decision_maps.find_one(
+        {"id": map_id}, {"_id": 0, "id": 1, "industry": 1}
+    )
+    if not document:
+        raise HTTPException(status_code=404, detail="Decision map not found")
+    return Response(
+        content=build_poster(document["industry"], document["id"]),
+        media_type="image/png",
+        headers={"Cache-Control": "public, max-age=31536000, immutable"},
+    )
+
+
+@app.get("/api/decision-maps/{map_id}/share", response_class=HTMLResponse)
+async def share_decision_map(map_id: str, request: Request) -> HTMLResponse:
+    document = await db.decision_maps.find_one(
+        {"id": map_id}, {"_id": 0, "id": 1, "industry": 1}
+    )
+    if not document:
+        raise HTTPException(status_code=404, detail="Decision map not found")
+
+    label, statement = INDUSTRY_POSTERS[document["industry"]]
+    origin = public_request_origin(request)
+    map_url = f"{origin}/map/{document['id']}"
+    poster_url = f"{origin}/api/decision-maps/{document['id']}/poster.png"
+    share_url = f"{origin}/api/decision-maps/{document['id']}/share"
+    title = f"{label.title()} decision map | Acoord"
+    description = f"One decision, nine chapters. {statement}"
+    page = f"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>{html.escape(title)}</title>
+<meta name="description" content="{html.escape(description)}">
+<meta property="og:title" content="{html.escape(title)}">
+<meta property="og:description" content="{html.escape(description)}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{html.escape(share_url)}">
+<meta property="og:image" content="{html.escape(poster_url)}">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{html.escape(title)}">
+<meta name="twitter:description" content="{html.escape(description)}">
+<meta name="twitter:image" content="{html.escape(poster_url)}">
+<link rel="canonical" href="{html.escape(map_url)}">
+<meta http-equiv="refresh" content="0;url={html.escape(map_url)}">
+</head><body><a href="{html.escape(map_url)}">Open the Acoord decision map</a></body></html>"""
+    return HTMLResponse(content=page, headers={"Cache-Control": "public, max-age=300"})
 
 
 @app.on_event("shutdown")

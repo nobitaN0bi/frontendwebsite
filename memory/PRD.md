@@ -63,6 +63,33 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - All previously shipped editorial/SEO sections were retained after the film and given full-screen framing.
 - Verified on 2026-06 (iteration_6): 100% frontend pass — hero/ASCII rendering, staged infinite scene, eye reveal, all eight industry switches rebuilding all nine chapters, HUD autoplay/pause, demo light theme and channel sync, portrait scene, retained sections, waitlist end-to-end, mobile 390x844, no console errors.
 
+- **2026-06 cinematic experience rework (this fork):**
+- Removed the agent-ecosystem section ("The right specialist. One governing intent.") and the trust section ("Every action leaves a reconstructable line.") per user request.
+- Rewrote the problem headline to "The interface for AI and human team collaboration."
+- Rebuilt "Fluid above. Strict beneath." as a dark cinematic section with a living eye backdrop (ellipse + ASCII iris + pupil, slow gaze drift + blink) behind four pillars: **ASK** (understand via 1,000+ integrations into one ontology), **ACT** (connectors become proactive hands), **EXPERT** (hire ontology-grounded digital experts, e.g. a social GTM expert supervised by the adjacent marketing team), **EXPLAINABLE** (traceable, replayable executions); plus a scrolling 1,000+ connector marquee.
+- Removed the Meridian Capital scenario-story block (company/hook/trigger/human-line/outcome) from DemoWorkspace on / and /demo; the workflow story now lives only in the film; demo copy now says "Every step explainable."
+- Moved newsletter capture into the blog/knowledge section as a light "Architecture & updates" dispatch block; removed the standalone dark newsletter section.
+- Switched all global CTAs to "Download the desktop app" (opens waitlist modal, tagged WAITLIST) and "Book a demo" (Calendly): hero, header, footer, join section, demo page, resources page. WaitlistModal reframed as the desktop-app download waitlist.
+- Rebuilt the final scene as a pure cinematic close: full-bleed ASCII portrait backdrop with scroll-linked zoom, letterbox bars, scanline/flicker/jitter, "Magic that you can trust." headline, Download + Book a demo CTAs — no email link, no contact form.
+- Added a cinematic wipe overlay between film chapters (one-continuous-shot feel) with full reduced-motion fallbacks.
+- Fixed AsciiBackdrop: removed AbortController logic that poisoned the shared fetch cache under StrictMode (fallback "COORDINATE" art was rendering); switched ASCII assets to local /ascii/*.txt files.
+- Verified on 2026-06 (iteration_7 + follow-up self-test): backend 6/6 pass (health, waitlist create/duplicate/validation, newsletter subscribe/consent); frontend pass — film flow, hero CTAs, waitlist + newsletter end-to-end, pillar section, removed sections absent, finale without contact, mobile 390x844, no console errors; scenario-story removal re-verified on / and /demo after test-run revert.
+
+- **2026-06 Shareable Film (decision maps):**
+- Backend: `POST /api/decision-maps` (validated industry → short url-safe id, persisted in `decision_maps` with unique index) and `GET /api/decision-maps/{id}` (view-count increment, 404 on missing, 422 on invalid industry).
+- Added a cinematic "END CARD" share scene after the nine chapters ("Your team missed the screening.") with scenario-aware storytelling copy; "Create the decision map" cuts a cinema-ticket card (perforated, ADMIT: YOUR ENTIRE TEAM) with the branded link, Copy (clipboard + fallback), and Open actions; state resets on industry switch; film autoplay auto-scrolls to the end card when the reel finishes.
+- Added branded `/map/:id` route that retells the run as a story: masthead (REEL id / date / VIEWING count), narrative intro, opening intent quote, nine story beats with acts + mono state lines, human-line vs outcome split panel, modeled-simulation disclaimer, and a CTA band (Watch the film / Download the desktop app waitlist / Book a demo). Loading state prevents wrong-industry flash; missing ids show "This reel was never cut."
+- Verified on 2026-06 (iteration_8): 14/14 backend tests (all 8 industries, view increments, 404/422, waitlist regression) and 100% frontend pass — ticket creation, copy, industry-switch reset, map storytelling page, view increments, missing state, waitlist modal from map, mobile 390x844, no console errors.
+
+- **2026-06 Social previews + real-product MacBook showcase:**
+- Added a dynamic 1200×630 branded poster for every decision map at `GET /api/decision-maps/{id}/poster.png`; each industry receives its own deterministic decision-network composition, explicit Acoord branding, safe-crop typography, reel metadata, and immutable caching.
+- Added `GET /api/decision-maps/{id}/share`, a crawler-readable HTML bridge with OpenGraph/Twitter metadata, canonical map URL, HTTPS-safe proxy-aware public URLs, and an immediate browser handoff to `/map/:id`.
+- Decision-map creation now returns `share_path` and `poster_path`; the end-card ticket previews the poster and copies/opens the unfurl-enabled share link rather than the raw SPA route.
+- Refactored only the homepage real-use-case demo into an Apple-inspired product showcase while preserving the global monochrome system: a scroll-opened MacBook frame contains the existing live Ahi workspace, with five external explanation callouts and an animated Intent → Ontology → Execution → Approval → Record rail.
+- Preserved all eight industry selectors, nine surface tabs, guided enterprise run, fullscreen links, iframe simulation controls, homepage scenario synchronization, mobile usability, and explicit **MOCKED** simulation labeling.
+- Added Framer Motion for scroll-linked product motion plus full operating-system and in-app reduced-motion static layouts.
+- Verified on 2026-06 (iteration_9 + post-fix self-test): frontend desktop/mobile/reduced-motion product checks pass with no horizontal overflow; live demo interactions remain functional; backend decision-map suite passes 19/19; HTTPS share redirect and absolute social metadata pass; final poster visual QA passes for thumbnail legibility, explicit branding, 10% crop safety, composition, and overlaps.
+
 ## Prioritized Backlog
 
 ### P0
@@ -80,15 +107,16 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Add real workspace authentication and connect the demo to live orchestration telemetry.
 - Add CMS-managed ICP stories and editorial case-study publishing.
 - Add product analytics for CTA conversion, story engagement, and demo scenario completion.
-- Add shareable demo runs and generated coordination maps for organic distribution.
+- Add a decision-map guestbook so recipients can signal “worth a screening” to the sender.
 - Add editorial newsletter operations such as unsubscribe handling, suppression lists, and campaign delivery before sending production email.
 - Replace the **MOCKED** enterprise scenario runtime with authenticated, tenant-scoped APIs when production Ahi workspace services are available.
 
 ## Next Tasks
 
-1. Add per-chapter narration/soundless "video" polish: optional cinematic camera moves between chapters and a shareable branded decision map at the end of each industry film.
-2. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
+1. Conversion analytics: track which industry and chapter visitors watch before booking a demo or joining the download waitlist.
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
-3. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
-4. Publish verified production subprocessors and assurance reports before processing customer workspace data.
-5. Validate the eight modeled enterprise narratives with domain experts before using any outcome language in external sales material.
+3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.
+4. Decision-map guestbook: let recipients signal “worth a screening” and show the sender who watched.
+5. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
+6. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
+7. Publish verified production subprocessors and assurance reports before processing customer workspace data.

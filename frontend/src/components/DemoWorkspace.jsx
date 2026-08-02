@@ -18,7 +18,7 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onScenarioChange }) => {
+export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: controlledId, onScenarioChange }) => {
   const [active, setActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
@@ -72,24 +72,17 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
   const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
 
   return (
-    <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''}`} data-testid="exported-html-demo">
+    <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''} ${showcase ? 'exported-demo-showcase' : ''}`} data-testid="exported-html-demo">
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
           <span data-testid="demo-channel-label">Choose the enterprise channel</span>
-          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces.</strong>
+          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces. Every step explainable.</strong>
         </div>
         <div className="demo-channel-list" role="tablist" aria-label="Enterprise demo channels">
           {channels.map((channel) => (
             <button key={channel.id} type="button" role="tab" aria-selected={channel.id === scenarioId} className={channel.id === scenarioId ? 'active' : ''} onClick={() => selectScenario(channel.id)} data-testid={`demo-channel-${channel.id}-tab`}>{channel.label}</button>
           ))}
         </div>
-      </div>
-
-      <div className="demo-scenario-story" key={scenario.id} data-testid="demo-scenario-story">
-        <div className="demo-scenario-title"><span data-testid="demo-scenario-company">{scenario.company}</span><h3 data-testid="demo-scenario-hook">{scenario.hook}</h3></div>
-        <div className="demo-story-beat"><span>01 / Trigger</span><p data-testid="demo-scenario-trigger">{scenario.trigger}</p></div>
-        <div className="demo-story-beat"><span>02 / Human line</span><p data-testid="demo-scenario-checkpoint">{scenario.checkpoint}</p></div>
-        <div className="demo-story-beat demo-story-outcome"><span>03 / Modeled outcome</span><p data-testid="demo-scenario-outcome">{scenario.outcome}</p><strong data-testid="demo-scenario-metric">{scenario.metric}</strong></div>
       </div>
 
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">
@@ -117,7 +110,7 @@ export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onSce
         <iframe ref={iframeRef} onLoad={sendScenarioToFrame} key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-forms allow-modals" data-testid="demo-export-iframe" />
         <span className="demo-tour-progress" aria-hidden="true" />
       </div>
-      <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Map this pattern to your team</a></div>
+      <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Book a demo</a></div>
     </div>
   );
 };
