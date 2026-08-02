@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { AsciiNarrative } from './AsciiNarrative';
 
 export const SiteChrome = ({ children, onJoin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -9,6 +10,7 @@ export const SiteChrome = ({ children, onJoin }) => {
 
   return (
     <div className="site-shell" data-testid="site-shell">
+      <AsciiNarrative mode="ambient" tone="global" label="ACOORD / LIVE SIGNAL" />
       <header className="site-header" data-testid="site-header">
         <Link className="wordmark" to="/" onClick={closeMenu} data-testid="header-logo-link">
           <span className="wordmark-mark" aria-hidden="true">a:</span>

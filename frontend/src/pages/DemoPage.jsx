@@ -1,12 +1,14 @@
 import { ArrowRight } from 'lucide-react';
 import { DemoWorkspace } from '../components/DemoWorkspace';
 import { Seo } from '../components/Seo';
+import { AsciiNarrative } from '../components/AsciiNarrative';
 
 export default function DemoPage({ onJoin }) {
   return (
     <div className="page-shell demo-page" data-testid="demo-page">
       <Seo title="Interactive Agent Canvas Demo" description="Explore the Acoord Ahi workspace: coordinate human intent, AI agents, tools, retrieval, guardrails, and approvals." path="/demo" />
-      <section className="page-hero compact-hero" data-testid="demo-page-hero">
+      <section className="page-hero compact-hero ascii-stage" data-testid="demo-page-hero">
+        <AsciiNarrative mode="compile" label="INTENT / EXECUTION" />
         <p className="eyebrow" data-testid="demo-page-eyebrow">Interactive product preview / Ahi workspace</p>
         <h1 data-testid="demo-page-title">Coordinate the work,<br /><em>not just the model.</em></h1>
         <p data-testid="demo-page-description">Switch scenarios, execute the graph, and watch human intent become an auditable coordination plan.</p>

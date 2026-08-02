@@ -2,6 +2,7 @@ import { ArrowLeft, ArrowRight, Clock3 } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { Seo } from '../components/Seo';
 import { getResource, resources } from '../data/resources';
+import { AsciiBackdrop } from '../components/AsciiBackdrop';
 
 export default function ArticlePage() {
   const { slug } = useParams();
@@ -14,6 +15,7 @@ export default function ArticlePage() {
     <article className="article-page page-shell" data-testid={`article-page-${resource.slug}`}>
       <Seo title={resource.title} description={resource.description} path={`/resources/${resource.slug}`} type="article" schema={schema} />
       <header className="article-hero" data-testid="article-hero">
+        <AsciiBackdrop variant="article" art="network" />
         <Link to="/resources" className="article-back" data-testid="article-back-link"><ArrowLeft size={16} /> All field notes</Link>
         <div className="article-kicker" data-testid="article-category">{resource.category} / {resource.type}</div>
         <h1 data-testid="article-title">{resource.title}</h1><p data-testid="article-description">{resource.description}</p>
@@ -23,7 +25,7 @@ export default function ArticlePage() {
         <aside className="article-sidebar" data-testid="article-sidebar"><span>Target question</span><p>{resource.keyword}</p><span>In this guide</span>{resource.sections.map((section, index) => <a href={`#section-${index + 1}`} key={section.title}>{section.title}</a>)}</aside>
         <div className="article-body" data-testid="article-body">
           <section className="article-takeaways" data-testid="article-takeaways"><span>Three things to remember</span>{resource.takeaways.map((takeaway) => <p key={takeaway}>{takeaway}</p>)}</section>
-          {resource.sections.map((section, index) => <section id={`section-${index + 1}`} key={section.title} data-testid={`article-section-${index + 1}`}><span className="article-section-number">0{index + 1}</span><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}</section>)}
+          {resource.sections.map((section, index) => <section id={`section-${index + 1}`} data-ascii-index={`0${index + 1} ░▒▓ KNOWLEDGE::GROUND`} key={section.title} data-testid={`article-section-${index + 1}`}><span className="article-section-number">0{index + 1}</span><h2>{section.title}</h2>{section.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}{section.bullets && <ul>{section.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul>}</section>)}
           <div className="article-cta" data-testid="article-cta"><div><span className="mono-kicker">COORDINATION REVIEW</span><h2>Apply this architecture to your system.</h2></div><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="article-book-demo-link">Book a working session <ArrowRight size={16} /></a></div>
         </div>
       </div>

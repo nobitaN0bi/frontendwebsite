@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
 import { getUseCase, useCases } from '../data/useCases';
 import { Seo } from '../components/Seo';
+import { AsciiNarrative } from '../components/AsciiNarrative';
 
 export default function UseCasePage({ onJoin }) {
   const { slug } = useParams();
@@ -14,7 +15,7 @@ export default function UseCasePage({ onJoin }) {
     <article className="case-page" style={{ '--case-accent': story.accent }} data-testid={`use-case-page-${story.slug}`}>
       <Seo title={`${story.industry} Agentic OS Use Case`} description={`${story.company}: ${story.headline} Explore how Acoord coordinates agents, people, tools, and trusted decisions.`} path={`/use-cases/${story.slug}`} type="article" />
       <section className="case-hero" data-testid="use-case-hero">
-        <AsciiBackdrop variant="case" />
+        <AsciiBackdrop variant="case" art="field" />
         <Link className="back-link" to="/#use-cases" data-testid="use-case-back-link"><ArrowLeft size={16} /> All stories</Link>
         <div className="case-hero-copy">
           <div className="case-index" data-testid="use-case-index">ICP / {story.number} — {story.industry}</div>
@@ -24,20 +25,23 @@ export default function UseCasePage({ onJoin }) {
         <div className="case-hero-metric" data-testid="use-case-primary-metric"><strong>{story.metrics[0][0]}</strong><span>{story.metrics[0][1]}</span></div>
       </section>
 
-      <section className="case-narrative section-pad" data-testid="use-case-narrative">
+      <section className="case-narrative section-pad ascii-stage" data-testid="use-case-narrative">
+        <AsciiNarrative mode="signal" label="PROBLEM / TRIGGER" />
         <div className="case-label"><span>01</span> Before Acoord</div>
         <div><h2>Intelligence was present.<br />Coordination was not.</h2><p>{story.problem}</p></div>
         <aside><span className="mono-kicker">TRIGGER EVENT</span><p>{story.trigger}</p></aside>
       </section>
 
-      <section className="case-system section-pad" data-testid="use-case-solution">
+      <section className="case-system section-pad ascii-stage" data-testid="use-case-solution">
+        <AsciiNarrative mode="compile" tone="dark" label="SOLUTION / GRAPH" />
         <div className="case-label"><span>02</span> The system</div>
         <div className="case-pillar-grid">
           {story.pillars.map((pillar, index) => <article key={pillar} data-testid={`use-case-pillar-${index + 1}`}><span>0{index + 1}</span><CheckCircle2 size={21} /><h3>{pillar}</h3></article>)}
         </div>
       </section>
 
-      <section className="case-results section-pad" data-testid="use-case-results">
+      <section className="case-results section-pad ascii-stage" data-testid="use-case-results">
+        <AsciiNarrative mode="ledger" label="RESULT / PROOF" />
         <div className="case-label"><span>03</span> Measured change</div>
         <div className="case-metrics">
           {story.metrics.map(([value, label], index) => <div key={label} data-testid={`use-case-metric-${index + 1}`}><strong>{value}</strong><span>{label}</span></div>)}

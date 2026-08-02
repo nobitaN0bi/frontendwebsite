@@ -5,6 +5,7 @@ import { DemoWorkspace } from '../components/DemoWorkspace';
 import { useCases } from '../data/useCases';
 import { Seo } from '../components/Seo';
 import { resources } from '../data/resources';
+import { AsciiNarrative } from '../components/AsciiNarrative';
 
 const systemLayers = [
   { icon: MousePointer2, code: '01 / INTENT', title: 'Humans describe outcomes.', text: 'Start with a conversation, not a brittle workflow specification.' },
@@ -18,7 +19,7 @@ export default function HomePage({ onJoin }) {
     <>
       <Seo title="Acoord — The Agentic Operating System" description="Acoord coordinates people, AI agents, enterprise tools, and trusted decisions in one collaborative operating system." path="/" schema={{ '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'Acoord', applicationCategory: 'BusinessApplication', operatingSystem: 'Web', description: 'An agent-human coordination operating system for collaborative, auditable AI workflows.', url: process.env.REACT_APP_SITE_URL }} />
       <section className="hero" data-testid="home-hero">
-        <AsciiBackdrop />
+        <AsciiBackdrop art="space" />
         <div className="hero-orbit orbit-one" /><div className="hero-orbit orbit-two" />
         <div className="hero-content">
           <div className="hero-status" data-testid="hero-status"><span /> AH-I / AGENT HUMAN INTERFACE / ALPHA</div>
@@ -34,12 +35,14 @@ export default function HomePage({ onJoin }) {
         <div className="scroll-marker" data-testid="hero-scroll-marker"><span>SCROLL TO COORDINATE</span><i /></div>
       </section>
 
-      <section className="manifesto-band" data-testid="manifesto-band">
+      <section className="manifesto-band ascii-stage" data-testid="manifesto-band">
+        <AsciiNarrative mode="signal" label="INTENT / SIGNAL" />
         <p><span>10× agents.</span> More tools. More context. More motion.</p>
         <strong>Without coordination, intelligence becomes noise.</strong>
       </section>
 
-      <section className="system-section section-pad" id="system" data-testid="system-section">
+      <section className="system-section section-pad ascii-stage" id="system" data-testid="system-section">
+        <AsciiNarrative mode="compile" label="VISUAL / COMPILE" />
         <div className="section-heading split-heading">
           <div><p className="eyebrow" data-testid="system-eyebrow">The coordination layer</p><h2 data-testid="system-title">One surface for<br />intent and execution.</h2></div>
           <p data-testid="system-description">Acoord connects the warm ambiguity of human work to the deterministic machinery required for reliable agent execution.</p>
@@ -47,14 +50,15 @@ export default function HomePage({ onJoin }) {
         <div className="system-grid" data-testid="system-layer-grid">
           {systemLayers.map(({ icon: Icon, code, title, text }, index) => (
             <article className="system-card reveal-card" style={{ '--stagger': `${index * 110}ms` }} key={code} data-testid={`system-layer-${index + 1}`}>
-              <div className="system-icon"><Icon size={21} strokeWidth={1.5} /></div><span className="mono-kicker">{code}</span>
+              <div className={`system-motion motion-${index + 1}`}><i /><i /><i /></div><div className="system-icon"><Icon size={21} strokeWidth={1.5} /></div><span className="mono-kicker">{code}</span>
               <h3>{title}</h3><p>{text}</p><i className="card-axis" />
             </article>
           ))}
         </div>
       </section>
 
-      <section className="demo-section" data-testid="home-demo-section">
+      <section className="demo-section ascii-stage" data-testid="home-demo-section">
+        <AsciiNarrative mode="collaborate" tone="dark" label="MULTIPLAYER / CONVERGE" />
         <div className="demo-intro section-pad">
           <div><p className="eyebrow" data-testid="demo-eyebrow">The Ahi workspace</p><h2 data-testid="demo-title">Conversation on the left.<br />Architecture on the right.</h2></div>
           <div className="demo-caption" data-testid="demo-description"><Sparkles size={18} /><p>Try a scenario. Watch intent compile into a trustworthy agent graph.</p></div>
@@ -62,7 +66,8 @@ export default function HomePage({ onJoin }) {
         <DemoWorkspace />
       </section>
 
-      <section className="trust-section section-pad" data-testid="trust-section">
+      <section className="trust-section section-pad ascii-stage" data-testid="trust-section">
+        <AsciiNarrative mode="trust" label="GUARDRAILS / PROOF" />
         <div className="trust-visual" data-testid="trust-visual">
           <div className="trust-ring ring-a"><span>HUMAN</span></div><div className="trust-ring ring-b"><span>AGENT</span></div>
           <div className="trust-core"><Cable size={26} /><strong>TRUST<br />GRAPH</strong></div>
@@ -81,7 +86,8 @@ export default function HomePage({ onJoin }) {
         </div>
       </section>
 
-      <section className="usecase-section section-pad" id="use-cases" data-testid="use-cases-section">
+      <section className="usecase-section section-pad ascii-stage" id="use-cases" data-testid="use-cases-section">
+        <AsciiNarrative mode="stories" label="TEN STORIES / ONE LAYER" />
         <div className="section-heading split-heading">
           <div><p className="eyebrow" data-testid="use-cases-eyebrow">Coordination in the wild / 10 stories</p><h2 data-testid="use-cases-title">Different stakes.<br />The same missing layer.</h2></div>
           <p data-testid="use-cases-description">From regulated banks to five-person startups, the hard part is not intelligence. It is making intelligence operate as a system.</p>
@@ -98,7 +104,8 @@ export default function HomePage({ onJoin }) {
         </div>
       </section>
 
-      <section className="architecture-strip" data-testid="architecture-strip">
+      <section className="architecture-strip ascii-stage" data-testid="architecture-strip">
+        <AsciiNarrative mode="ledger" tone="dark" label="AST / LEDGER" />
         <div className="architecture-marquee">CRDT_SYNC · AST_COMPILER · LANGGRAPH_RUNTIME · HYBRID_RAG · MCP_ROUTER · SECURE_SANDBOX · HUMAN_CHECKPOINT · </div>
         <div className="architecture-content section-pad">
           <Braces size={34} strokeWidth={1.2} /><h2 data-testid="architecture-title">Strict beneath.<br />Fluid above.</h2>
@@ -106,14 +113,15 @@ export default function HomePage({ onJoin }) {
         </div>
       </section>
 
-      <section className="home-resources section-pad" data-testid="home-resources-section">
+      <section className="home-resources section-pad ascii-stage" data-testid="home-resources-section">
+        <AsciiNarrative mode="knowledge" label="RETRIEVAL / FUSION" />
         <div className="section-heading split-heading"><div><p className="eyebrow">Field notes / built for citation</p><h2 data-testid="home-resources-title">Architecture without<br />the hand-waving.</h2></div><p>Direct answers to the questions platform teams ask before an agent system earns production trust.</p></div>
         <div className="home-resource-grid">{resources.slice(0, 3).map((resource, index) => <Link to={`/resources/${resource.slug}`} key={resource.slug} data-testid={`home-resource-${resource.slug}-link`}><span>0{index + 1} / {resource.category}</span><h3>{resource.title}</h3><p>{resource.description}</p><div>{resource.readingTime}<ArrowRight size={16} /></div></Link>)}</div>
         <Link className="all-resources-link" to="/resources" data-testid="home-all-resources-link">Explore all field notes <ArrowRight size={17} /></Link>
       </section>
 
       <section className="final-cta section-pad" data-testid="final-cta-section">
-        <AsciiBackdrop variant="footer" />
+        <AsciiBackdrop variant="footer" art="eye" />
         <div><p className="eyebrow" data-testid="final-cta-eyebrow">The work is already multi-agent</p><h2 data-testid="final-cta-title">Give it somewhere<br />to come together.</h2></div>
         <div className="final-actions"><a className="button button-white" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="final-book-demo-link">Book a working session <ArrowRight size={17} /></a><button className="final-text-button" onClick={onJoin} data-testid="final-access-button">Request private access</button><Link to="/demo" data-testid="final-demo-link">Explore the workspace</Link></div>
       </section>

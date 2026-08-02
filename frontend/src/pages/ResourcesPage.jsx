@@ -3,6 +3,8 @@ import { ArrowRight, BookOpen, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Seo } from '../components/Seo';
 import { resources } from '../data/resources';
+import { AsciiBackdrop } from '../components/AsciiBackdrop';
+import { AsciiNarrative } from '../components/AsciiNarrative';
 
 export default function ResourcesPage() {
   const [category, setCategory] = useState('All');
@@ -19,6 +21,7 @@ export default function ResourcesPage() {
     <div className="resources-page page-shell" data-testid="resources-page">
       <Seo title="Agentic Systems Resources" description="Technical guides for building coordinated, collaborative, and trustworthy agent systems." path="/resources" schema={schema} />
       <section className="resources-hero" data-testid="resources-hero">
+        <AsciiBackdrop variant="resources" art="mesh" />
         <div><p className="eyebrow">Acoord field notes / v1</p><h1 data-testid="resources-title">Build systems that<br /><em>coordinate.</em></h1></div>
         <p data-testid="resources-description">Original field guides for the architecture between a promising agent demo and a production system people can trust.</p>
       </section>
@@ -26,7 +29,8 @@ export default function ResourcesPage() {
         <div className="resource-filters" data-testid="resource-category-filters">{categories.map((item) => <button className={category === item ? 'active' : ''} onClick={() => setCategory(item)} key={item} data-testid={`resource-filter-${item.toLowerCase().replaceAll(' ', '-')}-button`}>{item}</button>)}</div>
         <label className="resource-search"><Search size={16} /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search architecture notes" data-testid="resource-search-input" /></label>
       </section>
-      <section className="resource-list" data-testid="resource-list">
+      <section className="resource-list ascii-stage" data-testid="resource-list">
+        <AsciiNarrative mode="knowledge" label="SEARCH / RETRIEVE / CITE" />
         {visibleResources.map((resource, index) => <Link to={`/resources/${resource.slug}`} className="resource-row" key={resource.slug} data-testid={`resource-${resource.slug}-link`}>
           <span className="resource-row-number">{String(index + 1).padStart(2, '0')}</span>
           <div><span className="resource-category">{resource.category} / {resource.type}</span><h2>{resource.title}</h2><p>{resource.description}</p></div>
