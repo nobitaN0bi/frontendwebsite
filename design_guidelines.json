@@ -1,133 +1,129 @@
 {
-  "theme_and_context": {
-    "type": "marketing_site",
-    "theme": "Minimalist Monochrome (Pure Black & White)",
-    "vibe": "Cinematic, Agentic OS, Architecturally precise, High-Contrast Swiss Brutalism"
-  },
+  "theme": "dark",
   "typography": {
+    "instructions": "Use Cabinet Grotesk for headings and IBM Plex Sans for body text. Enforce tracking-tight on all headers above text-2xl.",
     "headings": {
-      "font_family": "Cormorant Garamond, serif",
-      "classes": "font-serif tracking-tighter leading-none",
-      "h1": "text-5xl sm:text-6xl lg:text-7xl",
-      "h2": "text-3xl sm:text-4xl lg:text-5xl",
-      "h3": "text-xl sm:text-2xl"
+      "family": "Cabinet Grotesk",
+      "weights": ["400", "800"],
+      "classes": "font-sans tracking-tight"
     },
     "body": {
-      "font_family": "JetBrains Mono, monospace",
-      "classes": "font-mono tracking-tight leading-relaxed",
-      "base": "text-base sm:text-lg"
+      "family": "IBM Plex Sans",
+      "weights": ["400", "500"],
+      "classes": "font-mono tracking-normal leading-relaxed"
     },
-    "labels_overlines": {
-      "classes": "uppercase tracking-[0.2em] text-xs font-mono font-bold"
-    },
-    "alignment": "Optical alignment, primarily left-aligned text to anchor the strict grid, intentional asymmetric off-center large headings."
+    "labels": {
+      "family": "IBM Plex Sans",
+      "classes": "font-mono uppercase tracking-[0.2em] text-xs"
+    }
   },
   "colors": {
-    "primary": "#000000",
-    "secondary": "#FFFFFF",
-    "accents": "#1A1A1A",
-    "text": {
-      "light": "text-black",
-      "dark": "text-white",
-      "inverted": "bg-black text-white"
-    },
     "background": {
-      "light": "bg-white",
-      "dark": "bg-black"
+      "default": "#0A0A0A",
+      "surface": "#141414",
+      "overlay": "rgba(10, 10, 10, 0.6)"
     },
-    "borders": {
-      "light": "border-black",
-      "dark": "border-white"
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A1A1AA",
+      "muted": "#52525B"
     },
-    "rules": "PURE MONOCHROME. Strictly black and white. Use inverted sections (white on black) to create emphasis without color."
+    "border": {
+      "default": "rgba(255, 255, 255, 0.1)",
+      "focus": "rgba(255, 255, 255, 0.3)"
+    },
+    "accent": {
+      "primary": "#FFFFFF",
+      "hover": "#E4E4E7"
+    }
   },
-  "visual_enhancers": {
-    "corners": "rounded-none (Sharp corners only)",
-    "borders": "Line-based structure. Heavy horizontal rules (border-t-4, border-b-4) to separate major sections. 1px borders for grid items.",
-    "textures": "Layered subtle textures like monochromatic noise/grain overlays using CSS mix-blend-mode or pseudo-elements to prevent digital flatness.",
-    "surfaces": "Solid colors only. NO gradients. NO glassmorphism. Flat solid backgrounds to maintain brutalist clarity.",
-    "decorations": "ASCII art motifs in backgrounds or loaders to reinforce the 'Agentic OS' narrative."
+  "visual enhancers": {
+    "surfaces": "Retro-Futurism / Technical Look. Deep black backgrounds, stark white text, 1px solid white/10 borders.",
+    "effects": [
+      "Subtle noise overlay (grain texture) on the main background.",
+      "Tracing Beam (Aceternity style) around active channel items or active workflow steps.",
+      "Terminal-style progress loaders (e.g., [======    ] 60%) to simulate AI agent tasks."
+    ],
+    "glassmorphism": "Used only for sticky nav/header: bg-black/60, backdrop-blur-xl, border-b border-white/10."
   },
-  "grids_and_layouts": {
-    "strategy": "The Bento/Tetris Grid Protocol",
-    "classes": "grid grid-cols-1 md:grid-cols-12 gap-0 (using border-collapse strategies)",
-    "spacing": "Generous. p-8, p-12, py-24, py-32 to provide breathing room inside sharp containers. All bordered containers MUST have internal padding.",
-    "sections_list": [
-      "1. Header/Nav: Stark, fixed, line separated.",
-      "2. Cinematic Hero & Brand Story: Massive serif typography, noise texture, and motion-intensity toggle.",
-      "3. Agentic OS Problem/Solution: Split screen, inverted colors (black bg, white text).",
-      "4. How it Works: 4-step linear grid (Intent, AST compilation, Orchestration, Trust) with heavy borders.",
-      "5. Product Capabilities (Bento Grid): Visual builder, Hybrid RAG, CRDT, Sandboxing, MCP, Multimodal, Autoscaling.",
-      "6. Role-based Agent Ecosystem: List-based layout.",
-      "7. Watch Demo: Interactive iframe embed wrapped in a strict structural box.",
-      "8. Industry/ICP Stories: Minimalist cinematic portraits with large quote typography.",
-      "9. Trust/Security/Architecture Proof: Diagrammatic/ASCII representations.",
-      "10. Resources/SEO Field notes: Ticker/Marquee or dense list layout.",
-      "11. Newsletter Capture (P2): Brutalist form input.",
-      "12. Footer with CTAs: 'Watch Demo', 'Book a Call', 'Join Waitlist'."
-    ]
+  "component name": {
+    "channel_selector": "EnterpriseChannelNav",
+    "demo_container": "AhiDemoWorkspace",
+    "tab_system": "WorkflowTabs",
+    "simulator": "AgentTaskSimulator"
+  },
+  "grids": {
+    "marketing": "grid-cols-1 md:grid-cols-12 gap-8",
+    "dashboard": "grid-cols-1 md:grid-cols-12 gap-1. Used for the app interface (e.g., col-span-3 for sidebar, col-span-9 for main demo area)."
+  },
+  "layouts": {
+    "page_structure": "Left sidebar for Enterprise Channels (Finance, Legal, etc.), Main wide area for the Ahi Demo Workspace.",
+    "workspace_structure": "Top bar inside workspace for the 9 existing product tabs. Content area below displays the active tab's scenario-specific mocked UI.",
+    "mobile_behavior": "Stack the channel selector on top as a horizontal scrollable row or a dropdown on mobile, keeping the demo workspace below it."
   },
   "motion": {
-    "philosophy": "Cinematic and Intentional, but highly accessible.",
-    "types": "Sharp reveals, simple opacity fades, discrete line-drawing animations.",
-    "motion_intensity_control": "MANDATORY (P2 item). A visible toggle in the header/nav to switch between 'Cinematic (High Motion)' and 'Reduced Motion'.",
-    "accessibility": "Must heavily utilize `prefers-reduced-motion` media queries and the custom motion-intensity state. When reduced, replace parallax and heavy transitions with instantaneous or simple opacity changes."
+    "channel_switch": "framer-motion AnimatePresence mode='wait' with subtle fade and y-axis slide (10px) to indicate context shift.",
+    "task_simulation": "Staggered fade-ins for log items. Progress bars that animate width from 0% to 100% over 2-3 seconds using linear easing to simulate processing.",
+    "active_tab": "framer-motion layoutId='activeTabIndicator' for the underline on the selected tab."
   },
   "accessibility": {
-    "contrast": "Exceeds APCA and WCAG AAA (pure black and white).",
-    "focus_states": "High contrast 2px solid outlines (ring-2 ring-offset-2 ring-black dark:ring-white).",
-    "motion": "Respect prefers-reduced-motion via CSS and JS."
+    "contrast": "Ensure all text against #0A0A0A meets APCA standards. Use #A1A1AA for secondary text.",
+    "reduced_motion": "Wrap animations with prefers-reduced-motion checks.",
+    "testing": "All interactive elements MUST have data-testid attributes (e.g., data-testid='channel-selector-finance')."
   },
   "media": {
-    "handling": "Images should be strictly monochromatic (grayscale) or heavily desaturated to fit the pure black/white theme. Max overlay opacity: bg-black/50."
+    "icons": "lucide-react (stroke-width 1.5 for a crisp, technical feel)"
   },
-  "3d_libraries": {
-    "usage": "Use raw Canvas/WebGL for a subtle ascii or noise generation. Avoid heavy 3D models to keep the strict minimalist 2D typography vibe."
+  "3d libraries": {
+    "usage": "Not recommended for this specific data-dense dashboard simulation to maintain extreme performance and focus on the UI workflow."
   },
-  "image_urls": [
+  "image urls": [
     {
-      "category": "Hero / Abstract Tech Background",
-      "url": "https://images.unsplash.com/photo-1540409262741-0e479fa446c9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Nzh8MHwxfHNlYXJjaHwzfHxtaW5pbWFsaXN0JTIwYWJzdHJhY3QlMjBhcmNoaXRlY3R1cmV8ZW58MHx8fGJsYWNrX2FuZF93aGl0ZXwxNzg1NjcyNTAyfDA&ixlib=rb-4.1.0&q=85",
-      "description": "Shaded lines illustration, perfect for architectural precision backdrop"
+      "url": "https://images.unsplash.com/photo-1693648793394-0b76b7eb042e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxkYXJrJTIwYWJzdHJhY3QlMjBtb25vY2hyb21lJTIwdGV4dHVyZXxlbnwwfHx8fDE3ODU2NzM0MDB8MA&ixlib=rb-4.1.0&q=85",
+      "category": "background",
+      "description": "Abstract black background with wavy lines for the hero section or main wrapper."
     },
     {
-      "category": "Trust / Security Architecture",
-      "url": "https://images.unsplash.com/photo-1526289034009-0240ddb68ce3?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzB8MHwxfHNlYXJjaHwxfHxkYXJrJTIwdGVjaG5vbG9neSUyMGFic3RyYWN0fGVufDB8fHxibGFja19hbmRfd2hpdGV8MTc4NTY3MjUwMnww&ixlib=rb-4.1.0&q=85",
-      "description": "Dark technology building abstract, use for server/architecture sections"
-    },
-    {
-      "category": "Industry / ICP Stories",
-      "url": "https://images.unsplash.com/photo-1628070395216-d70b35a95774?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzB8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwY2luZW1hdGljJTIwcG9ydHJhaXR8ZW58MHx8fGJsYWNrX2FuZF93aGl0ZXwxNzg1NjcyNTAyfDA&ixlib=rb-4.1.0&q=85",
-      "description": "Minimalist cinematic portrait for customer testimonials"
+      "url": "https://images.unsplash.com/photo-1655841439659-0afc60676b70?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzN8MHwxfHNlYXJjaHw0fHxtaW5pbWFsaXN0JTIwYWJzdHJhY3QlMjB0ZWNobm9sb2d5JTIwZGFya3xlbnwwfHx8fDE3ODU2NzM0MDF8MA&ixlib=rb-4.1.0&q=85",
+      "category": "accent",
+      "description": "Dark teal wavy shapes on black for secondary sections or feature highlights."
     }
   ],
-  "component_path": [
-    "/app/frontend/src/components/ui/button.js",
-    "/app/frontend/src/components/ui/input.js",
-    "/app/frontend/src/components/ui/form.js",
-    "/app/frontend/src/components/SiteChrome.jsx",
-    "/app/frontend/src/pages/HomePage.jsx",
-    "/app/frontend/src/components/DemoWorkspace.jsx"
-  ],
+  "mock_data_strategy": {
+    "channels": [
+      "Finance",
+      "Legal",
+      "Manufacturing",
+      "Customer Support",
+      "Logistics",
+      "E-commerce",
+      "SaaS",
+      "Fashion"
+    ],
+    "behavior": "When a channel is clicked, update the `activeChannel` state. The 9 existing tabs render content derived from a dictionary mapped to `activeChannel`. Include an elegant 'SIMULATED WORKFLOW' badge (e.g., a pulsing green or white dot).",
+    "simulation": "Each tab shows a 'processing' state before revealing the final mocked data. Use Framer Motion to animate progress bars and skeleton loaders to simulate agentic work. Example: 'Agent navigating... extracting... done.' followed by the data display."
+  },
   "instructions_to_main_agent": [
-    "Strictly adhere to the Monochrome Minimalist design: ONLY use black (#000) and white (#FFF).",
-    "Replace generic fonts. Use Cormorant Garamond (or similar display serif) for headings, JetBrains Mono (or similar mono) for body and labels.",
-    "Implement sharp corners (`rounded-none`) everywhere. Do not use border radius.",
-    "Structure the layout using heavy lines (`border-t-2`, `border-b-4`, `border-black/white`).",
-    "Create a 'Motion Intensity' toggle (Low/High) in the SiteChrome header to satisfy the P2 requirement, and tie it into Framer Motion/CSS classes.",
-    "Embed the existing exported HTML demo (from `frontend/demo`) securely into an iframe inside the 'Watch Demo' section.",
-    "Ensure 'Book a Call', 'Join Waitlist', and 'Watch Demo' are distinctly separated CTA sections.",
-    "Build the 'Newsletter Capture' component inside the footer or a dedicated section using sharp, brutalist form inputs.",
-    "Tell the 'Agentic OS' story using alternating inverted sections (black bg with white text vs white bg with black text).",
-    "Use data-testid on all interactive elements."
+    "Create the data structures for the Enterprise Channels in a separate file (e.g., src/data/enterpriseChannels.js). Provide distinct mocked data for each of the 9 tabs for every channel.",
+    "Implement the layout with pure HTML/Tailwind for the marketing wrapper, but use heavily customized Shadcn components for the dashboard internals (Tabs, Cards, ScrollArea, Progress).",
+    "Ensure all files created are .js, NOT .tsx.",
+    "Use framer-motion for the simulated AI processing states.",
+    "Do not rename the existing 9 Ahi tabs. Use the exact ones currently implemented.",
+    "Inject the background texture image heavily darkened (e.g., via a pseudo-element with bg-black/80 overlay) to add subtle depth to the marketing sections.",
+    "Ensure no completely transparent backgrounds behind text. Use solid #0A0A0A or #141414.",
+    "The Channel selector must be distinct from the 9 product tabs to avoid hierarchy confusion."
   ],
   "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "Do not converge toward generic 'SaaS' aesthetics. Avoid rounded corners, soft drop shadows, and gradients.",
-    "Create depth through strict typography sizing and extreme contrast.",
-    "Implement the 'Tetris' grid strictly using CSS grid with pure HTML/Tailwind.",
-    "Do not center-align everything. Use optical alignment, often left-aligning large blocks for readability and architectural rigidity.",
-    "Use generous padding (2x-3x normal) inside bordered containers to avoid cramped text.",
-    "Do not use AI assistant emojis 🤖🧠. Use sharp, technical SVG icons (Lucide/Phosphor) if required.",
-    "All interactive elements MUST have hover states (e.g. inverted colors on hover) and focus rings."
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Create depth through layered design elements with z-index hierarchy and 1px borders.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur) only where appropriate (e.g., sticky headers).",
+    "You MUST NOT apply universal transition (e.g., transition: all). Add transitions for specific interactive elements.",
+    "You MUST NOT center align the app container. Do not add .App { text-align: center; }.",
+    "Always use modern button styles.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡.",
+    "Every interaction needs micro-animations - hover states, transitions.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "All interactive elements MUST include a data-testid attribute."
   ]
 }
