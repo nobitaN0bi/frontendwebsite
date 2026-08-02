@@ -15,7 +15,29 @@ const ASCII_ART = {
 };
 
 const artCache = new Map();
+const requestCache = new Map();
 const FALLBACK_ART = `░░░▒▒▓▓████▓▓▒▒░░░\n░▒▓█  COORDINATE  █▓▒░\n░░░▒▒▓▓████▓▓▒▒░░░`;
+
+const loadAsciiArt = (art) => {
+  if (artCache.has(art)) return Promise.resolve(artCache.get(art));
+  if (requestCache.has(art)) return requestCache.get(art);
+  const request = fetch(ASCII_ART[art] || ASCII_ART.space, { cache: 'force-cache' })
+    .then((response) => {
+      if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
+      return response.text();
+    })
+    .then((text) => {
+      artCache.set(art, text);
+      return text;
+    })
+    .catch((error) => {
+      requestCache.delete(art);
+      if (error.name !== 'AbortError') console.warn(`[Acoord ASCII] ${art} could not load`, error);
+      return FALLBACK_ART;
+    });
+  requestCache.set(art, request);
+  return request;
+};
 
 export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
   const [content, setContent] = useState(artCache.get(art) || FALLBACK_ART);
@@ -26,13 +48,7 @@ export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
       setContent(artCache.get(art));
       return undefined;
     }
-    fetch(ASCII_ART[art] || ASCII_ART.space)
-      .then((response) => response.ok ? response.text() : Promise.reject(new Error('ASCII fetch failed')))
-      .then((text) => {
-        artCache.set(art, text);
-        if (active) setContent(text);
-      })
-      .catch(() => active && setContent(FALLBACK_ART));
+    loadAsciiArt(art).then((text) => active && setContent(text));
     return () => { active = false; };
   }, [art]);
 

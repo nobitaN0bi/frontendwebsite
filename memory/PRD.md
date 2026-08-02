@@ -26,6 +26,9 @@ Build the acoord.co landing experience for “solving artificial coordination”
 - Added a modular legal and trust center covering privacy, terms, acceptable use, security, browser storage, enterprise DPA, service providers, and role-based contact aliases.
 - Added consent-version persistence to request-access submissions.
 - Added an SEO/GEO-ready technical publishing system with six field notes, search, topic filters, dynamic metadata, structured data, sitemap, robots.txt, and llms.txt.
+- Added a cinematic ASCII motion language using all five supplied text artworks: exact compositions in hero/legal/resources/article/story surfaces and adaptive procedural fragments in dense sections.
+- Added feature-specific visual explanations for intent classification, AST compilation, CRDT collaboration, guardrails, audit proof, ICP outcomes, and hybrid retrieval.
+- Added shared-request caching for ASCII assets, intersection-driven activation, fine-pointer-only hover choreography, and full reduced-motion fallbacks.
 
 ## Prioritized Backlog
 
@@ -44,6 +47,7 @@ Build the acoord.co landing experience for “solving artificial coordination”
 - Add CMS-managed ICP stories and editorial case-study publishing.
 - Add product analytics for CTA conversion, story engagement, and demo scenario completion.
 - Add shareable demo runs and generated coordination maps for organic distribution.
+- Add an optional visitor motion-intensity control if audience research shows demand beyond the current system reduced-motion preference.
 
 ## Next Tasks
 
