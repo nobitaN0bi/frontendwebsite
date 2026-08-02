@@ -122,6 +122,14 @@ def response_paths(map_id: str) -> dict[str, str]:
     }
 
 
+def public_request_origin(request: Request) -> str:
+    forwarded_proto = request.headers.get("x-forwarded-proto", "").split(",")[0].strip()
+    forwarded_host = request.headers.get("x-forwarded-host", "").split(",")[0].strip()
+    scheme = forwarded_proto if forwarded_proto in {"http", "https"} else request.url.scheme
+    host = forwarded_host or request.headers.get("host", request.url.netloc)
+    return f"{scheme}://{host}".rstrip("/")
+
+
 def poster_font(size: int) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
     candidates = (
         "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
@@ -141,8 +149,8 @@ def build_poster(industry: str, map_id: str) -> bytes:
     points: list[tuple[int, int]] = []
 
     for index in range(12):
-        x = rng.randint(620, 1150)
-        y = rng.randint(70, 560)
+        x = rng.randint(710, 1080)
+        y = rng.randint(125, 495)
         size = rng.randint(7, 19)
         draw.rectangle((x - size, y - size, x + size, y + size), outline="#ffffff", width=2)
         if index:
@@ -150,14 +158,16 @@ def build_poster(industry: str, map_id: str) -> bytes:
             draw.line((px, py, x, y), fill="#5f5f5f", width=2)
         points.append((x, y))
 
-    draw.line((70, 74, 1130, 74), fill="#ffffff", width=2)
-    draw.line((70, 556, 1130, 556), fill="#ffffff", width=2)
-    draw.text((70, 30), "a:  ACOORD / DECISION MAP", fill="#ffffff", font=poster_font(22))
-    draw.text((70, 108), label, fill="#a8a8a8", font=poster_font(24))
-    draw.text((70, 176), "ONE DECISION.", fill="#ffffff", font=poster_font(67))
-    draw.text((70, 252), "NINE CHAPTERS.", fill="#ffffff", font=poster_font(67))
-    draw.multiline_text((73, 360), statement, fill="#c8c8c8", font=poster_font(28), spacing=8)
-    draw.text((70, 579), f"REEL {map_id[:8].upper()}  /  MODELED RUN  /  4 MIN READ", fill="#ffffff", font=poster_font(18))
+    draw.rectangle((70, 26, 118, 74), fill="#ffffff")
+    draw.text((82, 32), "a:", fill="#000000", font=poster_font(25))
+    draw.text((136, 32), "ACOORD / DECISION MAP", fill="#ffffff", font=poster_font(25))
+    draw.line((70, 94, 1130, 94), fill="#ffffff", width=2)
+    draw.text((70, 124), label, fill="#ffffff", font=poster_font(31))
+    draw.text((70, 190), "ONE DECISION.", fill="#ffffff", font=poster_font(67))
+    draw.text((70, 266), "NINE CHAPTERS.", fill="#ffffff", font=poster_font(67))
+    draw.multiline_text((73, 377), statement, fill="#ffffff", font=poster_font(34), spacing=8)
+    draw.rectangle((0, 510, 1200, 630), fill="#ffffff")
+    draw.text((70, 535), f"REEL {map_id[:8].upper()}  /  MODELED RUN  /  4 MIN READ", fill="#000000", font=poster_font(24))
 
     output = io.BytesIO()
     image.save(output, format="PNG", optimize=True)
@@ -340,9 +350,10 @@ async def share_decision_map(map_id: str, request: Request) -> HTMLResponse:
         raise HTTPException(status_code=404, detail="Decision map not found")
 
     label, statement = INDUSTRY_POSTERS[document["industry"]]
-    origin = str(request.base_url).rstrip("/")
+    origin = public_request_origin(request)
     map_url = f"{origin}/map/{document['id']}"
     poster_url = f"{origin}/api/decision-maps/{document['id']}/poster.png"
+    share_url = f"{origin}/api/decision-maps/{document['id']}/share"
     title = f"{label.title()} decision map | Acoord"
     description = f"One decision, nine chapters. {statement}"
     page = f"""<!doctype html>
@@ -352,7 +363,7 @@ async def share_decision_map(map_id: str, request: Request) -> HTMLResponse:
 <meta property="og:title" content="{html.escape(title)}">
 <meta property="og:description" content="{html.escape(description)}">
 <meta property="og:type" content="article">
-<meta property="og:url" content="{html.escape(str(request.url))}">
+<meta property="og:url" content="{html.escape(share_url)}">
 <meta property="og:image" content="{html.escape(poster_url)}">
 <meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
