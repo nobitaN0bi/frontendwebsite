@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHI Desktop — Chat, Email & Meetings</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <script src="js/shared.js"></script>
+  <style>
+    .chat-layout {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    .channels-panel {
+      width: 240px;
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
+      overflow-y: auto;
+    }
+    .channel-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: var(--radius-md);
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      margin-bottom: 2px;
+    }
+    .channel-item:hover, .channel-item.active {
+      background: var(--bg-active);
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    .chat-feed-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      background: var(--bg-surface);
+    }
+    .msg-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .msg-card {
+      display: flex;
+      gap: 12px;
+    }
+    .avatar-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent-gradient);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .thread-drawer {
+      width: 260px;
+      border-left: 1px solid var(--border-subtle);
+      background: var(--bg-sidebar);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div id="sidebar-mount"></div>
+
+    <div class="main-wrapper">
+      <!-- Minimal Header -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);" id="active-channel-name"># general</span>
+        </div>
+        <div class="top-bar-actions">
+          <button class="btn btn-secondary" onclick="toggleVoiceMode()">
+            🎙️ Voice Mode
+          </button>
+          <span class="badge badge-success">Real-Time CRDT Sync</span>
+        </div>
+      </header>
+
+      <div class="chat-layout">
+        <!-- Sidebar Navigation Panel with CHANNELS, EMAIL, and MEETINGS -->
+        <div class="channels-panel">
+          <!-- Section 1: CHANNELS -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 6px; padding: 0 4px;">CHANNELS</div>
+            <div class="channel-item active" onclick="switchChannel('general', this)">
+              <span># general</span>
+              <span class="badge badge-primary">2</span>
+            </div>
+            <div class="channel-item" onclick="switchChannel('engineering', this)">
+              <span># engineering</span>
+              <span class="badge badge-success">4</span>
+            </div>
+            <div class="channel-item" onclick="switchChannel('product-sync', this)">
+              <span># product-sync</span>
+            </div>
+            <div class="channel-item" onclick="switchChannel('security-audit', this)">
+              <span># security-audit</span>
+            </div>
+          </div>
+
+          <!-- Section 2: EMAIL -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 6px; padding: 0 4px;">EMAIL</div>
+            <div class="channel-item" onclick="openEmailView('Inbox')">
+              <span>📥 Inbox</span>
+              <span class="badge badge-primary">4</span>
+            </div>
+            <div class="channel-item" onclick="openEmailView('Starred')">
+              <span>⭐ Starred</span>
+            </div>
+            <div class="channel-item" onclick="openEmailView('Sent')">
+              <span>📤 Sent</span>
+            </div>
+          </div>
+
+          <!-- Section 3: MEETINGS -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size: 0.68rem; font-weight: 800; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 6px; padding: 0 4px;">MEETINGS</div>
+            <div class="channel-item" onclick="openMeetingView('1:1 Sprint Sync')">
+              <span>🎙️ 1:1 Sprint Sync</span>
+              <span class="badge badge-warning">11:30 AM</span>
+            </div>
+            <div class="channel-item" onclick="openMeetingView('Architecture Review')">
+              <span>📊 Architecture Review</span>
+            </div>
+            <div class="channel-item" onclick="openMeetingView('AI Transcribed Notes')">
+              <span>📝 AI Transcribed Notes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat / Email / Meeting Feed Area -->
+        <div class="chat-feed-area">
+          <div class="msg-list" id="msg-container">
+            <!-- Message 1 -->
+            <div class="msg-card">
+              <div class="avatar-circle">JD</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span style="font-weight: 700; font-size: 0.85rem;">Jane Doe</span>
+                  <span style="font-size: 0.72rem; color: var(--text-tertiary);">9:15 AM</span>
+                </div>
+                <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                  Good morning team! Q3 planning session is at 10am. @ahi can you synthesize recent customer feedback tickets?
+                </div>
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+                  <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.75rem;">👋 3</button>
+                  <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.75rem;" onclick="openThread('Jane Doe: Q3 Planning')">💬 2 replies</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message 2 (AI Agent Response) -->
+            <div class="msg-card" style="background: var(--bg-active); padding: 12px; border-radius: var(--radius-lg); border: 1px solid rgba(99,102,241,0.3);">
+              <div class="avatar-circle" style="background: linear-gradient(135deg, #10b981, #3b82f6);">🤖</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span style="font-weight: 700; font-size: 0.85rem; color: var(--accent-primary);">Orchestrator Agent</span>
+                  <span class="badge badge-primary">AI Participant</span>
+                  <span style="font-size: 0.72rem; color: var(--text-tertiary);">9:16 AM</span>
+                </div>
+                <div style="font-size: 0.88rem; color: var(--text-primary); line-height: 1.5;">
+                  <strong>Customer Feedback Synthesis (Enterprise RAG):</strong><br/>
+                  1. 🚀 <strong>API Latency:</strong> 64% request faster response times for search.<br/>
+                  2. 🔒 <strong>Security:</strong> SOC2 compliance requested by Enterprise accounts.<br/>
+                  3. ⚡ <strong>Visual Agent Builder:</strong> Top praised feature in v1 beta.
+                </div>
+                <div style="display: flex; gap: 6px; margin-top: 8px;">
+                  <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.75rem;">✅ Verified</button>
+                  <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.75rem;" onclick="location.href='doc-workspace.html'">📄 View Doc & Thread</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Message 3 -->
+            <div class="msg-card">
+              <div class="avatar-circle" style="background: linear-gradient(135deg, #f59e0b, #ec4899);">AK</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                  <span style="font-weight: 700; font-size: 0.85rem;">Alex Kim</span>
+                  <span style="font-size: 0.72rem; color: var(--text-tertiary);">9:22 AM</span>
+                </div>
+                <div style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;">
+                  The new deployment pipeline is ready for review. PR #452 is up on GitHub!
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Send Input Box -->
+          <div style="padding: 16px; border-top: 1px solid var(--border-subtle);">
+            <div class="card glass-card" style="padding: 8px 14px; display: flex; align-items: center; gap: 10px;">
+              <input type="text" id="chat-input" placeholder="Message #general or type @ahi to invoke an agent..." style="flex:1; background:transparent; border:none; outline:none; font-size:0.9rem; color:var(--text-primary);" onkeydown="if(event.key==='Enter') sendChatMessage()"/>
+              <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thread Panel -->
+        <div class="thread-drawer" id="thread-panel">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <span style="font-weight:700; font-size:0.85rem;">Thread Replies</span>
+            <button class="btn btn-icon" style="width:24px; height:24px;" onclick="closeThread()">✕</button>
+          </div>
+          <div id="thread-content" style="font-size:0.8rem; color:var(--text-secondary); flex:1; overflow-y:auto;">
+            Select a message thread to view replies.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmd-mount"></div>
+
+  <script>
+    document.getElementById('sidebar-mount').innerHTML = window.renderAHISidebar('chat');
+    document.getElementById('cmd-mount').innerHTML = window.renderCommandPaletteModal();
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const container = document.getElementById('msg-container');
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg-card fade-in';
+      msgDiv.innerHTML = `
+        <div class="avatar-circle" style="background:var(--accent-gradient);">YO</div>
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+            <span style="font-weight: 700; font-size: 0.85rem;">You</span>
+            <span style="font-size: 0.72rem; color: var(--text-tertiary);">Just now</span>
+          </div>
+          <div style="font-size: 0.88rem; color: var(--text-primary); line-height: 1.5;">
+            ${text}
+          </div>
+        </div>
+      `;
+      container.appendChild(msgDiv);
+      input.value = '';
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function switchChannel(name, el) {
+      document.querySelectorAll('.channel-item').forEach(c => c.classList.remove('active'));
+      el.classList.add('active');
+      document.getElementById('active-channel-name').textContent = '#' + name;
+    }
+
+    function openEmailView(folder) {
+      alert(`📥 Opening Email Section: ${folder}`);
+    }
+
+    function openMeetingView(title) {
+      alert(`🎙️ Opening Meeting Intelligence: ${title}`);
+    }
+
+    function openThread(title) {
+      document.getElementById('thread-content').innerHTML = `
+        <div style="font-weight:700; margin-bottom:8px;">${title}</div>
+        <div style="padding:6px; background:var(--bg-surface); border-radius:6px; margin-bottom:6px;">
+          <strong>Alex:</strong> I'll prepare the engineering metrics deck.
+        </div>
+      `;
+    }
+
+    function closeThread() {
+      document.getElementById('thread-content').textContent = 'Select a message thread to view replies.';
+    }
+
+    function toggleVoiceMode() {
+      alert('🎙️ ElevenLabs + Whisper Voice Mode active! Speak naturally to talk with AHI agents.');
+    }
+  </script>
+</body>
+</html>

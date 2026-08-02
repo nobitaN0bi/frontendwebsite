@@ -1,0 +1,32 @@
+{
+  "summary": "Frontend-only validation of the cinematic Ahi homepage rebuild (HandsScene, InfiniteScene, EyeScene, IndustryScene, 9 chapters, FilmHud, PortraitScene) plus retained editorial sections and demo workspace sync. All 12 requested feature areas verified on public preview URL at 1920x800 and 390x844. No blocking issues found; no console errors during a full top-to-bottom scroll.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Demo iframe theme introspection",
+        "issue": "The exported demo HTML files hard-code data-theme=\"light\" (verified via direct HTTP fetch of /demo/demopages/home.html and shared.js default). Programmatic verification via iframe.contentDocument is blocked by the sandbox=\"allow-scripts allow-same-origin\" cross-origin isolation, so runtime assertion of data-theme returns null; this is expected sandbox behavior, not a functional bug.",
+        "affected_selectors": ["[data-testid=\"demo-export-iframe\"]"]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/root/.emergent/automation_output/20260802_135118/console_20260802_135118.log", "/root/.emergent/automation_output/20260802_135321/console_20260802_135321.log", "/root/.emergent/automation_output/20260802_135416/console_20260802_135416.log"],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "AsciiArt.jsx renders <pre class=\"ascii-plate hands-art\"> — no nested <pre>. Any downstream tests should assert textContent on .hands-art directly (not .hands-art pre). Consider adding data-testid=\"hands-ascii\" / \"portrait-ascii\" / \"eye-ascii\" to remove ambiguity for future testing.",
+    "InfiniteScene font-size growth is applied to .infinite-line h2 (96 → 118 → 140 → 164px) not the wrapper. The wrapper data-testid works for is-active tracking, but for future tests document that font-size progression must be measured on the child h2.",
+    "IndustryScene: click on a row correctly updates industryId, rebuilds all 9 chapters (chapter-story/state text changes) and updates film-hud-industry. Verified switching finance→legal→(via demo tab)→manufacturing.",
+    "FilmHud play toggle uses a 7000ms interval — within the ~8s spec. Test observed HUD advance from CHAPTER 01/09 to 02/09 within 8.5s and pause works (button label reverts to 'Play the film').",
+    "Waitlist form has a required consent checkbox — automated submit without ticking waitlist-consent-checkbox silently fails with no visible error to the user. Consider surfacing an inline validation message when consent is unchecked."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "100%"},
+  "test_credentials": "N/A (no auth)",
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Verified: (1) HandsScene renders 8398 chars of ASCII, hero-title correct, all 3 hero CTAs working (watch-demo, calendly, waitlist modal). (2) InfiniteScene 4 lines transition is-active on scroll and h2 font-sizes progress 96/118/140/164px. (3) EyeScene reveals title 'Ahi' and expansion Agent/Human/Interface at 75% scroll (opacity 1). (4) IndustryScene: all 8 rows exist; clicking film-industry-legal updates HUD → 'Legal', chapter-story-dispatch and chapter-state-teamspaces text both change; is-active moves to the clicked row. (5) All 9 chapter scenes render with title/story/state/visual — chapter-visual-decision correctly used for teamspaces. Opacity is 1 for every chapter after scrollIntoView + 2.6s wait. (6) FilmHud shows CHAPTER 0X/09, advances on play (verified 01→02 within 8.5s), pause reverts label. film-skip-demo brings watch-demo-section into view. (7) Demo workspace: exported-html-demo has class 'exported-demo exported-demo-light exported-demo-compact', active channel tab syncs to selected industry (finance initially, updates to legal after film click, updates HUD to 'Manufacturing' after clicking demo-channel-manufacturing-tab). demo-scene-code-tab labelled 'Code'. Exported HTML files hard-code data-theme=\"light\" (curl verified). (8) PortraitScene renders 5203 ASCII chars, book-call/email/waitlist links correct. (9) All 10 editorial sections present + 7 capability cards + FAQ #1 opens on summary click. (10) Waitlist modal opens from both hero and portrait; automated submission requires ticking waitlist-consent-checkbox. (11) No console errors during full scroll. (12) Mobile 390x844 has no horizontal overflow. /demo route still renders exported-demo-light. Prior iteration_5 note about iframe sandbox allow-scripts+allow-same-origin warning still applies but is non-blocking.",
+  "rca of the issue": "N/A — no bugs found. Only nuance: iframe cross-origin sandbox prevents reading data-theme from iframe.contentDocument at runtime; theme correctness confirmed by direct HTTP fetch of the exported HTML instead."
+}

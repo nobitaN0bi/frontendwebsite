@@ -16,23 +16,36 @@ const ASCII_ART = {
 
 const artCache = new Map();
 const requestCache = new Map();
+const abortControllers = new Map();
 const FALLBACK_ART = `░░░▒▒▓▓████▓▓▒▒░░░\n░▒▓█  COORDINATE  █▓▒░\n░░░▒▒▓▓████▓▓▒▒░░░`;
 
 const loadAsciiArt = (art) => {
   if (artCache.has(art)) return Promise.resolve(artCache.get(art));
   if (requestCache.has(art)) return requestCache.get(art);
-  const request = fetch(ASCII_ART[art] || ASCII_ART.space, { cache: 'force-cache' })
+  
+  const controller = new AbortController();
+  abortControllers.set(art, controller);
+  
+  const request = fetch(ASCII_ART[art] || ASCII_ART.space, { 
+    cache: 'force-cache',
+    signal: controller.signal
+  })
     .then((response) => {
       if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
       return response.text();
     })
     .then((text) => {
       artCache.set(art, text);
+      abortControllers.delete(art);
       return text;
     })
     .catch((error) => {
       requestCache.delete(art);
-      if (error.name !== 'AbortError') console.warn(`[Acoord ASCII] ${art} could not load`, error);
+      abortControllers.delete(art);
+      if (error.name === 'AbortError') {
+        return FALLBACK_ART;
+      }
+      console.warn(`[Acoord ASCII] ${art} could not load`, error);
       return FALLBACK_ART;
     });
   requestCache.set(art, request);
@@ -49,7 +62,13 @@ export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
       return undefined;
     }
     loadAsciiArt(art).then((text) => active && setContent(text));
-    return () => { active = false; };
+    return () => { 
+      active = false;
+      if (abortControllers.has(art)) {
+        abortControllers.get(art).abort();
+        abortControllers.delete(art);
+      }
+    };
   }, [art]);
 
   return (
