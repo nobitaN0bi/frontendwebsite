@@ -24,7 +24,7 @@
   });
 
   // Theme Management
-  const currentTheme = safeStorage.get('ahi-theme') || 'dark';
+  const currentTheme = safeStorage.get('ahi-theme') || 'light';
   document.documentElement.setAttribute('data-theme', currentTheme);
 
   window.toggleTheme = function () {

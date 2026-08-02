@@ -8,7 +8,7 @@ const scenes = [
   { id: 'doc-workspace', label: 'Docs + thread', caption: 'Co-author the decision rationale with cited evidence.' },
   { id: 'library', label: 'Knowledge', caption: 'Retrieve private context through hybrid enterprise search.' },
   { id: 'chat', label: 'Collaboration', caption: 'Coordinate people and specialist agents in the flow of work.' },
-  { id: 'code', label: 'Sandbox', caption: 'Execute bounded analysis away from the application host.' },
+  { id: 'code', label: 'Code', caption: 'Run the full coding agent panel inside an isolated sandbox.' },
   { id: 'browser', label: 'Browser', caption: 'Collect current external evidence from approved sources.' },
   { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist owners, work state, approvals, and the final decision.' }
 ];
@@ -18,12 +18,13 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false }) => {
+export const DemoWorkspace = ({ compact = false, scenarioId: controlledId, onScenarioChange }) => {
   const [active, setActive] = useState(0);
   const [touring, setTouring] = useState(false);
-  const [scenarioId, setScenarioId] = useState('finance');
+  const [localId, setLocalId] = useState('finance');
   const [channels, setChannels] = useState(fallbackChannels);
   const iframeRef = useRef(null);
+  const scenarioId = controlledId || localId;
   const scene = scenes[active];
   const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
 
@@ -62,7 +63,8 @@ export const DemoWorkspace = ({ compact = false }) => {
   };
 
   const selectScenario = (id) => {
-    setScenarioId(id);
+    setLocalId(id);
+    if (onScenarioChange) onScenarioChange(id);
     setActive(0);
     setTouring(false);
   };
@@ -70,7 +72,7 @@ export const DemoWorkspace = ({ compact = false }) => {
   const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
 
   return (
-    <div className={`exported-demo ${compact ? 'exported-demo-compact' : ''}`} data-testid="exported-html-demo">
+    <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''}`} data-testid="exported-html-demo">
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
           <span data-testid="demo-channel-label">Choose the enterprise channel</span>
