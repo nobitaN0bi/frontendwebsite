@@ -14,6 +14,7 @@ import { HandsScene } from '../cinematic/HandsScene';
 import { IndustryScene } from '../cinematic/IndustryScene';
 import { InfiniteScene } from '../cinematic/InfiniteScene';
 import { PortraitScene } from '../cinematic/PortraitScene';
+import { ShareScene } from '../cinematic/ShareScene';
 import { buildFilm } from '../cinematic/filmScript';
 import { useScenarios } from '../cinematic/useScenarios';
 import { capabilities, faqs, operatingSteps } from '../data/marketingContent';
@@ -36,6 +37,7 @@ export default function HomePage({ onJoin }) {
   const [chapter, setChapter] = useState(0);
   const [playing, setPlaying] = useState(false);
   const chapterRefs = useRef([]);
+  const shareRef = useRef(null);
 
   const scenario = useMemo(() => scenarios.find((item) => item.id === industryId) || scenarios[0], [scenarios, industryId]);
   const film = useMemo(() => buildFilm(scenario), [scenario]);
@@ -47,6 +49,7 @@ export default function HomePage({ onJoin }) {
         const next = current + 1;
         if (next >= film.length) {
           setPlaying(false);
+          shareRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return current;
         }
         chapterRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -89,6 +92,7 @@ export default function HomePage({ onJoin }) {
             onEnter={() => setChapter(index)}
           />
         ))}
+        <ShareScene scenario={scenario} innerRef={shareRef} />
         <FilmHud industry={scenario.label} chapter={chapter + 1} total={film.length} playing={playing} onToggle={toggleFilm} />
       </div>
 

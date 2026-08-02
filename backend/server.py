@@ -1,4 +1,5 @@
 import os
+import secrets
 from datetime import datetime, timezone
 from typing import Literal
 from uuid import uuid4
@@ -8,6 +9,7 @@ from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, EmailStr, Field
+from pymongo import ReturnDocument
 from pymongo.errors import DuplicateKeyError
 
 load_dotenv()
@@ -69,10 +71,35 @@ class NewsletterResponse(BaseModel):
     status: str
 
 
+DecisionMapIndustry = Literal[
+    "finance",
+    "legal",
+    "manufacturing",
+    "customer-support",
+    "logistics",
+    "ecommerce",
+    "saas",
+    "fashion",
+]
+
+
+class DecisionMapRequest(BaseModel):
+    industry: DecisionMapIndustry
+
+
+class DecisionMapResponse(BaseModel):
+    id: str
+    industry: str
+    path: str
+    created_at: str
+    views: int
+
+
 @app.on_event("startup")
 async def prepare_database() -> None:
     await db.waitlist.create_index("email", unique=True)
     await db.newsletter.create_index("email", unique=True)
+    await db.decision_maps.create_index("id", unique=True)
 
 
 @app.get("/api/health")
@@ -168,6 +195,54 @@ async def subscribe_newsletter(payload: NewsletterRequest) -> NewsletterResponse
         raise HTTPException(status_code=500, detail="Unable to save subscription") from exc
     return NewsletterResponse(
         id=document["id"], email=document["email"], status="subscribed"
+    )
+
+
+@app.post(
+    "/api/decision-maps",
+    response_model=DecisionMapResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def create_decision_map(payload: DecisionMapRequest) -> DecisionMapResponse:
+    document = {
+        "id": secrets.token_urlsafe(6),
+        "industry": payload.industry,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "views": 0,
+        "source": "acoord.co/film",
+    }
+    try:
+        await db.decision_maps.insert_one(document)
+    except DuplicateKeyError:
+        document["id"] = secrets.token_urlsafe(8)
+        await db.decision_maps.insert_one(document)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Unable to create the decision map") from exc
+    return DecisionMapResponse(
+        id=document["id"],
+        industry=document["industry"],
+        path=f"/map/{document['id']}",
+        created_at=document["created_at"],
+        views=document["views"],
+    )
+
+
+@app.get("/api/decision-maps/{map_id}", response_model=DecisionMapResponse)
+async def get_decision_map(map_id: str) -> DecisionMapResponse:
+    document = await db.decision_maps.find_one_and_update(
+        {"id": map_id},
+        {"$inc": {"views": 1}},
+        projection={"_id": 0},
+        return_document=ReturnDocument.AFTER,
+    )
+    if not document:
+        raise HTTPException(status_code=404, detail="Decision map not found")
+    return DecisionMapResponse(
+        id=document["id"],
+        industry=document["industry"],
+        path=f"/map/{document['id']}",
+        created_at=document["created_at"],
+        views=document["views"],
     )
 
 
