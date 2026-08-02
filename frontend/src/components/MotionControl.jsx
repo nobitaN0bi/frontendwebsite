@@ -13,6 +13,7 @@ export const MotionControl = () => {
   useEffect(() => {
     document.documentElement.dataset.motion = mode;
     window.localStorage.setItem('acoord-motion', mode);
+    window.dispatchEvent(new CustomEvent('acoord:motion', { detail: { mode } }));
   }, [mode]);
 
   const toggle = () => setMode((current) => current === 'cinematic' ? 'reduced' : 'cinematic');

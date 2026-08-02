@@ -164,13 +164,11 @@
     if (autoplay) window.setTimeout(run, 550);
   };
 
-  const initializeScenario = async () => {
-    document.documentElement.dataset.motion = localStorage.getItem('acoord-motion') || 'cinematic';
-    document.documentElement.dataset.scenario = scenarioId;
-    try {
-      const response = await fetch(new URL('../scenarios.json', window.location.href));
-      const scenarios = await response.json();
-      const scenario = scenarios.find((item) => item.id === scenarioId) || scenarios[0];
+  let scenarioApplied = false;
+
+  const applyScenario = (scenario) => {
+      if (scenarioApplied || !scenario || !scenario.agents) return;
+      scenarioApplied = true;
       populatePage(scenario);
       injectWorkbar(scenario);
       document.querySelectorAll('a[href$=".html"]').forEach((link) => {
@@ -183,6 +181,24 @@
         if (!handler || handler.includes('scenario=')) return;
         element.setAttribute('onclick', handler.replace(/(location\.href=')([^']+\.html)'/g, `$1$2?scenario=${encodeURIComponent(scenario.id)}'`));
       });
+  };
+
+  const initializeScenario = async () => {
+    let savedMotion = 'cinematic';
+    try { savedMotion = localStorage.getItem('acoord-motion') || savedMotion; } catch { /* Strict sandbox: motion arrives from parent. */ }
+    document.documentElement.dataset.motion = savedMotion;
+    document.documentElement.dataset.scenario = scenarioId;
+    window.addEventListener('message', (event) => {
+      if (event.source !== window.parent || event.data?.type !== 'ahi:scenario') return;
+      if (event.data.motion) document.documentElement.dataset.motion = event.data.motion;
+      applyScenario(event.data.scenario);
+    });
+
+    if (window.origin === 'null') return;
+    try {
+      const response = await fetch(new URL('../scenarios.json', window.location.href));
+      const scenarios = await response.json();
+      applyScenario(scenarios.find((item) => item.id === scenarioId) || scenarios[0]);
     } catch (error) {
       console.warn('Scenario data unavailable', error);
     }

@@ -5,6 +5,11 @@
    ========================================================================== */
 
 (function () {
+  const safeStorage = {
+    get(key) { try { return localStorage.getItem(key); } catch { return null; } },
+    set(key, value) { try { localStorage.setItem(key, value); } catch { /* Sandboxed embed intentionally has no storage access. */ } }
+  };
+
   const scenarioScript = document.createElement('script');
   scenarioScript.src = 'js/scenario-runtime.js';
   scenarioScript.async = false;
@@ -19,13 +24,13 @@
   });
 
   // Theme Management
-  const currentTheme = localStorage.getItem('ahi-theme') || 'dark';
+  const currentTheme = safeStorage.get('ahi-theme') || 'dark';
   document.documentElement.setAttribute('data-theme', currentTheme);
 
   window.toggleTheme = function () {
     const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', theme);
-    localStorage.setItem('ahi-theme', theme);
+    safeStorage.set('ahi-theme', theme);
   };
 
   // Global Command Palette (⌘K)

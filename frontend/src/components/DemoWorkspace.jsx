@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Maximize2, Pause, Play } from 'lucide-react';
 
 const scenes = [
@@ -23,8 +23,18 @@ export const DemoWorkspace = ({ compact = false }) => {
   const [touring, setTouring] = useState(false);
   const [scenarioId, setScenarioId] = useState('finance');
   const [channels, setChannels] = useState(fallbackChannels);
+  const iframeRef = useRef(null);
   const scene = scenes[active];
   const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
+
+  const sendScenarioToFrame = useCallback(() => {
+    if (!scenario?.agents || !iframeRef.current?.contentWindow) return;
+    iframeRef.current.contentWindow.postMessage({
+      type: 'ahi:scenario',
+      scenario,
+      motion: document.documentElement.dataset.motion || 'cinematic'
+    }, '*');
+  }, [scenario]);
 
   useEffect(() => {
     let activeRequest = true;
@@ -39,6 +49,12 @@ export const DemoWorkspace = ({ compact = false }) => {
     const interval = window.setInterval(() => setActive((current) => (current + 1) % scenes.length), 6000);
     return () => window.clearInterval(interval);
   }, [touring]);
+
+  useEffect(() => {
+    sendScenarioToFrame();
+    window.addEventListener('acoord:motion', sendScenarioToFrame);
+    return () => window.removeEventListener('acoord:motion', sendScenarioToFrame);
+  }, [active, touring, sendScenarioToFrame]);
 
   const selectScene = (index) => {
     setActive(index);
@@ -96,7 +112,7 @@ export const DemoWorkspace = ({ compact = false }) => {
       </div>
       <div className={`demo-frame-shell ${touring ? 'is-touring' : ''}`}>
         <div className="demo-window-bar" aria-hidden="true"><i /><i /><i /><span>{scenario.label.toUpperCase()} / {scene.label.toUpperCase()} / AHI DESKTOP</span><b>{scene.caption}</b></div>
-        <iframe key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-same-origin allow-forms allow-modals" data-testid="demo-export-iframe" />
+        <iframe ref={iframeRef} onLoad={sendScenarioToFrame} key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-forms allow-modals" data-testid="demo-export-iframe" />
         <span className="demo-tour-progress" aria-hidden="true" />
       </div>
       <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Map this pattern to your team</a></div>

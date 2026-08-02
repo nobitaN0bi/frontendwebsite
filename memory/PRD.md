@@ -15,6 +15,7 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - FastAPI also exposes an idempotent newsletter endpoint backed by a separately indexed MongoDB collection.
 - The browser reads the API origin from `REACT_APP_BACKEND_URL`; the backend reads Mongo settings and allowed origin from environment variables.
 - The exported desktop application remains an unchanged static product artifact under `frontend/public/demo`; React provides the accessible scene navigation, guided-tour controls, fullscreen links, and marketing context around sandboxed iframes.
+- Enterprise demo content is centralized in `frontend/public/demo/scenarios.json`; the React host sends the selected scenario and motion setting into a strict opaque-origin iframe through `postMessage`, avoiding same-origin sandbox privileges while preserving the exported app's working controls.
 
 ## Implemented
 
@@ -44,6 +45,14 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Added unique automation identifiers to primary conversion, navigation, footer, newsletter, motion, and demo controls, including generated identifiers inside exported demo pages.
 - Corrected malformed SVG path data in the exported Teamspaces icon markup and verified clean iframe console behavior.
 - Verified on 2026-08-02: JavaScript/Python lint, production frontend build, six backend API tests, full desktop/mobile product regression, and post-fix browser checks all pass.
+- Added eight enterprise demo channels—Finance, Legal, Manufacturing, Customer Support, Logistics, E-commerce, SaaS, and Fashion—without renaming the nine product tabs.
+- Populated every channel across Dispatch, Ontology, Agent Builder, Docs + Thread, Knowledge, Collaboration, Sandbox, Browser, and Teamspaces with continuous company, intent, agent, evidence, workflow, approval, and outcome context.
+- Added a working page-specific simulation action to every exported product surface: route intent, ground ontology, compile workflows, draft decisions, retrieve knowledge, coordinate teams, execute sandbox analysis, collect browser evidence, and persist the operating plan.
+- Added an enterprise-run autoplay that simulates the active step, advances through all nine surfaces, and can be paused; selected scenarios persist through React controls, fullscreen links, sidebar links, and inline exported-app navigation.
+- Applied the uploaded Content Marketer framework: precise technical language, pain-to-decision storytelling, role-specific hooks, proof boundaries, and a contextual “Map this pattern to your team” booking CTA.
+- Clearly labeled all enterprise data, companies, runs, and outcomes as **MOCKED** modeled simulations while preserving real interface navigation and interaction behavior.
+- Tightened iframe isolation by removing `allow-same-origin`; scenario data and motion settings now arrive through parent messaging, and local storage access inside the strict sandbox is safely guarded.
+- Verified on 2026-08-02: all 72 channel-by-tab combinations contain scenario-specific data, every simulation works, guided autoplay/pause works, scenario continuity persists, reduced motion works, mobile/tablet layouts do not overflow, regressions pass, and strict sandbox execution completes without the prior security warning.
 
 ## Prioritized Backlog
 
@@ -64,6 +73,7 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Add product analytics for CTA conversion, story engagement, and demo scenario completion.
 - Add shareable demo runs and generated coordination maps for organic distribution.
 - Add editorial newsletter operations such as unsubscribe handling, suppression lists, and campaign delivery before sending production email.
+- Replace the **MOCKED** enterprise scenario runtime with authenticated, tenant-scoped APIs when production Ahi workspace services are available.
 
 ## Next Tasks
 
@@ -71,3 +81,4 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
 3. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
 4. Publish verified production subprocessors and assurance reports before processing customer workspace data.
+5. Validate the eight modeled enterprise narratives with domain experts before using any outcome language in external sales material.
