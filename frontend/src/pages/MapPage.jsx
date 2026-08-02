@@ -38,6 +38,15 @@ export default function MapPage({ onJoin }) {
   );
   const film = useMemo(() => buildFilm(scenario), [scenario]);
 
+  if (state === 'loading') {
+    return (
+      <div className="map-page map-loading" data-testid="map-loading">
+        <p className="map-kicker">ACOORD / DECISION MAP</p>
+        <p className="map-loading-text"><i />THREADING THE REEL</p>
+      </div>
+    );
+  }
+
   if (state === 'missing') {
     return (
       <div className="map-page map-missing-page" data-testid="map-missing">

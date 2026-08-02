@@ -75,6 +75,12 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Fixed AsciiBackdrop: removed AbortController logic that poisoned the shared fetch cache under StrictMode (fallback "COORDINATE" art was rendering); switched ASCII assets to local /ascii/*.txt files.
 - Verified on 2026-06 (iteration_7 + follow-up self-test): backend 6/6 pass (health, waitlist create/duplicate/validation, newsletter subscribe/consent); frontend pass — film flow, hero CTAs, waitlist + newsletter end-to-end, pillar section, removed sections absent, finale without contact, mobile 390x844, no console errors; scenario-story removal re-verified on / and /demo after test-run revert.
 
+- **2026-06 Shareable Film (decision maps):**
+- Backend: `POST /api/decision-maps` (validated industry → short url-safe id, persisted in `decision_maps` with unique index) and `GET /api/decision-maps/{id}` (view-count increment, 404 on missing, 422 on invalid industry).
+- Added a cinematic "END CARD" share scene after the nine chapters ("Your team missed the screening.") with scenario-aware storytelling copy; "Create the decision map" cuts a cinema-ticket card (perforated, ADMIT: YOUR ENTIRE TEAM) with the branded link, Copy (clipboard + fallback), and Open actions; state resets on industry switch; film autoplay auto-scrolls to the end card when the reel finishes.
+- Added branded `/map/:id` route that retells the run as a story: masthead (REEL id / date / VIEWING count), narrative intro, opening intent quote, nine story beats with acts + mono state lines, human-line vs outcome split panel, modeled-simulation disclaimer, and a CTA band (Watch the film / Download the desktop app waitlist / Book a demo). Loading state prevents wrong-industry flash; missing ids show "This reel was never cut."
+- Verified on 2026-06 (iteration_8): 14/14 backend tests (all 8 industries, view increments, 404/422, waitlist regression) and 100% frontend pass — ticket creation, copy, industry-switch reset, map storytelling page, view increments, missing state, waitlist modal from map, mobile 390x844, no console errors.
+
 ## Prioritized Backlog
 
 ### P0

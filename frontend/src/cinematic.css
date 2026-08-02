@@ -514,6 +514,9 @@ html[data-motion="reduced"] { scroll-snap-type: none; }
 .map-cta .film-button { color: #fff; border-color: #fff; }
 .map-cta .film-button-solid { color: #000; background: #fff; }
 .map-missing-page { min-height: 70vh; padding: clamp(80px, 10vw, 150px) clamp(22px, 6vw, 110px); }
+.map-loading { min-height: 70vh; padding: clamp(80px, 10vw, 150px) clamp(22px, 6vw, 110px); }
+.map-loading-text { display: flex; align-items: center; gap: 12px; margin: 0; font: 600 11px var(--mono); letter-spacing: .22em; }
+.map-loading-text i { width: 9px; height: 9px; background: #000; animation: hud-pulse 1.2s steps(2, end) infinite; }
 .map-missing-page h1 { margin: 0 0 20px; font-family: var(--display); font-size: clamp(40px, 6vw, 90px); font-weight: 500; line-height: .92; }
 .map-missing-copy { max-width: 480px; margin: 0 0 36px; color: #525252; font-size: 16px; line-height: 1.7; }
 
