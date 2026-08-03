@@ -110,3 +110,40 @@ def test_waitlist_without_consent_rejected(api_client):
     data = response.json()
     assert "detail" in data
     assert isinstance(data["detail"], list)
+
+
+# Feature: newsletter create + idempotent duplicate handling
+def test_newsletter_subscribe_and_duplicate_idempotent(api_client):
+    base = _require_base_url()
+    email = f"test_newsletter_{uuid4().hex[:10]}@example.com"
+    payload = {"email": email, "consent": True}
+
+    create_response = api_client.post(
+        f"{base}/api/newsletter", json=payload, timeout=25
+    )
+    assert create_response.status_code == 201
+    create_data = create_response.json()
+    assert create_data["email"] == email
+    assert create_data["status"] == "subscribed"
+    assert isinstance(create_data["id"], str)
+
+    duplicate_response = api_client.post(
+        f"{base}/api/newsletter", json=payload, timeout=25
+    )
+    assert duplicate_response.status_code == 201
+    duplicate_data = duplicate_response.json()
+    assert duplicate_data["status"] == "already_subscribed"
+    assert duplicate_data["id"] == create_data["id"]
+
+
+def test_newsletter_without_consent_rejected(api_client):
+    base = _require_base_url()
+    response = api_client.post(
+        f"{base}/api/newsletter",
+        json={
+            "email": f"test_newsletter_noconsent_{uuid4().hex[:8]}@example.com",
+            "consent": False,
+        },
+        timeout=25,
+    )
+    assert response.status_code == 422

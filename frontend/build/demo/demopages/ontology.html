@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHI Desktop — Ontology</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <script src="js/shared.js"></script>
+  <style>
+    .brain-layout {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+    .brain-canvas-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .mirror-twin-header-pill {
+      position: absolute;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      gap: 4px;
+      background: var(--bg-surface-elevated);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-strong);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      box-shadow: var(--glass-shadow);
+    }
+    .twin-btn {
+      padding: 6px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--transition-fast);
+    }
+    .twin-btn.active {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 4px 15px var(--accent-glow);
+    }
+    .graph-canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brain-node-dot {
+      position: absolute;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .brain-node-dot:hover {
+      transform: scale(1.4) !important;
+      z-index: 30;
+      box-shadow: 0 0 20px currentColor;
+    }
+    .node-label-text {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      pointer-events: none;
+      margin-top: 4px;
+    }
+    .folders-legend-drawer {
+      width: 240px;
+      background: var(--bg-sidebar);
+      border-left: 1px solid var(--border-subtle);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 10;
+    }
+    .folder-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .folder-legend-item:hover {
+      background: var(--bg-surface-elevated);
+      color: var(--text-primary);
+    }
+    .color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .floating-search-pill {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      width: 380px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-full);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--glass-shadow);
+    }
+    .floating-search-pill input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 0.88rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div id="sidebar-mount"></div>
+
+    <div class="main-wrapper">
+      <!-- Clean Minimal Top Header (Text writing removed as requested) -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="top-bar-actions">
+          <div style="display:flex; gap:2px; background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); padding:2px; border-radius:var(--radius-md);">
+            <button class="btn btn-secondary active" style="padding:4px 12px; font-size:0.78rem;">🕸️ Graph</button>
+            <button class="btn btn-secondary" style="padding:4px 12px; font-size:0.78rem;" onclick="alert('Switching to Base View...')">🗃️ Base</button>
+            <button class="btn btn-secondary" style="padding:4px 12px; font-size:0.78rem;" onclick="alert('Switching to Files View...')">📁 Files</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="brain-layout">
+        <!-- Canvas Viewport with Dot Grid Background -->
+        <div class="brain-canvas-area dot-grid-bg">
+          
+          <!-- Differentiators: AGENTS | ORG -->
+          <div class="mirror-twin-header-pill">
+            <button class="twin-btn active" id="twin-agents-btn" onclick="switchOntologyTwin('agents')">
+              🤖 Agents
+            </button>
+            <button class="twin-btn" id="twin-org-btn" onclick="switchOntologyTwin('org')">
+              🏢 Org
+            </button>
+          </div>
+
+          <!-- Canvas Container -->
+          <div class="graph-canvas-container" id="brain-canvas">
+            <!-- Connecting SVG Lines -->
+            <svg style="position:absolute; inset:0; width:100%; height:100%; pointer-events:none;" id="svg-connections">
+              <path d="M 380 240 Q 480 280 580 340" stroke="rgba(99, 102, 241, 0.4)" stroke-width="1.5" fill="none"/>
+              <path d="M 480 180 Q 520 280 580 340" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1.5" fill="none"/>
+              <path d="M 580 340 Q 640 220 720 180" stroke="rgba(34, 197, 94, 0.4)" stroke-width="1.5" fill="none"/>
+              <path d="M 580 340 Q 420 420 340 480" stroke="rgba(249, 115, 22, 0.4)" stroke-width="1.5" fill="none"/>
+              <path d="M 580 340 Q 680 440 760 480" stroke="rgba(234, 179, 8, 0.4)" stroke-width="1.5" fill="none"/>
+              <path d="M 280 320 Q 380 240 480 180" stroke="rgba(168, 85, 247, 0.4)" stroke-width="1.5" fill="none"/>
+            </svg>
+
+            <!-- Center God Node -->
+            <div class="brain-node-dot" style="left:580px; top:340px; width:28px; height:28px; background:#f97316; box-shadow:0 0 25px rgba(249, 115, 22, 0.8);" onclick="inspectBrainNode('AHI System Knowledge Graph', 'Notes', 'Central ontology nexus connecting 181 nodes across human and agent subagents.')">
+              <span class="node-label-text" style="font-weight:800;">AHI Brain Nexus</span>
+            </div>
+
+            <!-- Surrounding Nodes Grid -->
+            <div class="human-node brain-node-dot" style="left:480px; top:180px; width:16px; height:16px; background:#3b82f6;" onclick="inspectBrainNode('Architecture Decision Records', 'Knowledge', 'Yjs CRDT vs OT evaluation metrics and local-first architecture.')">
+              <span class="node-label-text">ADR-042</span>
+            </div>
+
+            <div class="human-node brain-node-dot" style="left:380px; top:240px; width:18px; height:18px; background:#a855f7;" onclick="inspectBrainNode('Jane Doe Workspace Notes', 'Agent Notes', 'Weekly engineering goals and product roadmap ideas.')">
+              <span class="node-label-text">Jane Notes</span>
+            </div>
+
+            <div class="human-node brain-node-dot" style="left:720px; top:180px; width:22px; height:22px; background:#22c55e;" onclick="inspectBrainNode('Q3 Sprint Retrospective', 'Projects', 'Sprint action items, velocity charts, and ticket completion.')">
+              <span class="node-label-text">Sprint Retro</span>
+            </div>
+
+            <div class="human-node brain-node-dot" style="left:340px; top:480px; width:14px; height:14px; background:#ef4444;" onclick="inspectBrainNode('Core Engineering Team', 'Organizations', '12 engineers across frontend, backend, and AI infrastructure.')">
+              <span class="node-label-text">Engineering Team</span>
+            </div>
+
+            <div class="human-node brain-node-dot" style="left:760px; top:480px; width:20px; height:20px; background:#eab308;" onclick="inspectBrainNode('Local-First Sync Architecture', 'Topics', 'SQLite WAL mode, Yjs state vector protocols, and Hocuspocus WebSocket relay.')">
+              <span class="node-label-text">Sync Architecture</span>
+            </div>
+
+            <div class="human-node brain-node-dot" style="left:280px; top:320px; width:12px; height:12px; background:#06b6d4;" onclick="inspectBrainNode('Alex Kim (Senior Frontend)', 'People', 'Lead frontend engineer for Open Agent Builder canvas.')">
+              <span class="node-label-text">Alex Kim</span>
+            </div>
+          </div>
+
+          <!-- Floating Search Bar at Bottom Center -->
+          <div class="floating-search-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-tertiary);"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" placeholder="Search nodes..." oninput="searchGraphNodes(this.value)"/>
+          </div>
+        </div>
+
+        <!-- Right Side Folders Legend Drawer -->
+        <div class="folders-legend-drawer">
+          <div style="font-size: 0.75rem; font-weight: 800; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">FOLDERS</div>
+          
+          <div class="folder-legend-item" onclick="filterByFolder('Agent Notes')">
+            <span class="color-dot" style="background:#a855f7;"></span>
+            <span>Agent Notes</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Knowledge')">
+            <span class="color-dot" style="background:#3b82f6;"></span>
+            <span>Knowledge</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Notes')">
+            <span class="color-dot" style="background:#f97316;"></span>
+            <span>Notes</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Organizations')">
+            <span class="color-dot" style="background:#ef4444;"></span>
+            <span>Organizations</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('People')">
+            <span class="color-dot" style="background:#06b6d4;"></span>
+            <span>People</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Projects')">
+            <span class="color-dot" style="background:#22c55e;"></span>
+            <span>Projects</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Style')">
+            <span class="color-dot" style="background:#84cc16;"></span>
+            <span>Style</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Topics')">
+            <span class="color-dot" style="background:#eab308;"></span>
+            <span>Topics</span>
+          </div>
+
+          <div class="folder-legend-item" onclick="filterByFolder('Workspace')">
+            <span class="color-dot" style="background:#e11d48;"></span>
+            <span>Workspace</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cmd-mount"></div>
+
+  <script>
+    document.getElementById('sidebar-mount').innerHTML = window.renderAHISidebar('ontology');
+    document.getElementById('cmd-mount').innerHTML = window.renderCommandPaletteModal();
+
+    function switchOntologyTwin(mode) {
+      const btnAgents = document.getElementById('twin-agents-btn');
+      const btnOrg = document.getElementById('twin-org-btn');
+
+      if (mode === 'org') {
+        btnAgents.classList.remove('active');
+        btnOrg.classList.add('active');
+        alert('🏢 Switched to Org Ontology View!');
+      } else {
+        btnOrg.classList.remove('active');
+        btnAgents.classList.add('active');
+        alert('🤖 Switched to Agents Ontology View!');
+      }
+    }
+
+    function inspectBrainNode(title, folder, desc) {
+      alert(`📌 ${title} [${folder}]\n\n${desc}`);
+    }
+
+    function filterByFolder(folder) {
+      alert(`Filtering graph by folder: ${folder}`);
+    }
+
+    function searchGraphNodes(query) {
+      document.querySelectorAll('.brain-node-dot').forEach(node => {
+        const text = node.textContent.toLowerCase();
+        node.style.opacity = text.includes(query.toLowerCase()) ? '1' : '0.2';
+      });
+    }
+  </script>
+</body>
+</html>

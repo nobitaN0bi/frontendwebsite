@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHI Desktop — Home</title>
+  <link rel="stylesheet" href="css/theme.css" />
+  <script src="js/shared.js"></script>
+  <style>
+    .dispatch-mode-btn-group {
+      display: flex;
+      gap: 3px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 3px;
+      border-radius: var(--radius-full);
+    }
+    .dispatch-mode-btn {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--text-tertiary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .dispatch-mode-btn:hover {
+      color: var(--text-primary);
+    }
+    .dispatch-mode-btn.active {
+      background: var(--accent-gradient);
+      color: white;
+      box-shadow: 0 2px 8px var(--accent-glow);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <div id="sidebar-mount"></div>
+
+    <div class="main-wrapper">
+      <!-- Minimal Header -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--accent-primary);"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Universal Dispatch</span>
+        </div>
+        <div class="top-bar-actions">
+          <button class="btn btn-secondary" onclick="window.toggleCommandPalette()">
+            <span>⌘K</span> Command Palette
+          </button>
+        </div>
+      </header>
+
+      <main class="page-container">
+        <div style="max-width: 960px; margin: 0 auto;" class="fade-in">
+          <!-- Welcome Banner -->
+          <div style="margin-bottom: 24px;">
+            <h1 style="font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em;">Welcome back, Jane</h1>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Your agentic workspace at a glance · 4 active agents, 12 teamspaces</p>
+          </div>
+
+          <!-- Dispatch Search Bar with ASK | ACT | EXPERTS Buttons -->
+          <div class="card glass-card" style="margin-bottom: 24px; padding: 10px 16px; display: flex; align-items: center; gap: 12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-tertiary);"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" id="home-search" placeholder="Magic that you can trust..." style="flex:1; background:transparent; border:none; outline:none; font-size:0.95rem; color:var(--text-primary);" oninput="filterHomeItems(this.value)"/>
+            
+            <!-- Segmented Buttons: ASK | ACT | EXPERTS -->
+            <div class="dispatch-mode-btn-group">
+              <button class="dispatch-mode-btn active" onclick="setDispatchMode('ASK', this)">ASK</button>
+              <button class="dispatch-mode-btn" onclick="setDispatchMode('ACT', this)">ACT</button>
+              <button class="dispatch-mode-btn" onclick="setDispatchMode('EXPERTS', this)">EXPERTS</button>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div style="margin-bottom: 28px;">
+            <h2 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 12px; letter-spacing: 0.05em;">Quick Actions</h2>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button class="btn btn-secondary" onclick="location.href='doc-workspace.html'">
+                <span>📄</span> New Document
+              </button>
+              <button class="btn btn-secondary" onclick="location.href='teamspaces.html'">
+                <span>🗃️</span> New Database
+              </button>
+              <button class="btn btn-secondary" onclick="location.href='apps.html'">
+                <span>⚡</span> Build Agent
+              </button>
+              <button class="btn btn-secondary" onclick="location.href='chat.html'">
+                <span>💬</span> Open #engineering
+              </button>
+            </div>
+          </div>
+
+          <!-- Recent Items Grid -->
+          <div style="margin-bottom: 32px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <h2 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; color: var(--text-tertiary); letter-spacing: 0.05em;">Recent Activity</h2>
+              <a href="library.html" style="font-size: 0.8rem; color: var(--accent-primary); text-decoration: none; font-weight: 600;">View all in Library →</a>
+            </div>
+
+            <div class="card" style="padding: 8px;" id="recent-items-container">
+              <div class="recent-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: var(--radius-md); transition: background 0.15s; cursor: pointer;" onclick="location.href='doc-workspace.html'">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 1.1rem;">📄</span>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Architecture Decision Records (ADR-042)</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Updated by Jane Doe · 2h ago in Engineering</div>
+                  </div>
+                </div>
+                <span class="badge badge-primary">Yjs Doc</span>
+              </div>
+
+              <div class="recent-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: var(--radius-md); transition: background 0.15s; cursor: pointer;" onclick="location.href='teamspaces.html'">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 1.1rem;">🗃️</span>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Sprint Bug Tracker & Escalations</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Updated by Mike Ross · 5h ago in Core Team</div>
+                  </div>
+                </div>
+                <span class="badge badge-success">Database</span>
+              </div>
+
+              <div class="recent-item" style="display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-radius: var(--radius-md); transition: background 0.15s; cursor: pointer;" onclick="location.href='apps.html'">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <span style="font-size: 1.1rem;">⚡</span>
+                  <div>
+                    <div style="font-weight: 600; font-size: 0.9rem;">Email Classifier Agent Workflow</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Executed 245 times · 1d ago in Automations</div>
+                  </div>
+                </div>
+                <span class="badge badge-warning">Agent</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Directory Cards: People & Agents -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;">
+            <!-- People Directory -->
+            <div class="card">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <h3 style="font-size: 0.9rem; font-weight: 700;">Team Members</h3>
+                <span class="badge badge-info">4 Active</span>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot online"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">Jane Doe</span>
+                  </div>
+                  <span style="font-size: 0.75rem; color: var(--text-tertiary);">Lead Engineer</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot online"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">Alex Kim</span>
+                  </div>
+                  <span style="font-size: 0.75rem; color: var(--text-tertiary);">Senior Frontend</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot away"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">Sarah Chen</span>
+                  </div>
+                  <span style="font-size: 0.75rem; color: var(--text-tertiary);">Product Manager</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Agents -->
+            <div class="card">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+                <h3 style="font-size: 0.9rem; font-weight: 700;">Active AI Agents</h3>
+                <a href="apps.html" style="font-size: 0.75rem; color: var(--accent-primary); text-decoration: none; font-weight: 600;">Manage →</a>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot running"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">Lead Orchestrator</span>
+                  </div>
+                  <span class="badge badge-primary">Intelligence</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot online"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">ACP Code Repair Agent</span>
+                  </div>
+                  <span class="badge badge-success">Engineering</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <span class="status-dot online"></span>
+                    <span style="font-weight: 600; font-size: 0.85rem;">Enterprise Search RAG</span>
+                  </div>
+                  <span class="badge badge-info">Search</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <div id="cmd-mount"></div>
+
+  <script>
+    document.getElementById('sidebar-mount').innerHTML = window.renderAHISidebar('home');
+    document.getElementById('cmd-mount').innerHTML = window.renderCommandPaletteModal();
+
+    function setDispatchMode(mode, btn) {
+      document.querySelectorAll('.dispatch-mode-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const input = document.getElementById('home-search');
+      if (mode === 'ASK') {
+        input.placeholder = 'Ask anything: Magic that you can trust...';
+      } else if (mode === 'ACT') {
+        input.placeholder = 'Act: Type an action command for autonomous agents...';
+      } else if (mode === 'EXPERTS') {
+        input.placeholder = 'Consult Experts: Consult specialized subagent team...';
+      }
+    }
+
+    function filterHomeItems(query) {
+      const items = document.querySelectorAll('.recent-item');
+      items.forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(query.toLowerCase()) ? 'flex' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

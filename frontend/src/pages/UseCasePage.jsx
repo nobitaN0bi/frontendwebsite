@@ -13,10 +13,11 @@ export default function UseCasePage({ onJoin }) {
 
   return (
     <article className="case-page" style={{ '--case-accent': story.accent }} data-testid={`use-case-page-${story.slug}`}>
+      <AsciiBackdrop variant="case" art="field" fixed />
       <Seo title={`${story.industry} Agentic OS Use Case`} description={`${story.company}: ${story.headline} Explore how Acoord coordinates agents, people, tools, and trusted decisions.`} path={`/use-cases/${story.slug}`} type="article" />
       <section className="case-hero" data-testid="use-case-hero">
         <AsciiBackdrop variant="case" art="field" />
-        <Link className="back-link" to="/#use-cases" data-testid="use-case-back-link"><ArrowLeft size={16} /> All stories</Link>
+        <Link className="back-link" to="/usecases" data-testid="use-case-back-link"><ArrowLeft size={16} /> All stories</Link>
         <div className="case-hero-copy">
           <div className="case-index" data-testid="use-case-index">ICP / {story.number} — {story.industry}</div>
           <h1 data-testid="use-case-headline">{story.headline}</h1>

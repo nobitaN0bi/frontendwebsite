@@ -1,0 +1,23 @@
+{
+  "summary": "Tested shareable decision-map feature end-to-end. Backend: 14/14 pytest cases pass (all 8 industries POST->201, GET increments views, 404 on missing, 422 on invalid/missing industry, waitlist regression). Frontend: end card renders after 9 chapters with correct storytelling copy referencing active scenario company (Meridian Capital for Finance, VectorLine Logistics for Logistics), Create button POSTs and shows ticket with correct link matching {origin}/map/{id}, Copy button flips to 'Copied', Open link href matches, industry switch resets ticket state, new industry produces a new /map link. MapPage renders masthead, 9 beats (dispatch..teamspaces in order), outcome, disclaimer, CTA band; Calendly + Watch film + waitlist download button all wired; views increment on refresh (2->4); /map/doesnotexist_xyz shows map-missing with working home link; waitlist modal opens from map download button. No demo-scenario-story remains. Mobile 390x844 has 0px horizontal overflow on both map page and homepage share scene. No page/JS errors.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_decision_maps.py",
+    "/app/test_reports/pytest/decision_maps.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "MapPage renders full page during 'loading' state using scenarios[0] (finance) as fallback before fetch resolves — briefly shows finance scenario content for any /map/:id URL. Minor UX flash; not a blocker but consider showing a loading skeleton to avoid content mismatch during fetch.",
+    "ShareScene copy fallback (execCommand) is deprecated but acceptable; navigator.clipboard already primary path.",
+    "Backend create_decision_map DuplicateKeyError fallback regenerates with token_urlsafe(8) but only once — extremely low collision risk with 6-byte token so acceptable."
+  ],
+  "updated_files": ["/app/backend/tests/test_decision_maps.py"],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "test_credentials": "None (public site)",
+  "seed_data_creation": "Test-created decision_maps documents in MongoDB (one per industry + several for view-increment tests); no cleanup performed — records are opaque and small.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Feature is fully working. Backend regression tests at /app/backend/tests/test_decision_maps.py cover all industries + edge cases. FilmHud autoplay end-of-film scroll to share scene was not explicitly tested (would take ~63s); code path exists at HomePage.jsx line ~51 (shareRef).",
+  "rca of the issue": "N/A — no bugs found."
+}

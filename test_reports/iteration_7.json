@@ -1,0 +1,32 @@
+{
+  "summary": "Full backend+frontend regression on the Ahi cinematic redesign iteration. Backend: 6/6 pytest cases pass (health, waitlist create + duplicate idempotent + invalid email + no-consent, newsletter subscribe + no-consent). Frontend: 12/13 requested features PASS. HandsScene renders hero + all three CTAs (waitlist modal opens; book-a-demo -> Calendly URL; watch-demo -> #watch-demo). Problem title correctly reads 'The interface for AI and human team collaboration.' Pillar section has dark bg + pillar-eye-backdrop + pillar-ask/act/expert/explainable with the four correct words + connector-marquee. Removed sections agent-ecosystem-section and trust-architecture-section are absent. Newsletter section is inside knowledge, and end-to-end newsletter submit returns 'Subscription confirmed'. Waitlist end-to-end submit returns success ('cohort is reserved'). PortraitScene renders 5,211 chars ASCII, title 'Magic that you can trust.', download button, book-a-demo link, NO mailto and NO form. Mobile 390x844: no horizontal overflow, 0 console errors across full flow. ONE BLOCKING BUG: the Meridian-Capital scenario-story block was NOT removed from DemoWorkspace as required — [data-testid=demo-scenario-story] count = 1 on the homepage and 'Meridian Capital' text appears 3 times.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "DemoWorkspace.jsx (lines 88-93)",
+        "issue": "Scenario story block (company/hook/trigger/human-line/outcome) was NOT removed as required by the review. [data-testid='demo-scenario-story'] is still rendered inside <DemoWorkspace> and appears on both the homepage watch-demo-section and the /demo page. This causes 'Meridian Capital' to appear 3 times on the homepage outside the iframe.",
+        "selector": "[data-testid='demo-scenario-story']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/test_waitlist_api.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Delete the entire <div className='demo-scenario-story'>...</div> block (lines 88-93) from /app/frontend/src/components/DemoWorkspace.jsx so demo-scenario-story testid no longer exists and Meridian Capital scenario copy is removed from the DOM outside the iframe."
+  ],
+  "critical_code_review_comments": [
+    "DemoWorkspace.jsx still imports/renders scenario.company/hook/trigger/checkpoint/outcome/metric fields even though the review explicitly requires them removed. If the scenario story block is deleted, the scenario data-testids (demo-scenario-company, demo-scenario-hook, demo-scenario-trigger, demo-scenario-checkpoint, demo-scenario-outcome, demo-scenario-metric) will also disappear — main agent should verify none of those testids are referenced anywhere else (they aren't; grep found only the DemoWorkspace usage).",
+    "server.py CORS: allow_origins is [] when APP_URL is not set — leaving no origins allowed, potentially blocking browser POSTs in some environments. Consider defaulting to REACT_APP_SITE_URL or wildcard for the marketing site."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "100%", "frontend": "92%"},
+  "test_credentials": "N/A (no auth)",
+  "seed_data_creation": "Test emails prefixed 'test_waitlist_/test_newsletter_/qa_test_/test_nl_' inserted into MongoDB via public API during testing.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Only outstanding issue is deleting the scenario-story block (DemoWorkspace.jsx lines 88-93). Once removed, retest: (a) [data-testid='demo-scenario-story'] count == 0 on / and /demo, (b) 'Meridian Capital' does not appear on document.body text outside the iframe. All other flows already verified — hero CTAs, waitlist submit, newsletter submit, pillar section, removed agent-ecosystem/trust-architecture sections, PortraitScene (no mailto/form), mobile viewport OK, no console errors.",
+  "rca of the issue": "The main agent removed sections in HomePage.jsx and rebuilt PortraitScene but did not modify DemoWorkspace.jsx to delete the scenario-story JSX block. The block still consumes scenario.company/hook/trigger/checkpoint/outcome/metric fields from scenarios.json and renders inline above the demo channel bar. Fix: delete lines 88-93 of /app/frontend/src/components/DemoWorkspace.jsx (the entire <div className='demo-scenario-story' ...>...</div>)."
+}

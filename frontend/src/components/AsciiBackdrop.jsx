@@ -7,11 +7,11 @@ const IMAGES = {
 };
 
 const ASCII_ART = {
-  space: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/cnmyl6e6_3spaceascii.txt',
-  eye: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/uohmnzne_eye3spaceascii.txt',
-  mesh: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/t6tdqfqc_ascii-art%20%281%29.txt',
-  network: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/l47tcvzr_ascii-art%20%282%29.txt',
-  field: 'https://customer-assets-m6fa6gv7.emergentagent.net/job_agent-os-21/artifacts/62yk0f4i_ascii-art%20%283%29.txt'
+  space: '/ascii/space.txt',
+  eye: '/ascii/eye.txt',
+  mesh: '/ascii/a1.txt',
+  network: '/ascii/a2.txt',
+  field: '/ascii/a3.txt'
 };
 
 const artCache = new Map();
@@ -20,26 +20,26 @@ const FALLBACK_ART = `░░░▒▒▓▓████▓▓▒▒░░░\n�
 
 const loadAsciiArt = (art) => {
   if (artCache.has(art)) return Promise.resolve(artCache.get(art));
-  if (requestCache.has(art)) return requestCache.get(art);
-  const request = fetch(ASCII_ART[art] || ASCII_ART.space, { cache: 'force-cache' })
-    .then((response) => {
-      if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
-      return response.text();
-    })
-    .then((text) => {
-      artCache.set(art, text);
-      return text;
-    })
-    .catch((error) => {
-      requestCache.delete(art);
-      if (error.name !== 'AbortError') console.warn(`[Acoord ASCII] ${art} could not load`, error);
-      return FALLBACK_ART;
-    });
-  requestCache.set(art, request);
-  return request;
+  if (!requestCache.has(art)) {
+    requestCache.set(art, fetch(ASCII_ART[art] || ASCII_ART.space, { cache: 'force-cache' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`ASCII asset returned ${response.status}`);
+        return response.text();
+      })
+      .then((text) => {
+        artCache.set(art, text);
+        return text;
+      })
+      .catch((error) => {
+        requestCache.delete(art);
+        console.warn(`[Acoord ASCII] ${art} could not load`, error);
+        return FALLBACK_ART;
+      }));
+  }
+  return requestCache.get(art);
 };
 
-export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
+export const AsciiBackdrop = ({ variant = 'hero', art = 'space', fixed = false }) => {
   const [content, setContent] = useState(artCache.get(art) || FALLBACK_ART);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
   }, [art]);
 
   return (
-    <div className={`ascii-backdrop ascii-${variant}`} aria-hidden="true">
+    <div className={`ascii-backdrop ascii-${variant}${fixed ? ' ascii-fixed' : ''}`} aria-hidden="true">
       <pre className="ascii-exact-art">{content}</pre>
       <div className="ascii-image-layer ascii-pattern" style={{ backgroundImage: `url("${IMAGES.pattern}")` }} />
       <div className="ascii-image-layer ascii-hands" style={{ backgroundImage: `url("${IMAGES.hands}")` }} />

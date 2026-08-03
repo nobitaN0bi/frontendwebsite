@@ -47,16 +47,16 @@ export const WaitlistModal = ({ open, onClose }) => {
         {status === 'success' ? (
           <div className="success-state" data-testid="waitlist-success-message">
             <span className="success-icon"><Check size={26} /></span>
-            <p className="eyebrow">Request received</p>
-            <h2 id="waitlist-title">You’re in the coordination loop.</h2>
-            <p>We’ll reach out to <strong>{form.email}</strong> with a focused path into Acoord.</p>
-            <div className="success-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="waitlist-success-book-link">Book a 30-minute session</a><button className="button button-outline" onClick={onClose} data-testid="waitlist-success-close-button">Return to Acoord</button></div>
+            <p className="eyebrow">You&rsquo;re on the list</p>
+            <h2 id="waitlist-title">Your seat in the cohort is reserved.</h2>
+            <p>We&rsquo;ll send the desktop download link to <strong>{form.email}</strong> the moment your access opens.</p>
+            <div className="success-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="waitlist-success-book-link">Book a demo</a><button className="button button-outline" onClick={onClose} data-testid="waitlist-success-close-button">Return to Acoord</button></div>
           </div>
         ) : (
           <>
-            <p className="eyebrow" data-testid="waitlist-eyebrow">Private alpha / 2026</p>
-            <h2 id="waitlist-title" data-testid="waitlist-title">Bring your hardest coordination problem.</h2>
-            <p className="modal-intro" data-testid="waitlist-description">Tell us where human judgment, agent work, and enterprise systems need to move together.</p>
+            <p className="eyebrow" data-testid="waitlist-eyebrow">Desktop app / private waitlist</p>
+            <h2 id="waitlist-title" data-testid="waitlist-title">Download the Ahi desktop app.</h2>
+            <p className="modal-intro" data-testid="waitlist-description">Access opens in small cohorts. Tell us where coordination breaks in your team and we&rsquo;ll send your download link when your seat opens.</p>
             <form onSubmit={submit} data-testid="waitlist-form">
               <div className="form-grid">
                 <label>Name<input required minLength="2" name="name" value={form.name} onChange={update} data-testid="waitlist-name-input" /></label>
@@ -80,7 +80,7 @@ export const WaitlistModal = ({ open, onClose }) => {
               {error && <p className="form-error" role="alert" data-testid="waitlist-error-message">{error}</p>}
               <label className="consent-row"><input required type="checkbox" name="consent" checked={form.consent} onChange={update} data-testid="waitlist-consent-checkbox" /><span>I agree that Acoord may process this information to respond to my request. See the <a href="/legal/privacy" target="_blank">Privacy Policy</a> and <a href="/legal/terms" target="_blank">Terms</a>.</span></label>
               <button className="button button-ink form-submit" disabled={status === 'loading'} data-testid="waitlist-submit-button">
-                {status === 'loading' ? <><LoaderCircle className="spin" size={17} /> Saving request</> : 'Request access'}
+                {status === 'loading' ? <><LoaderCircle className="spin" size={17} /> Saving request</> : 'Join the download waitlist'}
               </button>
             </form>
           </>
