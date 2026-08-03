@@ -180,7 +180,7 @@ export default function HomePage({ onJoin }) {
 
       <section className="join-section editorial-section scene-snap" data-testid="join-waitlist-section">
         <AsciiBackdrop variant="footer" art="eye" />
-        <div><p className="section-number">21 / THE DESKTOP APP</p><h2 data-testid="join-title">The work is already multi-agent.<br />Give it somewhere to come together.</h2></div>
+        <div><p className="section-number">21 / THE DESKTOP APP</p><h2 data-testid="join-title">Saving billions of dollars.<br />Freeing centuries by 2029.</h2></div>
         <div className="join-actions">
           <button className="button button-white" onClick={onJoin} data-testid="join-waitlist-primary-button"><Download size={16} /> Download the desktop app</button>
           <p className="join-note" data-testid="join-waitlist-note">PRIVATE WAITLIST — ACCESS OPENS IN COHORTS</p>

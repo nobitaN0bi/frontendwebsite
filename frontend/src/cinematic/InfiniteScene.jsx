@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { FilmScene } from './FilmScene';
 
 const stages = [
@@ -53,6 +54,13 @@ export const InfiniteScene = () => {
       <div className="infinite-rail" aria-hidden="true">
         {stages.map((stage, index) => <i key={stage.key} className={index <= active ? 'is-on' : ''} />)}
       </div>
+      <a
+        className={`infinite-product-link ${active >= 2 ? 'is-visible' : ''}`}
+        href="#ahi"
+        data-testid="infinite-product-link"
+      >
+        Open the product <ArrowRight size={15} />
+      </a>
     </FilmScene>
   );
 };

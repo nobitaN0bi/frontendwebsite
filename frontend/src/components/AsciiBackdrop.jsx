@@ -39,7 +39,7 @@ const loadAsciiArt = (art) => {
   return requestCache.get(art);
 };
 
-export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
+export const AsciiBackdrop = ({ variant = 'hero', art = 'space', fixed = false }) => {
   const [content, setContent] = useState(artCache.get(art) || FALLBACK_ART);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export const AsciiBackdrop = ({ variant = 'hero', art = 'space' }) => {
   }, [art]);
 
   return (
-    <div className={`ascii-backdrop ascii-${variant}`} aria-hidden="true">
+    <div className={`ascii-backdrop ascii-${variant}${fixed ? ' ascii-fixed' : ''}`} aria-hidden="true">
       <pre className="ascii-exact-art">{content}</pre>
       <div className="ascii-image-layer ascii-pattern" style={{ backgroundImage: `url("${IMAGES.pattern}")` }} />
       <div className="ascii-image-layer ascii-hands" style={{ backgroundImage: `url("${IMAGES.hands}")` }} />

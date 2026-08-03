@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 
 const clamp = (value) => Math.min(1, Math.max(0, value));
-const isReduced = () => document.documentElement.dataset.motion === 'reduced';
 
 export const useSceneMotion = (ref) => {
   useEffect(() => {
@@ -11,11 +10,6 @@ export const useSceneMotion = (ref) => {
 
     const write = () => {
       frame = 0;
-      if (isReduced()) {
-        element.style.setProperty('--p', '0.75');
-        element.style.setProperty('--s', '1');
-        return;
-      }
       const rect = element.getBoundingClientRect();
       const view = window.innerHeight || 1;
       element.style.setProperty('--p', clamp((view - rect.top) / (view + rect.height)).toFixed(4));
@@ -26,12 +20,10 @@ export const useSceneMotion = (ref) => {
     write();
     window.addEventListener('scroll', request, { passive: true });
     window.addEventListener('resize', request);
-    window.addEventListener('acoord:motion', request);
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('scroll', request);
       window.removeEventListener('resize', request);
-      window.removeEventListener('acoord:motion', request);
     };
   }, [ref]);
 };

@@ -21,3 +21,4 @@ credentials.json
 # OS / IDE
 .DS_Store
 *.log
+.gstack/

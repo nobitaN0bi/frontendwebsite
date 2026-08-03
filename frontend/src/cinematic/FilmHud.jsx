@@ -11,6 +11,6 @@ export const FilmHud = ({ industry, chapter, total, playing, onToggle }) => (
       {playing ? <Pause size={13} /> : <Play size={13} fill="currentColor" />}
       {playing ? 'Pause the film' : 'Play the film'}
     </button>
-    <a className="hud-skip" href="#watch-demo" data-testid="film-skip-demo">Skip to the product</a>
+    <a className="hud-skip" href="#ahi" data-testid="film-skip-demo">Skip to the product</a>
   </div>
 );

@@ -19,6 +19,7 @@ export default function ResourcesPage() {
 
   return (
     <div className="resources-page page-shell" data-testid="resources-page">
+      <AsciiBackdrop variant="resources" art="mesh" fixed />
       <Seo title="Agentic Systems Resources" description="Technical guides for building coordinated, collaborative, and trustworthy agent systems." path="/resources" schema={schema} />
       <section className="resources-hero" data-testid="resources-hero">
         <AsciiBackdrop variant="resources" art="mesh" />
