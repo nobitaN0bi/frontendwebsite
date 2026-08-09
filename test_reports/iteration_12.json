@@ -1,0 +1,33 @@
+{
+  "summary": "Frontend-only investor regression completed on public preview URL. Verified five-act rail navigation/active state, Act I-V copy+interaction refinements, Act III nine-scene demo sync and channel click behavior, Act IV mode panels/commercial wedge content, Act V evidence views, CTA usability, responsive rail visibility rules, reduced-motion usability, and no horizontal overflow. Enterprise scenario data remains MOCKED/MODELED.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_12.json"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "InvestorActRail IDs and testids are uniquely mapped and scroll landing aligns correctly to each act section at desktop 1920x800.",
+    "Act II beat/status progression is present as required (CHAT -> OPERATIONS -> GOVERNED) when sampled at finer scroll intervals.",
+    "Critical interaction testids verified unique/present for rail, mode tabs, evidence tabs, guided run, channel tab, and closing CTAs."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_12.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "100%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Current public build resolves prior channel-click interception and prior max-depth console issue was not reproduced in this run (including guided-run stress sequence). If future regressions appear, retest with slower/stepwise scroll sampling for Act II and avoid mid-transition assertions during framer-motion mode swaps.",
+  "rca of the issue": "No confirmed product defect in this iteration. Two intermediate failures were test-method artifacts: (1) Act rail overshoot check used section-center heuristic unsuitable for sticky/tall sections; corrected to scroll alignment check. (2) Act IV wedge count sampled during panel transition window, causing transient zero count before content mounted."
+}

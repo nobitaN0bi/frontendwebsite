@@ -19,7 +19,7 @@ export const InvestorLaptopDemo = ({ scenarioId, onScenarioChange }) => {
   });
 
   return (
-    <section ref={sectionRef} className={`investor-demo-section ${reduced ? 'is-reduced' : ''}`} id="investor-demo" data-testid="investor-product-demo-section">
+    <section ref={sectionRef} className={`investor-demo-section ${reduced ? 'is-reduced' : ''}`} id="investor-act-3" data-investor-act="3" data-testid="investor-product-demo-section">
       <div className="investor-demo-sticky">
         <motion.div className="investor-demo-intro" style={{ opacity: reduced ? 1 : introOpacity }} data-testid="investor-demo-heading">
           <p className="investor-act-label">ACT III / PRODUCT PROOF</p><h2>Nine surfaces.<br />One decision line.</h2>

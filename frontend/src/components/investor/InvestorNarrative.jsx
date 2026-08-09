@@ -3,9 +3,9 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-
 import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
 const beats = [
-  { label: 'THE ASSUMPTION', title: 'One better model replaces the workflow.', copy: 'That is true only while the model remains a conversation.' },
-  { label: 'THE REALITY', title: 'Useful intelligence multiplies actors.', copy: 'Agents add tools, permissions, context, evidence, handoffs, and parallel state.' },
-  { label: 'THE CATEGORY', title: 'The interface becomes the control plane.', copy: 'Ahi coordinates the work before capability turns into organisational entropy.' }
+  { label: 'THE ASSUMPTION', title: 'Better models erase workflow.', copy: 'True only for isolated conversations.' },
+  { label: 'WHY NOW', title: 'Agents are leaving the chat.', copy: 'Tools, permissions, and parallel state turn answers into operations.' },
+  { label: 'THE CATEGORY', title: 'Coordination becomes the control plane.', copy: 'Ahi governs capability before it becomes entropy.' }
 ];
 
 const nodes = ['INTENT', 'LEAD', 'RESEARCH', 'ANALYST', 'WRITER', 'POLICY', 'SYSTEM', 'EVIDENCE', 'HUMAN'];
@@ -18,7 +18,7 @@ export const InvestorNarrative = () => {
   useMotionValueEvent(scrollYProgress, 'change', (value) => { if (!reduced) setBeat(Math.min(2, Math.floor(value * 3))); });
 
   return (
-    <section ref={sectionRef} className="investor-coordination" id="coordination-problem" data-testid="investor-coordination-section">
+    <section ref={sectionRef} className="investor-coordination" id="investor-act-2" data-investor-act="2" data-testid="investor-coordination-section">
       <div className="investor-coordination-sticky">
         <p className="investor-act-label">ACT II / THE COORDINATION PROBLEM</p>
         <div className="coordination-frame">
@@ -37,7 +37,7 @@ export const InvestorNarrative = () => {
               {Array.from({ length: 10 }, (_, index) => <motion.i key={index} className={`coord-line line-${index}`} animate={{ opacity: beat > 0 ? 1 : 0, scaleX: beat > 0 ? 1 : 0 }} transition={{ duration: .58, delay: reduced ? 0 : index * .035, ease: [0.65, 0, 0.35, 1] }} />)}
               <motion.div className="coordination-boundary" animate={{ opacity: beat === 2 ? 1 : 0, y: beat === 2 ? 0 : 12 }} transition={{ duration: .5, ease: [0.16, 1, 0.3, 1] }}><span>AHI CONTROL PLANE</span><p>context · authority · state · record</p></motion.div>
             </div>
-            <div className="coordination-status"><span>CAPABILITY ↑</span><span>COORDINATION SURFACE ↑↑</span><strong>{beat === 2 ? 'GOVERNED' : beat === 1 ? 'FRAGMENTING' : 'SIMPLE'}</strong></div>
+            <div className="coordination-status"><span>INTELLIGENCE / ABUNDANT</span><span>COORDINATION / SCARCE</span><strong>{beat === 2 ? 'GOVERNED' : beat === 1 ? 'OPERATIONS' : 'CHAT'}</strong></div>
           </div>
         </div>
       </div>

@@ -36,17 +36,17 @@ export const featureDialogs = [
 ];
 
 export const businessModel = [
-  ['LAND', 'Start with one approval-heavy workflow where fragmented context already creates measurable operational friction.'],
-  ['EXPAND', 'Add adjacent teams, specialist agents, knowledge domains, connectors, and governed execution volume.'],
-  ['COMPOUND', 'The ontology and decision record become more useful as the organisation coordinates more work through Ahi.']
+  ['LAND', 'Own one consequential workflow', 'Start where fragmented context already has an owner and a cost.'],
+  ['EXPAND', 'Cross the team boundary', 'Add adjacent people, agents, knowledge, and governed execution.'],
+  ['COMPOUND', 'Become decision memory', 'Every approved run makes the operating context more useful.']
 ];
 
 export const moatLayers = [
-  ['01', 'Ontology memory', 'A living model of how each organisation actually works.'],
-  ['02', 'Compiled execution', 'A strict path from visual intent to bounded, testable runs.'],
-  ['03', 'Human-agent state', 'Shared multiplayer context instead of parallel chat transcripts.'],
-  ['04', 'Decision history', 'Evidence, approvals, outcomes, and operating patterns accumulate together.'],
-  ['05', 'Interface distribution', 'One working surface across agents, tools, knowledge, and teams.']
+  ['01', 'Ontology memory', 'The organisation, modeled as working context.'],
+  ['02', 'Compiled execution', 'Intent becomes bounded, testable runs.'],
+  ['03', 'Human-agent state', 'One shared state—not parallel chats.'],
+  ['04', 'Decision history', 'Evidence and approvals accumulate together.'],
+  ['05', 'Interface distribution', 'One surface across agents, tools, and teams.']
 ];
 
 export const roadmap = [

@@ -16,8 +16,8 @@ export const InvestorCase = ({ onJoin }) => {
   const reduced = useInvestorReducedMotion();
   return (
     <>
-      <section className="investor-evidence-room" data-testid="investor-evidence-room-section">
-        <div className="evidence-room-head"><p className="investor-act-label">ACT V / THE EVIDENCE ROOM</p><h2 data-testid="investor-evidence-title">Evidence,<br />not theatre.</h2><p data-testid="investor-evidence-description">Working product, modeled narrative, next milestones, and execution risk stay visibly separate.</p></div>
+      <section className="investor-evidence-room" id="investor-act-5" data-investor-act="5" data-testid="investor-evidence-room-section">
+        <div className="evidence-room-head"><p className="investor-act-label">ACT V / THE EVIDENCE ROOM</p><h2 data-testid="investor-evidence-title">Evidence,<br />not theatre.</h2><p data-testid="investor-evidence-description">Product, narrative, milestones, and risk—kept separate.</p></div>
         <div className="evidence-console">
           <div className="evidence-tabs" role="tablist" aria-label="Evidence views">{Object.keys(evidence).map((id) => <button key={id} type="button" role="tab" aria-selected={view === id} className={view === id ? 'active' : ''} onClick={() => setView(id)} data-testid={`investor-evidence-${id}-button`}>{id.toUpperCase()}</button>)}</div>
           <AnimatePresence mode="wait"><motion.div key={view} className="evidence-table" initial={reduced ? false : { opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={reduced ? undefined : { opacity: 0, y: -10 }} transition={{ duration: .38, ease: [0.16, 1, 0.3, 1] }} data-testid={`investor-evidence-${view}-panel`}>
@@ -27,7 +27,7 @@ export const InvestorCase = ({ onJoin }) => {
         </div>
       </section>
       <section className="investor-closing" data-testid="investor-closing-section">
-        <div className="investor-closing-copy" data-testid="investor-closing-copy"><p className="investor-act-label">THE INVESTMENT QUESTION</p><h2>When every company has agents,<br />where will they work together?</h2><p>Acoord’s answer is Ahi: the interface between abundant intelligence and consequential human work.</p><div className="investor-closing-actions"><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" className="investor-button investor-button-light" data-testid="investor-closing-meeting-link">Start a conversation <ArrowUpRight size={16} /></a><button type="button" className="investor-text-link" onClick={onJoin} data-testid="investor-closing-download-button"><Download size={15} /> Join the desktop waitlist</button></div></div>
+        <div className="investor-closing-copy" data-testid="investor-closing-copy"><p className="investor-act-label">THE INVESTMENT QUESTION</p><h2>When every company has agents,<br />where will they work together?</h2><p>Ahi: the interface between abundant intelligence and consequential work.</p><div className="investor-closing-actions"><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" className="investor-button investor-button-light" data-testid="investor-closing-meeting-link">Start a conversation <ArrowUpRight size={16} /></a><button type="button" className="investor-text-link" onClick={onJoin} data-testid="investor-closing-download-button"><Download size={15} /> Join the desktop waitlist</button></div></div>
       </section>
     </>
   );

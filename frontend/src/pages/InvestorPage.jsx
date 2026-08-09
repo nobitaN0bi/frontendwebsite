@@ -6,6 +6,7 @@ import { InvestorNarrative } from '../components/investor/InvestorNarrative';
 import { InvestorLaptopDemo } from '../components/investor/InvestorLaptopDemo';
 import { InvestorAgents } from '../components/investor/InvestorAgents';
 import { InvestorCase } from '../components/investor/InvestorCase';
+import { InvestorActRail } from '../components/investor/InvestorActRail';
 
 const investorSchema = {
   '@context': 'https://schema.org',
@@ -22,6 +23,7 @@ export default function InvestorPage({ onJoin }) {
   return (
     <div className="investor-page" data-testid="investor-page">
       <Seo title="Acoord Investor Brief — The Coordination Layer for AI" description="Acoord is building the Agent Human Interface: the operating layer where people, specialist agents, knowledge, tools, and approvals coordinate." path="/investor" schema={investorSchema} />
+      <InvestorActRail />
       <InvestorHero />
       <InvestorNarrative />
       <InvestorLaptopDemo scenarioId={scenarioId} onScenarioChange={setScenarioId} />
