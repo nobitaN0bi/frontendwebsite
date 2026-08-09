@@ -112,6 +112,13 @@ The 2026-08-09 investor expansion added a dedicated `/investor` narrative: expla
 - Testing-agent iteration 11 identified two critical interaction regressions: the fixed header intercepted desktop channel tabs, and controlled scene synchronization could enter a maximum-update-depth loop during guided-run stress. Both were fixed by moving the laptop below the header hit area and replacing two-way effects with a single stable scene-change callback. Missing Privacy/Terms automation identifiers in the waitlist were also added.
 - Post-fix verification on 2026-08-09: JavaScript lint and production build pass; normal Legal-channel pointer click succeeds, guided-run plus rapid rail/product-tab stress produces no console errors, Act IV updates to Legal context, waitlist legal hooks are present, and desktop has no horizontal overflow.
 
+- **2026-08-09 Investor review-ready refinement:** Tightened the five-act copy by roughly 30% and removed residual generic startup phrasing. Act I now states the product and bet in fewer words; Act II directly connects the isolated-chat assumption to agents entering operations and Ahi becoming the control plane; Act V closes with a shorter category answer.
+- Added a restrained fixed five-act progress grammar on desktop. The rail highlights Conviction, Coordination, Product Proof, System, and Evidence as the story advances and provides direct act navigation; it disappears on tablet/mobile to protect reading space.
+- Removed hard divider borders between the five acts so the black editorial film reads as one continuous argument rather than stacked webpage sections.
+- Reframed Act IV around three investor questions—**How it lands**, **How it operates**, and **Why it compounds**—and rewrote every commercial, agent, and moat box to carry one concise claim. The commercial sequence now reads: own one consequential workflow → cross the team boundary → become decision memory.
+- Reduced oversized hero/closing typography and tightened supporting copy to preserve negative space without returning to generic large-heading section patterns.
+- Verified on 2026-08-09: JavaScript lint and production build pass; smoke checks confirm the act rail, overflow, Act IV visual modes, and clean console. Testing-agent iteration 12 reports 100% frontend pass across act navigation and active state, Act II CHAT → OPERATIONS → GOVERNED progression, all nine product scenes, channel/guided-run regression, all Act IV/V modes, CTAs, desktop/tablet/mobile responsiveness, reduced motion, unique test IDs, and no horizontal overflow.
+
 ## Prioritized Backlog
 
 ### P0
