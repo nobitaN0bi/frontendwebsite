@@ -1,109 +1,80 @@
 {
-  "theme": "dark",
+  "component_name": "Investor",
   "typography": {
-    "primary_headings": {
-      "font": "Playfair Display, serif",
-      "weights": ["400", "500", "600"],
-      "usage": "Act I conviction statements, major section transitions, cinematic hero titles."
-    },
-    "secondary_headings": {
-      "font": "Source Serif 4, serif",
-      "weights": ["400"],
-      "usage": "Subtitles, narrative prose, storytelling paragraphs."
-    },
-    "monospace": {
-      "font": "JetBrains Mono, monospace",
-      "weights": ["400", "500"],
-      "usage": "Labels, metrics, evidence room data, diagrams, UI annotations."
-    },
-    "product_ui": {
-      "font": "Inter, sans-serif",
-      "weights": ["400", "500", "600"],
-      "usage": "Inside the MacBook demo ONLY."
+    "font_families": [
+      "Display: 'SF Pro Display', Inter, sans-serif (for headings)",
+      "Mono: 'SF Mono', monospace (for labels, kickers, system text, and acts)",
+      "Body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif"
+    ],
+    "scales": "Strictly limited to text-xs through text-6xl. No text-7xl+ to maintain editorial density. Tight tracking on headings, wide tracking on uppercase labels.",
+    "copy_tightening": {
+      "Act I Hero": {
+        "old": "Acoord is building the Agent Human Interface—the operating surface where people and specialist agents become one governable team.",
+        "new": "Acoord builds the Agent Human Interface—where people and agents operate as one governable team."
+      },
+      "Act I Bet": {
+        "old": "Every model improvement increases the surface area of work that must be coordinated.",
+        "new": "Model improvements multiply the work requiring coordination."
+      },
+      "Act II Assumption": {
+        "old": "That is true only while the model remains a conversation.",
+        "new": "True only for isolated conversations."
+      },
+      "Act II Reality": {
+        "old": "Agents add tools, permissions, context, evidence, handoffs, and parallel state.",
+        "new": "Agents introduce tools, parallel state, and handoffs."
+      },
+      "Act II Category": {
+        "old": "Ahi coordinates the work before capability turns into organisational entropy.",
+        "new": "Ahi coordinates capability before it becomes entropy."
+      },
+      "Act V Closing": {
+        "old": "Acoord’s answer is Ahi: the interface between abundant intelligence and consequential human work.",
+        "new": "Ahi: the interface between abundant intelligence and consequential work."
+      }
     }
   },
   "colors": {
-    "background": "#000000",
-    "surface": "#09090b",
-    "surface_elevated": "#18181b",
-    "border": "#27272a",
-    "text_primary": "#ffffff",
-    "text_secondary": "#a1a1aa",
-    "text_muted": "#52525b",
-    "product_action": "#3b82f6",
-    "product_bg": "#0f172a"
+    "palette": "Strict monochrome (#000, #fff, varying grays like #09090b, #111113, #29292c, #a1a1aa).",
+    "restrictions": "No gradients, orbs, or saturated colors. Only the laptop demo canvas may carry typical Apple-style UI colors."
   },
-  "motion_and_interactions": {
-    "library": "framer-motion",
-    "scroll_jacking": "Use useScroll and useTransform to create a sticky 'film' experience for Act III.",
-    "dialog_animation": "Dialog boxes over the laptop must use spring physics: { type: 'spring', damping: 20, stiffness: 100 }. They should fade and scale up (opacity 0 -> 1, scale 0.95 -> 1) dynamically based on scroll progress.",
-    "line_callouts": "Use SVG paths with pathLength animated via Framer Motion to draw lines from dialog boxes to specific UI elements on the laptop.",
-    "reduced_motion": "Wrap heavy animations in a check for prefers-reduced-motion. Provide a fallback static layout for mobile/reduced-motion users."
+  "visual enhancers": {
+    "progress_grammar": "Add a fixed vertical 'Act' progress indicator on the right or left margin that highlights I, II, III, IV, V as the user scrolls. Minimalist, monochrome dots or lines.",
+    "transitions": "Remove explicit borders between acts if they create hard stops. Blend acts via opacity fades, overlapping sticky sections, or a continuous 1px connecting vertical line that strings the arguments together.",
+    "box_hierarchy": "Ensure every box visually separates the 'Category insight' from 'Proof' with a single, clear typographic hierarchy. No excessive cards or shadows, just 1px #29292c borders and flat #09090b backgrounds."
   },
-  "layouts_and_structure": {
-    "five_act_structure": [
-      {
-        "act": "Act I: Conviction",
-        "description": "Fullscreen cinematic hero. Dark mode, stark white Playfair Display typography. Slow fade-ins. Text: 'Intelligence is abundant. Coordination is scarce.'",
-        "layout": "min-h-screen flex items-center justify-center text-center px-4"
-      },
-      {
-        "act": "Act II: The Coordination Problem",
-        "description": "Animated visual mode showing agent multiplication and coordination debt. Use an SVG-based network graph where nodes multiply and connections become tangled. No fake metrics, just visual metaphor.",
-        "layout": "py-32 container mx-auto grid md:grid-cols-2 gap-16 items-center"
-      },
-      {
-        "act": "Act III: The Product Proof (The Core)",
-        "description": "A massive sticky-scroll section. A beautifully rendered CSS/SVG MacBook Pro scales up to the center of the screen. As the user scrolls down, the screen stays sticky. Scroll progress triggers 9 distinct feature dialog boxes appearing sequentially over the laptop. Each dialog has an SVG line pointing to a UI element inside the screen.",
-        "layout": "h-[500vh] relative. Inside, a sticky top-0 h-screen flex items-center justify-center."
-      },
-      {
-        "act": "Act IV: Commercial System & Defensibility",
-        "description": "Compact architectural diagrams. No repetitive 3-column cards. Use an asymmetric 'Bento' grid with 1px borders, dense data, and JetBrains Mono for system components.",
-        "layout": "py-32 container mx-auto. Grid layout with tight gaps (gap-4). Surfaces are transparent with crisp white/gray borders."
-      },
-      {
-        "act": "Act V: Evidence Room",
-        "description": "Due diligence tabular view. Monospaced. Modeled scenarios must clearly be marked 'MOCKED' or 'MODELED'. Include Built/Modeled/Next states and risk awareness. Ends with a severe, high-contrast investor CTA.",
-        "layout": "py-32 max-w-4xl mx-auto space-y-16"
-      }
-    ]
-  },
-  "visual_enhancers": {
-    "textures": "Use the dark textured background (e.g., Unsplash plaster) at 10% opacity over the black background to remove the 'flat' digital feel. Use mix-blend-overlay.",
-    "borders": "Strict 1px solid #27272a. No soft shadows. Hard lines.",
-    "glows": "Prohibited. No orb glowing gradients. Keep it enterprise, sharp, and realistic."
-  },
-  "components_needed": [
-    "InvestorStory (Main Page Shell)",
-    "CinematicHero (Act I)",
-    "NetworkTangleVisual (Act II)",
-    "MacbookDemoScroll (Act III)",
-    "FeatureDialogBox (Act III subcomponent with SVG line)",
-    "SystemDiagramBento (Act IV)",
-    "EvidenceDataRoom (Act V)"
+  "component_path": [
+    "/app/frontend/src/components/investor/InvestorHero.jsx",
+    "/app/frontend/src/components/investor/InvestorNarrative.jsx",
+    "/app/frontend/src/components/investor/InvestorLaptopDemo.jsx",
+    "/app/frontend/src/components/investor/InvestorAgents.jsx",
+    "/app/frontend/src/components/investor/InvestorCase.jsx",
+    "/app/frontend/src/investor.css"
   ],
-  "accessibility_and_testing": {
-    "data_testids": "All interactive elements, dialogs, and sections must have unique kebab-case data-testid attributes (e.g., data-testid='investor-hero', data-testid='feature-dialog-1').",
-    "contrast": "Ensure minimum 4.5:1 contrast for all text, especially inside the product demo UI."
+  "grids": "Use bento-style asymmetrical grids for the system modes (Act IV). For Act V (Evidence Room), maintain strict table-like rows.",
+  "layouts": "Ensure smooth scroll-jacking in Act II and Act III via sticky positioning. Prevent overlap on mobile. Maintain explicit boundaries for MOCKED/MODELED data. Ensure every visual box carries exactly one investor argument.",
+  "motion": {
+    "pacing": "Transform/opacity first. Use ease-out for entrances/exits, ease-in-out for movement. Stagger children with 0.03s - 0.1s delays. Spring animations only for dialog boxes with damping 22, stiffness 120.",
+    "reduced_motion": "All motion must instantly resolve or conditionally skip if useInvestorReducedMotion() returns true. Never disable scrolling logic."
   },
-  "image_urls": {
-    "background_texture": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHwxfHxjaW5lbWF0aWMlMjBtaW5pbWFsaXN0JTIwZGFyayUyMHRleHR1cmV8ZW58MHx8fHwxNzg2MjkyNjU3fDA&ixlib=rb-4.1.0&q=85",
-    "macbook_screen_mockup": "Code-generated UI preferred to keep it crisp. No external laptop images needed if built via CSS."
+  "accessibility": {
+    "testing": "Unique data-testid coverage required on all interactive buttons, tabs, and major text blocks.",
+    "focus": "Maintain focus states for the tablist in Act IV and Act V."
   },
+  "media": {
+    "images": "No new images. Retain ASCII art in Hero. Retain DemoWorkspace inside laptop frame."
+  },
+  "3d_libraries": null,
+  "image_urls": [],
   "instructions_to_main_agent": [
-    "Do not build standard SaaS landing pages with huge padding and 3-column feature grids. This must feel like an editorial film or a high-end data room.",
-    "For Act III, use Framer Motion's useScroll with a target ref. Map the scrollYProgress to step indexes (0 to 8) to sequentially reveal the 9 dialog boxes.",
-    "Ensure dialog boxes physically overlap the laptop visual. Use absolute positioning inside a relative container.",
-    "Keep typography severely minimal outside the product demo. Playfair Display for big statements, JetBrains Mono for data.",
-    "Every metric in the Evidence Room MUST have a tag that says [MODELED] or [MOCKED] to abide by the user's strict rules."
+    "Do not redesign from scratch; improve what is already implemented.",
+    "Apply exact copy edits specified in the typography.copy_tightening section.",
+    "Add a minimalist 'Progress Grammar' component (e.g., a fixed sidebar with Act I, II, III, IV, V indicators tied to scroll).",
+    "Elevate cinematic transitions: In Act II and Act IV, ensure boxes are connected by 1px stroke lines showing logic flow (category insight -> why now -> product mechanism). Remove hard borders between acts and use a vertical connecting line or overlapping sticky sections.",
+    "Ensure every visual box carries one concise investor argument and shows its relationship to the next.",
+    "Enhance micro-motion with specific Framer Motion spring and ease-out curves.",
+    "Retain the strict monochrome style in investor.css. Strip any gradients.",
+    "Retain the strict boundaries marking evidence as MOCKED, MODELED, or WORKING."
   ],
-  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
-    "Create depth through layered design elements with z-index hierarchy.",
-    "Always use modern button styles, pill-shaped or sharp button with interaction animations.",
-    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
-    "Subtle grain textures, custom cursors, selection states, and loading animations separate good from extraordinary.",
-    "Use 2-3x more spacing than feels comfortable."
-  ]
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "Do not converge to generic 'AI slop'. Maintain high-craft, tension-driven editorial layouts. Focus on typographic hierarchy, deliberate negative space, and explicit logic rather than decorative containers."
 }
