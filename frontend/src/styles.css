@@ -465,6 +465,7 @@ button, .button, input, select, textarea { border-radius: 0; }
 .demo-chapter-copy strong { font: 500 30px var(--display); }
 .demo-chapter-copy p { margin: 0; color: #bdbdbd; font-size: 13px; }
 .demo-chapter-actions { display: flex; align-items: center; gap: 8px; }
+.demo-scenario-subtitle { max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #9a9a9a; font: italic 500 11px var(--mono); border-left: 1px solid rgba(255, 255, 255, .22); padding-left: 14px; margin-right: 4px; }
 .demo-chapter-actions button, .demo-chapter-actions a { min-height: 44px; padding: 0 15px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #fff; background: #000; border: 1px solid #fff; cursor: pointer; font: 600 9px var(--mono); text-transform: uppercase; }
 .demo-chapter-actions a { width: 44px; padding: 0; }
 .demo-scene-tabs { display: flex; overflow-x: auto; border-bottom: 1px solid #fff; scrollbar-width: thin; }
@@ -651,6 +652,7 @@ button, .button, input, select, textarea { border-radius: 0; }
   .demo-chapter-copy { grid-template-columns: auto 1fr; }
   .demo-chapter-copy p { grid-column: 1 / -1; }
   .demo-chapter-actions button { flex: 1; }
+  .demo-scenario-subtitle { order: -1; max-width: 100%; border-left: none; padding-left: 0; }
   .demo-frame-shell { min-height: 470px; }
   .demo-export-frame { height: 500px; }
   .trust-layer-list article { grid-template-columns: 30px 1fr 18px; }

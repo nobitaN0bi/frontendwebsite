@@ -26,6 +26,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
   const [channels, setChannels] = useState(fallbackChannels);
   const [stripRoot, setStripRoot] = useState(null);
   const [pillRoot, setPillRoot] = useState(null);
+  const [liveStatus, setLiveStatus] = useState(null);
   const iframeRef = useRef(null);
   const scenarioId = controlledId || localId;
   const scene = scenes[active];
@@ -56,6 +57,15 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
   }, []);
 
   useEffect(() => {
+    const onMessage = (event) => {
+      if (event.source !== iframeRef.current?.contentWindow) return;
+      if (event.data?.type === 'ahi:status') setLiveStatus(event.data.status);
+    };
+    window.addEventListener('message', onMessage);
+    return () => window.removeEventListener('message', onMessage);
+  }, []);
+
+  useEffect(() => {
     if (!touring) return undefined;
     const interval = window.setInterval(() => setActive((current) => (current + 1) % scenes.length), 6000);
     return () => window.clearInterval(interval);
@@ -68,6 +78,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
   const selectScene = (index) => {
     setActive(index);
     setTouring(false);
+    setLiveStatus(null);
   };
 
   const selectScenario = (id) => {
@@ -75,6 +86,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     if (onScenarioChange) onScenarioChange(id);
     setActive(0);
     setTouring(false);
+    setLiveStatus(null);
   };
 
   const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
@@ -101,8 +113,9 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
         <p data-testid="demo-active-scene-caption">{scene.caption}</p>
       </div>
       <div className="demo-chapter-actions">
+        <span className="demo-scenario-subtitle" data-testid="demo-scenario-subtitle" aria-live="polite">{touring && liveStatus ? `${scenario.label} / ${scene.label} — ${liveStatus}` : `${scenario.label} / ${scene.label} — ${scene.caption}`}</span>
         <span className="demo-mock-label" data-testid="demo-mock-label">MOCKED SCENARIO / WORKING SIMULATION</span>
-        <button type="button" onClick={() => setTouring((current) => !current)} data-testid="demo-guided-tour-button">
+        <button type="button" onClick={() => { setTouring((current) => !current); setLiveStatus(null); }} data-testid="demo-guided-tour-button">
           {touring ? <Pause size={15} /> : <Play size={15} fill="currentColor" />}
           {touring ? 'Pause enterprise run' : 'Play enterprise run'}
         </button>

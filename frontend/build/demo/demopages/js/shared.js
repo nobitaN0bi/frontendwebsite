@@ -21,7 +21,26 @@
     document.querySelectorAll(selectors).forEach((element, index) => {
       if (!element.dataset.testid) element.dataset.testid = `ahi-${page}-element-${index + 1}`;
     });
+    if (safeStorage.get('ahi-sidebar-collapsed') === '1') document.querySelector('.app-sidebar')?.classList.add('collapsed');
   });
+
+  // Sidebar collapse (icons-only when collapsed)
+  window.toggleSidebarCollapse = function () {
+    const sidebar = document.querySelector('.app-sidebar');
+    if (!sidebar) return;
+    const collapsed = sidebar.classList.toggle('collapsed');
+    safeStorage.set('ahi-sidebar-collapsed', collapsed ? '1' : '0');
+  };
+
+  // Right panel collapse (slim icon strip when collapsed)
+  window.togglePanelCollapse = function (element) {
+    const panel = element.closest('.thread-drawer, .thread-panel, .canvas-inspector, .folders-legend-drawer');
+    if (panel) panel.classList.toggle('collapsed');
+  };
+
+  window.renderPanelHandle = function () {
+    return '<button class="panel-collapse-handle" onclick="window.togglePanelCollapse(this)" title="Collapse / expand panel" type="button">❮❯</button>';
+  };
 
   // Theme Management
   const currentTheme = safeStorage.get('ahi-theme') || 'light';
@@ -102,6 +121,9 @@
           </a>
           <button class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Dark/Light Mode">
             <div class="theme-toggle-slider"></div>
+          </button>
+          <button class="sidebar-collapse-btn" onclick="window.toggleSidebarCollapse()" title="Collapse / expand sidebar" type="button">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
           </button>
         </div>
 

@@ -121,7 +121,7 @@
             <div class="avatar-circle" style="width:28px; height:28px; font-size:0.75rem;" title="Jane Doe">JD</div>
             <div class="avatar-circle" style="width:28px; height:28px; font-size:0.75rem; background:linear-gradient(135deg, #10b981, #3b82f6);" title="Alex Kim">AK</div>
             <div class="avatar-circle" style="width:28px; height:28px; font-size:0.75rem; background:linear-gradient(135deg, #f59e0b, #ec4899);" title="Sarah Chen">SC</div>
-            <div class="avatar-circle" style="width:28px; height:28px; font-size:0.75rem; background:linear-gradient(135deg, #6366f1, #a855f7);" title="AI Agent">🤖</div>
+            <div class="avatar-circle" style="width:28px; height:28px; font-size:0.75rem; background:linear-gradient(135deg, #64748b, #94a3b8);" title="AI Agent">🤖</div>
           </div>
           <button class="btn btn-secondary" onclick="toggleThreadPanel()">
             💬 Collaboration Thread (4)
@@ -200,6 +200,7 @@
 
         <!-- Right Side AI & Human Collaboration Thread Drawer -->
         <div class="thread-panel" id="thread-drawer">
+          <script>document.write(window.renderPanelHandle())</script>
           <div class="thread-header">
             <span>AI & Human Thread</span>
             <span class="badge badge-primary">Real-Time CRDT</span>

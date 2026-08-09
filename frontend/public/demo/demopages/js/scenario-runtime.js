@@ -131,36 +131,24 @@
 
   const injectWorkbar = (scenario) => {
     const spec = actions[page] || actions.home;
-    const workbar = document.createElement('section');
-    workbar.className = 'scenario-workbar';
-    workbar.dataset.testid = 'ahi-scenario-workbar';
-    workbar.innerHTML = `<div class="scenario-identity"><span>${escapeHtml(scenario.label)} / ${escapeHtml(scenario.company)}</span><strong>${escapeHtml(spec[0])}</strong></div><div class="scenario-live-copy"><i></i><span data-testid="ahi-scenario-status">Ready — ${escapeHtml(scenario.hook)}</span></div><button type="button" data-testid="ahi-simulate-action-button">Simulate this step <b>→</b></button><div class="scenario-trace" aria-hidden="true"></div>`;
-    const topbar = document.querySelector('.top-bar, .topbar, header');
-    if (topbar?.parentNode) topbar.insertAdjacentElement('afterend', workbar);
-    else document.body.prepend(workbar);
-    const button = workbar.querySelector('button');
-    const status = workbar.querySelector('[data-testid="ahi-scenario-status"]');
+    const postStatus = (status) => {
+      try { window.parent.postMessage({ type: 'ahi:status', page, status }, '*'); } catch { /* parent unavailable */ }
+    };
     const run = () => {
-      if (button.disabled) return;
-      button.disabled = true;
-      workbar.classList.add('is-running');
-      let step = 1;
-      status.textContent = spec[step];
-      const interval = window.setInterval(() => {
-        step += 1;
-        if (step < spec.length) {
-          status.textContent = spec[step];
+      let step = 0;
+      const tick = () => {
+        if (step === 0) postStatus(`Ready — ${scenario.hook}`);
+        else if (step < spec.length) postStatus(spec[step]);
+        else {
+          postStatus(`Complete — ${scenario.outcome}`);
+          if (page === 'code') setText('#terminal-log', `[Sandboxed Runtime] Policy validated.\n✔ ${scenario.codeTask}\n✔ Evidence persisted\n⏸ ${scenario.checkpoint}`);
           return;
         }
-        window.clearInterval(interval);
-        workbar.classList.remove('is-running');
-        workbar.classList.add('is-complete');
-        status.textContent = `Complete — ${scenario.outcome}`;
-        button.innerHTML = 'Simulation complete <b>✓</b>';
-        if (page === 'code') setText('#terminal-log', `[Sandboxed Runtime] Policy validated.\n✔ ${scenario.codeTask}\n✔ Evidence persisted\n⏸ ${scenario.checkpoint}`);
-      }, 780);
+        step += 1;
+        window.setTimeout(tick, 780);
+      };
+      tick();
     };
-    button.addEventListener('click', run);
     if (autoplay) window.setTimeout(run, 550);
   };
 
