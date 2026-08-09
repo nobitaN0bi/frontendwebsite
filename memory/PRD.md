@@ -113,6 +113,7 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 ## Next Tasks
 
+0. **PENDING (awaiting user scope confirmation):** Global "Web Animation Design" overhaul per Emil Kowalski guidelines — `ease-out` for enter/exit, `ease-in-out` for on-screen movement (no `linear`/`ease-in` for UI), Framer Motion springs, animate `transform`/`opacity` only with `will-change`, full `prefers-reduced-motion` + `@media (hover:hover) and (pointer:fine)` guards. Make the MacBook demo animation "100x better" and recreate the previously shared ASCII art/images as animated backgrounds within the new system. Apple-style tokens (Action Blue, SF Pro, edge-to-edge tiles) stay isolated to `MacBookDemoHero`; rest of site remains Minimalist Monochrome. (Last active user request — was blocked on `ask_human`.)
 1. Conversion analytics: track which industry and chapter visitors watch before booking a demo or joining the download waitlist.
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
 3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.
