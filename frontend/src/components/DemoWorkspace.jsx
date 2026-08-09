@@ -18,7 +18,7 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: controlledId, onScenarioChange }) => {
+export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: controlledId, onScenarioChange, onActiveSceneChange }) => {
   const [active, setActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
@@ -56,6 +56,10 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     window.addEventListener('acoord:motion', sendScenarioToFrame);
     return () => window.removeEventListener('acoord:motion', sendScenarioToFrame);
   }, [active, touring, sendScenarioToFrame]);
+
+  useEffect(() => {
+    if (onActiveSceneChange) onActiveSceneChange(active);
+  }, [active, onActiveSceneChange]);
 
   const selectScene = (index) => {
     setActive(index);

@@ -10,6 +10,7 @@ import LegalCenterPage from './pages/LegalCenterPage';
 import LegalPage from './pages/LegalPage';
 import ResourcesPage from './pages/ResourcesPage';
 import ArticlePage from './pages/ArticlePage';
+import InvestorPage from './pages/InvestorPage';
 
 export default function App() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/use-cases/:slug" element={<UseCasePage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/resources/:slug" element={<ArticlePage />} />
+        <Route path="/investor" element={<InvestorPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/legal" element={<LegalCenterPage />} />
         <Route path="/legal/:document" element={<LegalPage />} />
         <Route path="*" element={<HomePage onJoin={() => setWaitlistOpen(true)} />} />

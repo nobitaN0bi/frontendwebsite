@@ -1,0 +1,32 @@
+{
+  "summary": "Frontend-only investor page verification completed on public preview URL. Validated route sections, nine-scene demo sync, guided run, channel switching, investor links, booking CTAs, waitlist modal, MOCKED disclaimers, reduced-motion behavior, data-testid coverage, and desktop/mobile overflow checks.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_10.json"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "All investor critical interactions tested in this run had data-testid coverage and unique IDs.",
+    "MOCKED boundaries are explicitly present in demo and proof sections; no explicit TAM/ARR traction claims were found."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_10.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "100%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Initial broad UI run had two false negatives due timing/visibility checks; targeted rerun with scroll + longer waits confirmed all 9 scene tabs correctly synchronize investor dialogs/checkpoints on desktop and mobile.",
+  "rca of the issue": "No product defect confirmed in this run. Earlier ontology/mobile dialog failures were test-timing artifacts (insufficient wait before visibility assertion), not functional bugs."
+}
