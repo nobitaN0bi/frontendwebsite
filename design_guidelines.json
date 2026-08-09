@@ -1,135 +1,109 @@
 {
-  "theme": {
-    "mode": "dark",
-    "rationale": "Apple-inspired dark MacBook showcase and strict minimalist monochrome editorial design require a dark-first approach for cinematic, high-contrast narrative impact."
-  },
+  "theme": "dark",
   "typography": {
-    "fonts": {
-      "headings": "Playfair Display",
-      "body": "Source Serif 4",
-      "technical_and_labels": "JetBrains Mono"
+    "primary_headings": {
+      "font": "Playfair Display, serif",
+      "weights": ["400", "500", "600"],
+      "usage": "Act I conviction statements, major section transitions, cinematic hero titles."
     },
-    "hierarchy": {
-      "h1": "text-5xl md:text-6xl+ font-medium tracking-tight leading-none",
-      "h2": "text-3xl md:text-4xl font-medium tracking-tight",
-      "h3": "text-xl md:text-2xl font-normal",
-      "body": "text-base md:text-lg leading-relaxed text-gray-300",
-      "labels": "text-xs uppercase tracking-[0.2em] font-mono text-gray-400"
+    "secondary_headings": {
+      "font": "Source Serif 4, serif",
+      "weights": ["400"],
+      "usage": "Subtitles, narrative prose, storytelling paragraphs."
     },
-    "pairing_archetype": "The Old Money Tech (Classic Serif Head + Serif Body + Sterile Mono Accents)",
-    "rules": [
-      "NO generic sans-serif fonts for headings (NO Inter, Roboto, etc.).",
-      "Headings must use tight letter spacing.",
-      "Overlines and tags MUST use JetBrains Mono, uppercase, wide spacing.",
-      "Never center-align paragraphs; maintain optical left alignment for readability."
-    ]
+    "monospace": {
+      "font": "JetBrains Mono, monospace",
+      "weights": ["400", "500"],
+      "usage": "Labels, metrics, evidence room data, diagrams, UI annotations."
+    },
+    "product_ui": {
+      "font": "Inter, sans-serif",
+      "weights": ["400", "500", "600"],
+      "usage": "Inside the MacBook demo ONLY."
+    }
   },
   "colors": {
-    "archetype": "Swiss & High-Contrast (Cinematic Monochrome)",
-    "palette": {
-      "background": "#050505",
-      "surface": "#0A0A0A",
-      "text_primary": "#FFFFFF",
-      "text_secondary": "#A1A1AA",
-      "border": "#27272A",
-      "accent": "#FFFFFF"
-    },
-    "rules": [
-      "Strict minimalist monochrome.",
-      "NO gradients.",
-      "NO teal, blue, or typical SaaS colors.",
-      "Borders should be extremely subtle (1px solid border-border) or omitted in favor of spacing.",
-      "Use opacity (e.g., text-white/70) for hierarchy, not color changes."
+    "background": "#000000",
+    "surface": "#09090b",
+    "surface_elevated": "#18181b",
+    "border": "#27272a",
+    "text_primary": "#ffffff",
+    "text_secondary": "#a1a1aa",
+    "text_muted": "#52525b",
+    "product_action": "#3b82f6",
+    "product_bg": "#0f172a"
+  },
+  "motion_and_interactions": {
+    "library": "framer-motion",
+    "scroll_jacking": "Use useScroll and useTransform to create a sticky 'film' experience for Act III.",
+    "dialog_animation": "Dialog boxes over the laptop must use spring physics: { type: 'spring', damping: 20, stiffness: 100 }. They should fade and scale up (opacity 0 -> 1, scale 0.95 -> 1) dynamically based on scroll progress.",
+    "line_callouts": "Use SVG paths with pathLength animated via Framer Motion to draw lines from dialog boxes to specific UI elements on the laptop.",
+    "reduced_motion": "Wrap heavy animations in a check for prefers-reduced-motion. Provide a fallback static layout for mobile/reduced-motion users."
+  },
+  "layouts_and_structure": {
+    "five_act_structure": [
+      {
+        "act": "Act I: Conviction",
+        "description": "Fullscreen cinematic hero. Dark mode, stark white Playfair Display typography. Slow fade-ins. Text: 'Intelligence is abundant. Coordination is scarce.'",
+        "layout": "min-h-screen flex items-center justify-center text-center px-4"
+      },
+      {
+        "act": "Act II: The Coordination Problem",
+        "description": "Animated visual mode showing agent multiplication and coordination debt. Use an SVG-based network graph where nodes multiply and connections become tangled. No fake metrics, just visual metaphor.",
+        "layout": "py-32 container mx-auto grid md:grid-cols-2 gap-16 items-center"
+      },
+      {
+        "act": "Act III: The Product Proof (The Core)",
+        "description": "A massive sticky-scroll section. A beautifully rendered CSS/SVG MacBook Pro scales up to the center of the screen. As the user scrolls down, the screen stays sticky. Scroll progress triggers 9 distinct feature dialog boxes appearing sequentially over the laptop. Each dialog has an SVG line pointing to a UI element inside the screen.",
+        "layout": "h-[500vh] relative. Inside, a sticky top-0 h-screen flex items-center justify-center."
+      },
+      {
+        "act": "Act IV: Commercial System & Defensibility",
+        "description": "Compact architectural diagrams. No repetitive 3-column cards. Use an asymmetric 'Bento' grid with 1px borders, dense data, and JetBrains Mono for system components.",
+        "layout": "py-32 container mx-auto. Grid layout with tight gaps (gap-4). Surfaces are transparent with crisp white/gray borders."
+      },
+      {
+        "act": "Act V: Evidence Room",
+        "description": "Due diligence tabular view. Monospaced. Modeled scenarios must clearly be marked 'MOCKED' or 'MODELED'. Include Built/Modeled/Next states and risk awareness. Ends with a severe, high-contrast investor CTA.",
+        "layout": "py-32 max-w-4xl mx-auto space-y-16"
+      }
     ]
   },
   "visual_enhancers": {
-    "surfaces": "Solid flat backgrounds with crisp 1px borders. No glassmorphism unless strictly needed for floating dialogs, in which case use backdrop-blur-xl with a 1px border-white/10.",
-    "textures": "Subtle digital grain/noise on dark backgrounds to add filmic depth.",
-    "anti_patterns": [
-      "NO decorative orbs or glowing blobs.",
-      "NO nested cards (avoid 'cards within cards' look).",
-      "NO 'Vercel-style' gradients."
-    ]
+    "textures": "Use the dark textured background (e.g., Unsplash plaster) at 10% opacity over the black background to remove the 'flat' digital feel. Use mix-blend-overlay.",
+    "borders": "Strict 1px solid #27272a. No soft shadows. Hard lines.",
+    "glows": "Prohibited. No orb glowing gradients. Keep it enterprise, sharp, and realistic."
   },
-  "layouts": {
-    "spacing_system": "Generous spacing. Use p-12, p-16, py-32 for section padding. Tension and negative space are critical.",
-    "grid_strategy": "The Swiss Grid / Bento Tetris. Use asymmetrical multi-column layouts for the thesis and architecture sections.",
-    "sections": [
-      {
-        "id": "hero",
-        "description": "Cinematic hero, thesis statement on why coordination is scarce while intelligence is abundant. High typography focus."
-      },
-      {
-        "id": "market_timing",
-        "description": "Text-heavy editorial section. Playfair Display headings, Source Serif body. Left-aligned."
-      },
-      {
-        "id": "product_demo",
-        "description": "The MacBook central visual. A tabbed interface underneath or beside the laptop controls the visible features."
-      },
-      {
-        "id": "agent_profiles",
-        "description": "Team-of-agents visualization using existing scenario data. Monochrome portrait grid."
-      },
-      {
-        "id": "business_model_moat",
-        "description": "Defensibility & trust architecture. Use JetBrains Mono for trust architecture diagrams/specs."
-      },
-      {
-        "id": "roadmap",
-        "description": "Milestones and roadmap. Must include EXPLICIT 'MOCKED' labels on any forward-looking metrics/scenarios to avoid misrepresentation."
-      }
-    ]
+  "components_needed": [
+    "InvestorStory (Main Page Shell)",
+    "CinematicHero (Act I)",
+    "NetworkTangleVisual (Act II)",
+    "MacbookDemoScroll (Act III)",
+    "FeatureDialogBox (Act III subcomponent with SVG line)",
+    "SystemDiagramBento (Act IV)",
+    "EvidenceDataRoom (Act V)"
+  ],
+  "accessibility_and_testing": {
+    "data_testids": "All interactive elements, dialogs, and sections must have unique kebab-case data-testid attributes (e.g., data-testid='investor-hero', data-testid='feature-dialog-1').",
+    "contrast": "Ensure minimum 4.5:1 contrast for all text, especially inside the product demo UI."
   },
-  "motion": {
-    "strategy": "Cinematic and deliberate. Ease-out for entrances, ease-in-out for on-screen movement.",
-    "laptop_dialog_overlays": {
-      "trigger": "Clicking on one of the 9 feature tabs (Dispatch, Ontology, Agent Builder, Docs + Thread, Knowledge, Collaboration, Code, Browser, Teamspaces).",
-      "animation": "Framer Motion absolute positioned motion.div elements over the laptop screen area.",
-      "properties": "Animate 'opacity' (0 to 1) and 'y' (transform from y: 10 to y: 0). Do NOT use scale or complex 3D transforms.",
-      "timing": "transition: { duration: 0.4, ease: 'easeOut' }"
-    },
-    "accessibility": "Must respect prefers-reduced-motion. Disable hover animations on touch devices."
-  },
-  "interactive_components": {
-    "laptop_showcase": "A central MacBook frame (image or CSS rendering) containing relative bounding boxes. The 9 feature dialogs appear inside this frame, with lines/pointers (SVG) anchoring them to specific parts of the 'screen'.",
-    "feature_tabs": "A minimalist list of 9 features. Active state is white text with a left border or bullet; inactive is gray text. JetBrains Mono for the tab names.",
-    "testing": "All interactive elements must have data-testid attributes (e.g., data-testid='tab-ontology', data-testid='dialog-ontology')."
-  },
-  "media": {
-    "strategy": "Apple-inspired dark MacBook product showcase. Cinematic monochrome imagery for abstract concepts.",
-    "image_urls": [
-      {
-        "url": "https://images.unsplash.com/photo-1541140134513-85a161dc4a00?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxjaW5lbWF0aWMlMjBmaWxtJTIwYWJzdHJhY3QlMjBtb25vY2hyb21lJTIwdGV4dHVyZXxlbnwwfHx8fDE3ODYyODg4MzV8MA&ixlib=rb-4.1.0&q=85",
-        "category": "texture_background",
-        "description": "Monochrome cinematic texture for hero background or section dividers."
-      },
-      {
-        "url": "https://images.unsplash.com/photo-1596865249308-2472dc5807d7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxjaW5lbWF0aWMlMjBmaWxtJTIwYWJzdHJhY3QlMjBtb25vY2hyb21lJTIwdGV4dHVyZXxlbnwwfHx8fDE3ODYyODg4MzV8MA&ixlib=rb-4.1.0&q=85",
-        "category": "abstract_concept",
-        "description": "Abstract black and white flow, useful for 'Coordination vs Intelligence' visual metaphor."
-      }
-    ],
-    "guidelines": "Use existing agent profiles/content. Do not introduce new stock faces unless stylized in monochrome."
+  "image_urls": {
+    "background_texture": "https://images.unsplash.com/photo-1578662996442-48f60103fc96?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHwxfHxjaW5lbWF0aWMlMjBtaW5pbWFsaXN0JTIwZGFyayUyMHRleHR1cmV8ZW58MHx8fHwxNzg2MjkyNjU3fDA&ixlib=rb-4.1.0&q=85",
+    "macbook_screen_mockup": "Code-generated UI preferred to keep it crisp. No external laptop images needed if built via CSS."
   },
   "instructions_to_main_agent": [
-    "Create a new route/page component at `/investor`.",
-    "Implement the strict typographic system: Playfair Display (h1/h2), Source Serif 4 (body), JetBrains Mono (technical/tags).",
-    "Build the MacBook interactive component: Use a static MacBook frame image or CSS, and absolutely position Framer Motion tooltips/dialogs within it. Map the 9 features to specific (x,y) coordinates within the screen bounds.",
-    "Ensure the narrative flow follows the problem statement: Hero -> Counter-intuitive Thesis -> Market Timing -> Laptop Demo (Architecture) -> Agent Profiles -> Business Model/Moat -> Roadmap (with 'MOCKED' labels) -> CTA.",
-    "DO NOT INVENT NUMBERS. Use text-based arguments for TAM and Defensibility. Explicitly label any scenario modeling as MOCKED.",
-    "Apply `data-testid` to all tabs, dialogs, and CTAs (e.g. waitlist button).",
-    "Ensure there are NO gradients and NO nested cards. Use borders and spacing to separate content.",
-    "Implement the page with pure HTML/Tailwind and Framer Motion. Avoid Shadcn cards if they force rounded corners and shadows that break the editorial look."
+    "Do not build standard SaaS landing pages with huge padding and 3-column feature grids. This must feel like an editorial film or a high-end data room.",
+    "For Act III, use Framer Motion's useScroll with a target ref. Map the scrollYProgress to step indexes (0 to 8) to sequentially reveal the 9 dialog boxes.",
+    "Ensure dialog boxes physically overlap the laptop visual. Use absolute positioning inside a relative container.",
+    "Keep typography severely minimal outside the product demo. Playfair Display for big statements, JetBrains Mono for data.",
+    "Every metric in the Evidence Room MUST have a tag that says [MODELED] or [MOCKED] to abide by the user's strict rules."
   ],
   "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
-    "Do not converge toward generic AI slop aesthetics.",
-    "Create depth through layered design elements and stark contrast, not shadows or glows.",
-    "Never center-align large blocks of text.",
-    "Do not use transparent backgrounds under text where images or borders might overlap.",
-    "Include hover states (e.g., opacity shifts) for all interactive elements.",
-    "Prioritize optical alignment over strict geometric alignment.",
-    "Include 'MOCKED' in uppercase JetBrains Mono for any placeholder metrics.",
-    "Use standard HTML/Tailwind for structural layout; use Framer Motion ONLY for the specified laptop dialog animations and gentle section reveal (opacity/y)."
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid this.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Always use modern button styles, pill-shaped or sharp button with interaction animations.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
+    "Subtle grain textures, custom cursors, selection states, and loading animations separate good from extraordinary.",
+    "Use 2-3x more spacing than feels comfortable."
   ]
 }
