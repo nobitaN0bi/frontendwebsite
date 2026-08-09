@@ -101,6 +101,17 @@ The 2026-08-09 investor expansion added a dedicated `/investor` narrative: expla
 - Added investor navigation in the global header and footer, route SEO metadata, unique automation identifiers for critical content and interactions, responsive mobile layouts, touch-safe hover behavior, and both operating-system and in-app reduced-motion handling.
 - Verified on 2026-08-09: JavaScript lint and production build pass; external-preview smoke test confirms no desktop overflow and synchronized Ontology dialogs; testing-agent iteration 10 reports 100% frontend pass across all sections, all nine scenes, guided-run synchronization, channel/agent updates, booking and waitlist CTAs, desktop 1920×800, mobile 390×844, reduced motion, data-testid coverage, and clean browser console.
 
+- **2026-08-09 Investor five-act cinematic rebuild:** Replaced the first investor-page layout after user feedback that it felt like an AI-generated stack of oversized sections. The route is now one authored five-act film: **Conviction**, **Coordination Problem**, **Product Proof**, **Commercial System**, and **Evidence Room**, followed by one severe investment question.
+- Act I now opens with a paced four-line conviction reveal—“Intelligence is abundant. Coordination is scarce.”—with one concise category statement and no feature-grid clutter.
+- Act II is a 280svh sticky visual argument. Scroll advances through assumption → multiplying actors → governed control plane while agent, system, evidence, and human boxes assemble into a coordination network. The network communicates increasing coordination surface without fabricated market metrics.
+- Act III is a 760svh product-proof film. The MacBook remains fixed while scroll progress advances all nine live Ahi surfaces in sequence; each surface receives one spring-driven explanatory box, one physical connector, one human-line box, and synchronized product state. A compact chapter rail also supports direct navigation.
+- Refactored `DemoWorkspace` into a stable controlled/uncontrolled scene model so scroll, direct product tabs, chapter rail, and guided enterprise run can share scene state without feedback loops.
+- Act IV consolidates commercial wedge, scenario-aware operating cast, and compounding moat into one visual explainer with three deliberate modes rather than separate card sections. Scenario changes inside the laptop update the operating-cast owner, teamspace, and agents.
+- Act V is a due-diligence console with **BUILT**, **MODELED**, **NEXT**, and **RISKS** views. Every claim carries an evidence-state label, modeled content remains explicit, and the public page states that no TAM, ARR, customer, traction, or fundraising numbers are asserted.
+- Reworked investor responsive behavior: desktop uses pinned cinematic stages; mobile and reduced-motion modes become static, directly controllable compositions without losing any dialog, proof state, or CTA.
+- Testing-agent iteration 11 identified two critical interaction regressions: the fixed header intercepted desktop channel tabs, and controlled scene synchronization could enter a maximum-update-depth loop during guided-run stress. Both were fixed by moving the laptop below the header hit area and replacing two-way effects with a single stable scene-change callback. Missing Privacy/Terms automation identifiers in the waitlist were also added.
+- Post-fix verification on 2026-08-09: JavaScript lint and production build pass; normal Legal-channel pointer click succeeds, guided-run plus rapid rail/product-tab stress produces no console errors, Act IV updates to Legal context, waitlist legal hooks are present, and desktop has no horizontal overflow.
+
 ## Prioritized Backlog
 
 ### P0
@@ -126,7 +137,7 @@ The 2026-08-09 investor expansion added a dedicated `/investor` narrative: expla
 
 ## Next Tasks
 
-0. Extend the verified investor-page animation language into the remaining global homepage motion audit: `ease-out` for entrances/exits, `ease-in-out` for on-screen movement, transform/opacity-only motion, and complete reduced-motion/touch guards.
+0. Extend the verified five-act investor animation language into the remaining global homepage motion audit: one argument per stage, visual explanation modes instead of repetitive cards, `ease-out` for entrances/exits, `ease-in-out` for on-screen movement, transform/opacity-first motion, and complete reduced-motion/touch guards.
 1. Conversion analytics: track which investor chapter, industry, and product surface visitors view before booking a demo or joining the download waitlist.
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
 3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.

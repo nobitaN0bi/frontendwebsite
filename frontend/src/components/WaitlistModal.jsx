@@ -78,7 +78,7 @@ export const WaitlistModal = ({ open, onClose }) => {
                 <textarea name="message" rows="3" value={form.message} onChange={update} placeholder="Agents, people, tools, decisions..." data-testid="waitlist-message-input" />
               </label>
               {error && <p className="form-error" role="alert" data-testid="waitlist-error-message">{error}</p>}
-              <label className="consent-row"><input required type="checkbox" name="consent" checked={form.consent} onChange={update} data-testid="waitlist-consent-checkbox" /><span>I agree that Acoord may process this information to respond to my request. See the <a href="/legal/privacy" target="_blank">Privacy Policy</a> and <a href="/legal/terms" target="_blank">Terms</a>.</span></label>
+              <label className="consent-row"><input required type="checkbox" name="consent" checked={form.consent} onChange={update} data-testid="waitlist-consent-checkbox" /><span>I agree that Acoord may process this information to respond to my request. See the <a href="/legal/privacy" target="_blank" data-testid="waitlist-privacy-link">Privacy Policy</a> and <a href="/legal/terms" target="_blank" data-testid="waitlist-terms-link">Terms</a>.</span></label>
               <button className="button button-ink form-submit" disabled={status === 'loading'} data-testid="waitlist-submit-button">
                 {status === 'loading' ? <><LoaderCircle className="spin" size={17} /> Saving request</> : 'Join the download waitlist'}
               </button>

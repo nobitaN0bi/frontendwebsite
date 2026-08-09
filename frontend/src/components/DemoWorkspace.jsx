@@ -19,11 +19,15 @@ const fallbackChannels = [
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
 export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: controlledId, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
-  const [active, setActive] = useState(0);
+  const [internalActive, setInternalActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
   const [channels, setChannels] = useState(fallbackChannels);
   const iframeRef = useRef(null);
+  const activeRef = useRef(0);
+  const sceneControlled = Number.isInteger(activeSceneIndex);
+  const active = sceneControlled ? activeSceneIndex : internalActive;
+  activeRef.current = active;
   const scenarioId = controlledId || localId;
   const scene = scenes[active];
   const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
@@ -37,6 +41,12 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     }, '*');
   }, [scenario]);
 
+  const changeActive = useCallback((next) => {
+    const value = typeof next === 'function' ? next(activeRef.current) : next;
+    if (!sceneControlled) setInternalActive(value);
+    if (onActiveSceneChange) onActiveSceneChange(value);
+  }, [onActiveSceneChange, sceneControlled]);
+
   useEffect(() => {
     let activeRequest = true;
     fetch('/demo/scenarios.json').then((response) => response.json()).then((data) => {
@@ -47,9 +57,9 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
 
   useEffect(() => {
     if (!touring) return undefined;
-    const interval = window.setInterval(() => setActive((current) => (current + 1) % scenes.length), 6000);
+    const interval = window.setInterval(() => changeActive((current) => (current + 1) % scenes.length), 6000);
     return () => window.clearInterval(interval);
-  }, [touring]);
+  }, [changeActive, touring]);
 
   useEffect(() => {
     sendScenarioToFrame();
@@ -57,23 +67,15 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     return () => window.removeEventListener('acoord:motion', sendScenarioToFrame);
   }, [active, touring, sendScenarioToFrame]);
 
-  useEffect(() => {
-    if (onActiveSceneChange) onActiveSceneChange(active);
-  }, [active, onActiveSceneChange]);
-
-  useEffect(() => {
-    if (Number.isInteger(activeSceneIndex) && activeSceneIndex !== active) setActive(activeSceneIndex);
-  }, [active, activeSceneIndex]);
-
   const selectScene = (index) => {
-    setActive(index);
+    changeActive(index);
     setTouring(false);
   };
 
   const selectScenario = (id) => {
     setLocalId(id);
     if (onScenarioChange) onScenarioChange(id);
-    setActive(0);
+    changeActive(0);
     setTouring(false);
   };
 
