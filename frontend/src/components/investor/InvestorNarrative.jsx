@@ -1,39 +1,46 @@
-import { InvestorReveal } from './InvestorReveal';
-import { investorThesis, timingSignals } from '../../data/investorContent';
+import { useRef, useState } from 'react';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'framer-motion';
+import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
-export const InvestorNarrative = () => (
-  <>
-    <section className="investor-section investor-thesis" data-testid="investor-thesis-section">
-      <InvestorReveal className="investor-section-head" testId="investor-thesis-heading">
-        <p className="investor-kicker">01 / THE THESIS</p>
-        <h2>More intelligence creates more coordination.</h2>
-        <p>The common assumption is that a better model removes the need for workflow. In an enterprise, the opposite happens: more capable agents can touch more consequential work.</p>
-      </InvestorReveal>
-      <div className="investor-thesis-grid" data-testid="investor-thesis-grid">
-        {investorThesis.map((item, index) => (
-          <InvestorReveal as="article" key={item.code} delay={index * 0.08} testId={`investor-thesis-${item.code}`}>
-            <span>{item.code}</span><h3>{item.title}</h3><p>{item.text}</p>
-          </InvestorReveal>
-        ))}
+const beats = [
+  { label: 'THE ASSUMPTION', title: 'One better model replaces the workflow.', copy: 'That is true only while the model remains a conversation.' },
+  { label: 'THE REALITY', title: 'Useful intelligence multiplies actors.', copy: 'Agents add tools, permissions, context, evidence, handoffs, and parallel state.' },
+  { label: 'THE CATEGORY', title: 'The interface becomes the control plane.', copy: 'Ahi coordinates the work before capability turns into organisational entropy.' }
+];
+
+const nodes = ['INTENT', 'LEAD', 'RESEARCH', 'ANALYST', 'WRITER', 'POLICY', 'SYSTEM', 'EVIDENCE', 'HUMAN'];
+
+export const InvestorNarrative = () => {
+  const sectionRef = useRef(null);
+  const [beat, setBeat] = useState(0);
+  const reduced = useInvestorReducedMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
+  useMotionValueEvent(scrollYProgress, 'change', (value) => { if (!reduced) setBeat(Math.min(2, Math.floor(value * 3))); });
+
+  return (
+    <section ref={sectionRef} className="investor-coordination" id="coordination-problem" data-testid="investor-coordination-section">
+      <div className="investor-coordination-sticky">
+        <p className="investor-act-label">ACT II / THE COORDINATION PROBLEM</p>
+        <div className="coordination-frame">
+          <div className="coordination-narrative" data-testid="investor-coordination-narrative">
+            <AnimatePresence mode="wait">
+              <motion.div key={beat} initial={reduced ? false : { opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} exit={reduced ? undefined : { opacity: 0, y: -16 }} transition={{ duration: .48, ease: [0.16, 1, 0.3, 1] }}>
+                <span>{beats[beat].label}</span><h2>{beats[beat].title}</h2><p>{beats[beat].copy}</p>
+              </motion.div>
+            </AnimatePresence>
+            <div className="coordination-beat-rail" aria-hidden="true">{beats.map((item, index) => <i key={item.label} className={index === beat ? 'active' : ''} />)}</div>
+          </div>
+          <div className={`coordination-visual beat-${beat}`} data-testid="investor-coordination-visual">
+            <div className="coordination-window-bar"><span>VISUAL MODE / COORDINATION SURFACE</span><b>{beat + 1} / 3</b></div>
+            <div className="coordination-canvas">
+              {nodes.map((node, index) => <motion.div key={node} className={`coord-node node-${index}`} animate={{ opacity: index === 0 || beat > 0 ? 1 : 0, y: index === 0 || beat > 0 ? 0 : 18 }} transition={{ duration: .42, delay: reduced ? 0 : index * .035, ease: [0.16, 1, 0.3, 1] }}>{node}</motion.div>)}
+              {Array.from({ length: 10 }, (_, index) => <motion.i key={index} className={`coord-line line-${index}`} animate={{ opacity: beat > 0 ? 1 : 0, scaleX: beat > 0 ? 1 : 0 }} transition={{ duration: .58, delay: reduced ? 0 : index * .035, ease: [0.65, 0, 0.35, 1] }} />)}
+              <motion.div className="coordination-boundary" animate={{ opacity: beat === 2 ? 1 : 0, y: beat === 2 ? 0 : 12 }} transition={{ duration: .5, ease: [0.16, 1, 0.3, 1] }}><span>AHI CONTROL PLANE</span><p>context · authority · state · record</p></motion.div>
+            </div>
+            <div className="coordination-status"><span>CAPABILITY ↑</span><span>COORDINATION SURFACE ↑↑</span><strong>{beat === 2 ? 'GOVERNED' : beat === 1 ? 'FRAGMENTING' : 'SIMPLE'}</strong></div>
+          </div>
+        </div>
       </div>
     </section>
-
-    <section className="investor-section investor-timing" data-testid="investor-timing-section">
-      <InvestorReveal className="investor-section-head" testId="investor-timing-heading">
-        <p className="investor-kicker">02 / WHY NOW</p>
-        <h2>The interface layer is moving.</h2>
-        <p>Ahi is built for a transition from single-model chat to multi-agent, cross-system operations—without asking the enterprise to surrender the human line.</p>
-      </InvestorReveal>
-      <div className="investor-signal-list" data-testid="investor-timing-signal-list">
-        {timingSignals.map(([label, text], index) => (
-          <InvestorReveal as="article" key={label} delay={index * 0.07} testId={`investor-signal-${index + 1}`}>
-            <span>0{index + 1}</span><h3>{label}</h3><p>{text}</p>
-          </InvestorReveal>
-        ))}
-      </div>
-      <InvestorReveal className="investor-category-line" testId="investor-category-statement">
-        <span>CATEGORY</span><strong>Not another agent. The place every agent becomes a team.</strong>
-      </InvestorReveal>
-    </section>
-  </>
-);
+  );
+};

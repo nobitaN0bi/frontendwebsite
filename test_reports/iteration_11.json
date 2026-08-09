@@ -1,0 +1,62 @@
+{
+  "summary": "Frontend-only investor regression on public URL completed across desktop (1920x800), tablet (768x1024), mobile (390x844), and reduced-motion modes. Core storytelling sections render, Act II reaches SIMPLE→FRAGMENTING→GOVERNED, nine-step product scene sequencing works with synchronized dialog/checkpoint after deliberate waits, Act V views are functional, and waitlist/booking CTAs are present. Two critical issues found: enterprise channel tabs are blocked by header pointer interception in normal user clicks, and guided-run + rapid scene interaction emits React 'Maximum update depth exceeded' console errors.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "DemoWorkspace enterprise channel selector (Act III)",
+        "issue": "Normal click on channel tabs (e.g., Legal) is blocked; header intercepts pointer events so scenario does not switch.",
+        "selector": "[data-testid='demo-channel-legal-tab']",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Guided enterprise run + rapid scene controls",
+        "issue": "Console emits 'Maximum update depth exceeded' during active guided run with repeated scene interactions, indicating a state update loop risk.",
+        "affected_selectors": [
+          "[data-testid='demo-guided-tour-button']",
+          "[data-testid^='investor-demo-step-']",
+          "[data-testid^='demo-scene-']"
+        ]
+      }
+    ],
+    "design_issues": [
+      {
+        "screen": "Investor desktop (Act III)",
+        "issues": [
+          "Fixed site header overlaps interactive channel row region inside laptop demo, reducing direct click usability."
+        ]
+      }
+    ]
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_11.json"
+  ],
+  "action_items": [
+    "Fix click interception for enterprise channel tabs under fixed header so user pointer clicks can change scenarios reliably.",
+    "Investigate and remove the guided-run/scene-control state feedback loop causing 'Maximum update depth exceeded' errors.",
+    "Re-verify Act IV channel-linked context updates (owner/teamspace/cast) after channel click fix.",
+    "Add missing data-testid attributes to interactive waitlist legal links (Privacy Policy, Terms)."
+  ],
+  "critical_code_review_comments": [
+    "Investor page has strong data-testid coverage overall, but two interactive links in WaitlistModal lack data-testid (Privacy Policy and Terms).",
+    "Channel switching logic works when triggered via direct DOM click, but pointer-based interaction is blocked by layout stacking (header overlap), pointing to z-index/top-offset hitbox conflict rather than missing handler.",
+    "MOCKED/MODELED boundaries are explicit and visible in investor demo/evidence copy; enterprise companies/operators/outcomes remain clearly marked as MOCKED or MODELED."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_11.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "84%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Use public URL /investor only. Confirm channel tabs with normal click (not DOM click fallback) and verify Act IV context changes away from Finance after selecting Legal. Also stress guided-run with repeated rail/tab clicks and monitor console for recurring 'Maximum update depth exceeded'. If fixed, rerun mobile dialog/checkpoint visibility with 1.2-1.6s waits due motion timing.",
+  "rca of the issue": "RCA-1 (channel tabs): In desktop Act III, normal pointer clicks on demo-channel tabs are intercepted by the fixed site header ('site-header intercepts pointer events' observed by Playwright). Because click events do not reach the tab button, scenarioId remains finance and Act IV context does not update. RCA-2 (console error): During guided-run and rapid scene changes, React logs 'Maximum update depth exceeded', suggesting a parent-child state synchronization loop in scene control flow (guided run interval + manual scene updates + synchronized activeScene callbacks)."
+}
