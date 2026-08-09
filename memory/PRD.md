@@ -6,15 +6,19 @@ Build the acoord.co landing experience for “solving artificial coordination”
 
 The 2026-08-02 rework expanded the brief: integrate the real exported Ahi desktop HTML walkthrough from `frontend/demo`; rebuild the homepage as a twelve-part, SEO-focused brand story using the uploaded business, UI design, technical writing, SEO, and ICP profiles; preserve the supplied design documents; apply the strict Minimalist Monochrome system; separate Watch Demo, Book a Call, and Join Waitlist conversion moments; and complete P2 newsletter capture plus a visible motion-intensity control.
 
+The 2026-08-09 investor expansion added a dedicated `/investor` narrative: explain the counter-intuitive thesis that abundant intelligence makes coordination scarcer, connect market timing to the Agent Human Interface category, show the product through nine synchronized laptop feature dialogs, reuse the existing modeled agent profiles, articulate commercial and defensibility theses without inventing metrics, separate working product from modeled evidence, and end with investor meeting and desktop-waitlist conversion paths.
+
 ## Architecture Decisions
 
 - React 19 single-page marketing application with route-level pages for the homepage, interactive demo, and 10 ICP stories.
+- A dedicated `/investor` route composes modular narrative sections for thesis, timing, product, agent teams, commercial model, moat, proof boundaries, roadmap, and conversion.
 - A custom CSS motion system recreates the supplied ASCII references with layered source images, scan lines, clipping, jitter, moving cursors, animated topology edges, and node execution states.
 - Reusable data-driven ICP model powers both homepage cards and dedicated story pages.
 - FastAPI service exposes health and waitlist endpoints; MongoDB persists requests with a unique email index and race-safe idempotency.
 - FastAPI also exposes an idempotent newsletter endpoint backed by a separately indexed MongoDB collection.
 - The browser reads the API origin from `REACT_APP_BACKEND_URL`; the backend reads Mongo settings and allowed origin from environment variables.
 - The exported desktop application remains an unchanged static product artifact under `frontend/public/demo`; React provides the accessible scene navigation, guided-tour controls, fullscreen links, and marketing context around sandboxed iframes.
+- `DemoWorkspace` emits active-scene changes to host pages, allowing the investor laptop to synchronize explanatory dialogs and human-boundary callouts with all nine existing product surfaces without duplicating the demo runtime.
 - Enterprise demo content is centralized in `frontend/public/demo/scenarios.json`; the React host sends the selected scenario and motion setting into a strict opaque-origin iframe through `postMessage`, avoiding same-origin sandbox privileges while preserving the exported app's working controls.
 
 ## Implemented
@@ -90,6 +94,13 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 - Added Framer Motion for scroll-linked product motion plus full operating-system and in-app reduced-motion static layouts.
 - Verified on 2026-06 (iteration_9 + post-fix self-test): frontend desktop/mobile/reduced-motion product checks pass with no horizontal overflow; live demo interactions remain functional; backend decision-map suite passes 19/19; HTTPS share redirect and absolute social metadata pass; final poster visual QA passes for thumbnail legibility, explicit branding, 10% crop safety, composition, and overlaps.
 
+- **2026-08-09 Investor narrative:** Added `/investor` with a complete eight-part investor story: counter-intuitive coordination thesis, why-now signals, category positioning, interactive product architecture, scenario-aware agent profiles, commercial land/expand/compound thesis, five-layer moat, explicit working-product vs modeled-evidence boundary, roadmap, and investor conversion close.
+- Added a large MacBook product stage containing the live nine-surface Ahi demo. Dispatch, Ontology, Agent Builder, Docs + Thread, Knowledge, Collaboration, Code, Browser, and Teamspaces each synchronize to a distinct animated explanation dialog plus a human-line checkpoint overlay; the guided enterprise run keeps those overlays synchronized automatically.
+- Reused all existing enterprise channels and agent teams from `scenarios.json`; changing the modeled industry inside the laptop updates the investor agent-profile section without introducing unverified profiles or customer claims.
+- Added strict investor-page disclosure language: demo companies, runs, outcomes, and metrics remain labeled **MOCKED** modeled simulations; commercial positioning is labeled as a thesis rather than reported revenue or forecast; no TAM, ARR, traction, or fundraising numbers were invented.
+- Added investor navigation in the global header and footer, route SEO metadata, unique automation identifiers for critical content and interactions, responsive mobile layouts, touch-safe hover behavior, and both operating-system and in-app reduced-motion handling.
+- Verified on 2026-08-09: JavaScript lint and production build pass; external-preview smoke test confirms no desktop overflow and synchronized Ontology dialogs; testing-agent iteration 10 reports 100% frontend pass across all sections, all nine scenes, guided-run synchronization, channel/agent updates, booking and waitlist CTAs, desktop 1920×800, mobile 390×844, reduced motion, data-testid coverage, and clean browser console.
+
 ## Prioritized Backlog
 
 ### P0
@@ -98,6 +109,8 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 ### P1
 
+- Add privacy-conscious conversion analytics for investor-page chapter depth, demo surfaces viewed, channel selected, and investor-meeting CTA conversion.
+- Replace investor-page modeled evidence with approved traction, customer outcomes, market sizing, and commercial metrics only after those materials are verified for publication.
 - Add consent/retention language and an internal request-management view before handling real enterprise lead volume.
 - Have qualified counsel review the published legal drafts before accepting production customers or regulated data.
 - Replace modeled ICP outcomes with approved, verifiable customer evidence before presenting metrics as real-world proof.
@@ -113,8 +126,8 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 ## Next Tasks
 
-0. **PENDING (awaiting user scope confirmation):** Global "Web Animation Design" overhaul per Emil Kowalski guidelines — `ease-out` for enter/exit, `ease-in-out` for on-screen movement (no `linear`/`ease-in` for UI), Framer Motion springs, animate `transform`/`opacity` only with `will-change`, full `prefers-reduced-motion` + `@media (hover:hover) and (pointer:fine)` guards. Make the MacBook demo animation "100x better" and recreate the previously shared ASCII art/images as animated backgrounds within the new system. Apple-style tokens (Action Blue, SF Pro, edge-to-edge tiles) stay isolated to `MacBookDemoHero`; rest of site remains Minimalist Monochrome. (Last active user request — was blocked on `ask_human`.)
-1. Conversion analytics: track which industry and chapter visitors watch before booking a demo or joining the download waitlist.
+0. Extend the verified investor-page animation language into the remaining global homepage motion audit: `ease-out` for entrances/exits, `ease-in-out` for on-screen movement, transform/opacity-only motion, and complete reduced-motion/touch guards.
+1. Conversion analytics: track which investor chapter, industry, and product surface visitors view before booking a demo or joining the download waitlist.
 2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
 3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.
 4. Decision-map guestbook: let recipients signal “worth a screening” and show the sender who watched.
