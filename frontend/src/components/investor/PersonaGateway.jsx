@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check, Database, Mail, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { investmentStages, investorIntents, investorRegions, investorRoute, investorSectors, investorTimelines, investorTypes } from '../../data/investorOnboarding';
+import { InvestorProductLoop } from './InvestorProductLoop';
 import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
 const SingleChoice = ({ items, value, onChange, prefix }) => <div className="investor-choice-grid">{items.map((item, index) => { const option = typeof item === 'string' ? { id: item, label: item } : item; return <button key={option.id} type="button" className={value === option.id ? 'selected' : ''} onClick={() => onChange(option.id)} data-testid={`${prefix}-${index + 1}-button`}><span>0{index + 1}</span><strong>{option.label}</strong>{option.note && <small>{option.note}</small>}{value === option.id && <Check size={14} />}</button>; })}</div>;
@@ -17,7 +18,6 @@ export const PersonaGateway = () => {
   const next = () => setStep((current) => Math.min(4, current + 1));
   const previous = () => setStep((current) => Math.max(0, current - 1));
   const route = investorRoute(profile.type);
-  const stepSignal = [profile.type, profile.stage || profile.sectors.length, profile.intent || profile.timeline || profile.region, profile.name || profile.email].map(Boolean);
 
   const content = [
     <div key="type"><p>01 / WHO ARE YOU INVESTING AS?</p><h1>Choose the lens—not a box.</h1><span>This changes the brief you receive. “Exploring” is a complete answer.</span><SingleChoice items={investorTypes} value={profile.type} onChange={(value) => update('type', value)} prefix="investor-type" /></div>,
@@ -28,7 +28,7 @@ export const PersonaGateway = () => {
 
   return <div className="investor-onboarding" data-testid="persona-gateway">
     <header><span>ACOORD / INVESTOR BRIEF</span><div>{[0,1,2,3].map((index) => <i key={index} className={index <= step ? 'active' : ''} />)}</div><b>{step < 4 ? `0${step + 1} / 04` : 'BRIEF / READY'}</b></header>
-    <div className="investor-signal-map" aria-hidden="true"><div className="investor-map-core">AHI</div>{['LENS','THESIS','INTENT','CONTACT'].map((label, index) => <motion.div key={label} className={stepSignal[index] ? 'complete' : step === index ? 'active' : ''} animate={{ scale: step === index ? 1.06 : 1, opacity: index <= step ? 1 : .28 }} transition={{ duration: reduced ? 0 : .25, ease: [0.645,.045,.355,1] }}><span>0{index + 1}</span><strong>{label}</strong></motion.div>)}<svg viewBox="0 0 100 100"><motion.path d="M20 20 L50 50 L80 20 M50 50 L20 80 M50 50 L80 80" animate={{ pathLength: Math.min(1, (step + 1) / 4) }} transition={{ duration: reduced ? 0 : .25, ease: [0.645,.045,.355,1] }} /></svg></div>
+    <InvestorProductLoop />
     <main>
       <AnimatePresence mode="wait">{step < 4 ? <motion.section key={step} initial={reduced ? false : { opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} exit={reduced ? undefined : { opacity: 0, x: -18 }} transition={{ duration: reduced ? 0 : .25, ease: [0.215,.61,.355,1] }} data-testid={`investor-onboarding-step-${step + 1}`}>{content[step]}</motion.section> : <motion.section key="brief" className="investor-brief" initial={reduced ? false : { opacity: 0, scale: .97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: reduced ? 0 : .25, ease: [0.215,.61,.355,1] }} data-testid="investor-tailored-brief"><p>TAILORED BRIEF / READY</p><h1>{investorTypes.find((item) => item.id === profile.type)?.label || 'Exploring investor'} lens</h1><div className="brief-ledger"><span>THESIS</span><strong>{profile.sectors.length ? profile.sectors.join(' · ') : 'Broad category view'}</strong><span>ENGAGEMENT</span><strong>{profile.stage || 'Not specified'}</strong><span>INTENT</span><strong>{profile.intent || 'Understand Acoord'}</strong><span>CONTEXT</span><strong>{[profile.timeline, profile.region].filter(Boolean).join(' · ') || 'Open'}</strong></div><div className="crm-reservation"><Database size={17} /><div><strong>CRM HANDOFF / COMING LATER</strong><p>This brief exists only in this browser session. No contact or profile data has been submitted.</p></div></div><Link to={route} data-testid={`persona-investor-${profile.type || 'venture'}-link`}>Open the tailored product brief <ArrowRight size={15} /></Link></motion.section>}</AnimatePresence>
     </main>

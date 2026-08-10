@@ -191,6 +191,10 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - **2026-08-10 preview verification:** Public homepage and `/api/health` both return HTTP 200; Playwright renders the homepage successfully with the expected Acoord title and full page content. Frontend and backend supervisor services are running. Removed `.env` ignore patterns that blocked required deployment configuration; the follow-up deployment-readiness scan reports **PASS** with no remaining blockers.
 
 - **2026-06 SearchPicker fix verification (this fork):** Verified the previously patched customer-onboarding SearchPicker against both iteration_18 defects. Keyboard-only combobox flow now works end-to-end on `/demo` Variant A: ArrowDown/ArrowUp roving highlight, Enter selection, and Escape close set `department` and `industry` query params and drive the context to 4/4 READY with the launch button active. Mobile popover on `/demopages` at 390x844 renders fully inside the viewport (portal-based fixed positioning with flip/clamp measurement); the picker close button carries `data-testid`. Also re-verified `/investor` 4-step qualification: choice selection, Continue/Skip footer, and the tailored "Venture fund lens" brief with THESIS/ENGAGEMENT/INTENT/CONTEXT ledger and session-only CRM handoff note. No console errors on any of the three routes.
+- **2026-08-10 Investor product reel:** Replaced the right-side Ahi signal-map showcase on `/investor` with one plain, non-interactive MacBook product-demo loop while preserving the complete four-step investor qualification flow. The laptop opens, auto-runs Finance, Legal, Manufacturing, Customer Support, Logistics, E-commerce, SaaS, and Fashion problem scenarios across distinct working product surfaces, closes, pauses, then reopens at Finance.
+- The reel keeps the existing strict sandbox boundary. `DemoWorkspace` now supports a showcase-only simulation autoplay flag so each iframe receives the correct modeled industry payload through `postMessage` and runs its visible product action without exposing channel pickers, chapter rails, callouts, or controls.
+- Reduced-motion mode holds one stable open Finance frame without continuous lid or scenario animation. Desktop and mobile layouts retain the accessible qualification form and fixed action footer without overlap or horizontal overflow.
+- Verified on 2026-08-10: JavaScript lint and production build pass; self-testing confirms Finance-to-Legal scenario continuity inside the strict iframe; testing-agent iteration 19 reports 100% frontend pass across all eight industries, the complete open/play/close/restart cycle, four-step qualification regression, autoplay, desktop 1920×800, mobile 390×844, reduced motion, console safety, and automation identifiers. Enterprise scenarios and outcomes remain explicitly **MOCKED** modeled simulations.
 
 ## Prioritized Backlog
 
@@ -211,7 +215,7 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 
 ## Next Tasks
 
-1. User launch review of `/demo`, `/demopages`, `/demo/workspace`, `/investor`, and one complete customer/investor MacBook film.
+1. User launch review of `/demo`, `/demopages`, `/demo/workspace`, the new looping `/investor` MacBook reel, and one complete customer MacBook film.
 2. Apply only user-requested P0 motion pacing, ecosystem density, MacBook scale, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
 
 ### P1 backlog (not authorized to start without user request)
