@@ -1,6 +1,5 @@
-import { DestinationPage } from '../components/investor/DestinationPage';
-import { investorJourneys } from '../data/personaJourneys';
+import { OperatorJourney } from '../components/investor/OperatorJourney';
 
 export default function OperatorInvestorPage({ onJoin }) {
-  return <DestinationPage audience="investor" content={{ ...investorJourneys.operator, id: 'operator' }} onJoin={onJoin} />;
+  return <OperatorJourney onJoin={onJoin} />;
 }

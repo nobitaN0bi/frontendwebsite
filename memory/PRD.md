@@ -17,7 +17,8 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - `/investor` is now a stateful, query-persisted persona gateway rather than a long-form destination. It routes investors to `/investor/venture`, `/investor/strategic`, or `/investor/operator` and customers through `/investor/customer` to role/department/industry-specific URLs.
 - Customer destination URLs use `/investor/customer/:role/:department/:industry`, with explicit route components for Executive Buyer, Technical Evaluator, and Workflow Owner experiences. Direct loads resolve context from URL-safe taxonomy slugs.
 - The new investor subtree owns an isolated Swiss Brutalist monochrome CSS system. Existing homepage, demo, resource, legal, map, and use-case surfaces retain their established visual and functional systems.
-- Destination storytelling uses a shared five-system operational proof model grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
+- Destination storytelling is grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
+- The six destination routes intentionally do not share one narrative page template. Each imports a separate journey component, owns a distinct DOM/information architecture, and teaches the five systems through that persona's decision model. Only small navigation, proof-legend, and conversion primitives are shared.
 - A custom CSS motion system recreates the supplied ASCII references with layered source images, scan lines, clipping, jitter, moving cursors, animated topology edges, and node execution states.
 - Reusable data-driven ICP model powers both homepage cards and dedicated story pages.
 - FastAPI service exposes health and waitlist endpoints; MongoDB persists requests with a unique email index and race-safe idempotency.
@@ -134,6 +135,17 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - Kept contextual workflows explicitly **MODELED** and technical systems labeled **ARCHITECTURE**; no customer outcomes, financial metrics, traction claims, or fundraising figures were introduced.
 - Testing-agent iteration 13 verified investor routing, distinct destinations, taxonomy completeness, architecture interactions, route isolation, global homepage/demo safety, responsive overflow, and clean console. It found one sticky launch-bar pointer interception; the bar was made non-sticky, then real-click customer progression passed on desktop and mobile reduced-motion flows. Final mobile text-bound testing confirms the longest destination headline remains inside its safe area. JavaScript lint and production build pass.
 
+- **2026-08-10 Six-journey P0 deepening:** Replaced the shared destination-page composition with six independent learning systems after the user selected both five-system depth and six-persona structural uniqueness.
+- Venture Fund is now a category memo: intelligence supply → operational pressure → coordination category, followed by an interactive five-system compounding thesis and a strict investment-evidence room.
+- Strategic Corporate is now an interoperability blueprint: a spatial Ahi platform map switches between existing-estate adjacency and control boundaries, with five inspectable system nodes and a partnership-interface ledger.
+- Operator or Angel is now an assembly manual: five mechanism steps expose input → operation → output, with a runtime payload toggle and explicit product choices covering retrieval, orchestration, collaborative state, and bounded execution.
+- Executive Buyer is now a contextual authority board: the selected department and industry shape the modeled brief, while five system-level outcome/authority lines, a three-decision rollout model, and a modeled approval progression teach governance from the top down.
+- Technical Evaluator is now an architecture console: five systems can be inspected through data-flow, control, and payload views, followed by identity/state/execution/record invariants and qualified deployment language.
+- Workflow Owner is now an interactive decision line: seven modeled steps move from human framing through Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow, and the durable Ahi record, with previous/next controls and an explicit approve/revise checkpoint.
+- Added a dedicated factual proof data layer for the six mental models. Technical language remains tied to supplied architectures: hybrid retrieval and ACL filtering, connector deltas and citations, LangGraph/PostgreSQL checkpointing and human interrupts, CRDT/local-first synchronization, MCP/sandbox execution, and event/audit surfaces.
+- Removed the remaining Unsplash photo dependencies from the investor visual system and replaced the gateway surface with native monochrome grid and geometric line work.
+- Testing-agent iteration 14 reports all six routes, gateway/customer pointer flows, unique interactions, CTA behaviors, context persistence, reduced motion, desktop/tablet/mobile overflow, global homepage/demo isolation, clean console behavior, and claim boundaries passing. Final self-test confirms a successful production build and no remaining Unsplash references in `investor.css`.
+
 ## Prioritized Backlog
 
 ### P0
@@ -151,5 +163,5 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 
 ## Next Tasks
 
-1. User review of the P0 gateway, customer taxonomy, six persona narratives, and five-system architecture workbench.
+1. User review of the P0 gateway, customer taxonomy, six independent persona learning journeys, and their distinct five-system explanations.
 2. Apply only user-requested P0 copy, pacing, or visual refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
