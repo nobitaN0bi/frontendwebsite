@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend-only full regression completed on public preview URL for all requested P0 cinematic investor/customer flows, six destination films, reduced-motion behavior, responsive breakpoints, and global route isolation. No blocking defects found in this run.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_15.json"
+  ],
+  "action_items": [
+    "No mandatory fixes from this pass.",
+    "Optional: keep Playwright waits >=1.5s when validating manual scene control mapping because smooth scrolling is intentional and can cause false negatives with short waits."
+  ],
+  "critical_code_review_comments": [
+    "Gateway implementation correctly enforces system-formation-first behavior and only then reveals investor/customer choices; reduced-motion path correctly bypasses formation.",
+    "Customer selector uses compact progressive disclosure (role -> department -> industry -> summary) with query-param persistence and back navigation; no taxonomy-wall regression observed.",
+    "All six destination routes are isolated cinematic film implementations with 5 scene controls, persistent animated stage, human authority indicator, and proof boundaries (BUILT/ARCHITECTURE + MODELED on customer routes).",
+    "No hardcoded backend URL usage detected in tested investor surfaces; waitlist submit path uses REACT_APP_BACKEND_URL as required."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_15.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "99%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Executed broad Playwright regression on public URL: verified timed gateway formation, skip behavior, investor branch/back-reset, customer progressive flow + filters + URL persistence + destination launch, all six destination films, booking/waitlist actions on each route, reduced-motion usability, no horizontal overflow at 1920x800 / 768x1024 / 390x844, global / and /demo unaffected, and scoped data-testid coverage/uniqueness for gateway, customer selector, and destinations.",
+  "rca of the issue": "No new defects reproduced in this cycle. One transient false-negative pattern was observed only in test automation when scene-click wait time was too short; root cause is expected smooth-scroll transition timing, not product logic failure."
+}

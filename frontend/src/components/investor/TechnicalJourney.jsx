@@ -1,19 +1,4 @@
-import { useState } from 'react';
-import { Seo } from '../Seo';
-import { technicalProofs } from '../../data/journeyProofs';
-import { JourneyActions, JourneyBack, ProofLegend } from './JourneyPrimitives';
+import { customerFilm } from '../../data/cinematicJourneys';
+import { FilmJourney } from './FilmJourney';
 
-export const TechnicalJourney = ({ department, industry, onJoin }) => {
-  const [active, setActive] = useState(0);
-  const [view, setView] = useState('flow');
-  const system = technicalProofs[active];
-  const context = `${department.label} / ${industry.label}`;
-  const payload = JSON.stringify({ system: system.name, tenant: 'scoped', ingress: system.ingress, control: system.control, state: system.state, status: 'architecture_review' }, null, 2);
-  return <div className="journey-page technical-journey" data-testid="technical-destination-page">
-    <Seo title={`Technical Evaluation — ${context} — Acoord`} description="Inspect the data flow, controls, state, and deployment boundaries behind Acoord." path={`/investor/customer/technical/${department.slug}/${industry.slug}`} />
-    <section className="technical-opening" data-testid="technical-hero"><div><JourneyBack customer prefix="technical" /><p className="persona-label">TECHNICAL EVALUATOR / SYSTEM REVIEW</p><h1 data-testid="technical-title">Trust is a<br />systems property.</h1></div><aside><span data-testid="technical-context-label">{context.toUpperCase()}</span><p data-testid="technical-intro">Inspect the path from source permissions to retrieval, graph state, collaborative state, tools, sandbox, and event record.</p><ProofLegend prefix="technical" modeled /></aside></section>
-    <section className="technical-console" data-testid="technical-architecture-console"><header><div><i /><i /><i /><span>AHI_ARCHITECTURE_REVIEW</span></div><nav role="tablist"><button type="button" role="tab" aria-selected={view === 'flow'} onClick={() => setView('flow')} data-testid="technical-view-flow-button">DATA FLOW</button><button type="button" role="tab" aria-selected={view === 'controls'} onClick={() => setView('controls')} data-testid="technical-view-controls-button">CONTROLS</button><button type="button" role="tab" aria-selected={view === 'payload'} onClick={() => setView('payload')} data-testid="technical-view-payload-button">PAYLOAD</button></nav></header><div className="technical-console-body"><aside>{technicalProofs.map((item, index) => <button key={item.id} type="button" className={active === index ? 'active' : ''} onClick={() => setActive(index)} data-testid={`technical-system-${item.id}-button`}><span>0{index + 1}</span>{item.name}</button>)}</aside><main data-testid={`technical-system-${system.id}-panel`}>{view === 'flow' && <div className="technical-flow"><article><span>INGRESS</span><p>{system.ingress}</p></article><i>→</i><article><span>PROCESS</span><p>{system.process}</p></article><i>→</i><article><span>STATE</span><p>{system.state}</p></article><i>→</i><article><span>EGRESS</span><p>{system.egress}</p></article></div>}{view === 'controls' && <div className="technical-control"><span>ENFORCEMENT POINT</span><h2>{system.control}</h2><p>Control is represented from the supplied technical architecture, not asserted as a completed certification.</p></div>}{view === 'payload' && <pre>{payload}</pre>}</main></div></section>
-    <section className="technical-invariants" data-testid="technical-invariants-section"><p className="persona-label">EVALUATION INVARIANTS</p><div><article><span>IDENTITY</span><strong>Does permission travel with context?</strong></article><article><span>STATE</span><strong>Can the run pause, resume, and replay?</strong></article><article><span>EXECUTION</span><strong>Are tools and code bounded before action?</strong></article><article><span>RECORD</span><strong>Can a reviewer reconstruct the decision?</strong></article></div><p>Deployment paths described across the supplied systems include self-hosted Docker and Kubernetes topologies. Validate the final production topology against your requirements.</p></section>
-    <JourneyActions prefix="technical" onJoin={onJoin} title="Bring your identity, data, execution, and deployment constraints to the review." />
-  </div>;
-};
+export const TechnicalJourney = ({ department, industry, onJoin }) => <FilmJourney film={customerFilm('technical', department, industry)} customer onJoin={onJoin} />;

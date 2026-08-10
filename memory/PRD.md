@@ -18,7 +18,7 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - Customer destination URLs use `/investor/customer/:role/:department/:industry`, with explicit route components for Executive Buyer, Technical Evaluator, and Workflow Owner experiences. Direct loads resolve context from URL-safe taxonomy slugs.
 - The new investor subtree owns an isolated Swiss Brutalist monochrome CSS system. Existing homepage, demo, resource, legal, map, and use-case surfaces retain their established visual and functional systems.
 - Destination storytelling is grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
-- The six destination routes intentionally do not share one narrative page template. Each imports a separate journey component, owns a distinct DOM/information architecture, and teaches the five systems through that persona's decision model. Only small navigation, proof-legend, and conversion primitives are shared.
+- The six destination URLs retain separate route components and persona-specific scene data, but now share a cinematic scene controller and animated Ahi system stage. This keeps the product grammar coherent while each route changes the causal sequence, stage overlays, caption thesis, context, and system emphasis.
 - A custom CSS motion system recreates the supplied ASCII references with layered source images, scan lines, clipping, jitter, moving cursors, animated topology edges, and node execution states.
 - Reusable data-driven ICP model powers both homepage cards and dedicated story pages.
 - FastAPI service exposes health and waitlist endpoints; MongoDB persists requests with a unique email index and race-safe idempotency.
@@ -146,6 +146,20 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - Removed the remaining Unsplash photo dependencies from the investor visual system and replaced the gateway surface with native monochrome grid and geometric line work.
 - Testing-agent iteration 14 reports all six routes, gateway/customer pointer flows, unique interactions, CTA behaviors, context persistence, reduced motion, desktop/tablet/mobile overflow, global homepage/demo isolation, clean console behavior, and claim boundaries passing. Final self-test confirms a successful production build and no remaining Unsplash references in `investor.css`.
 
+- **2026-08-10 Corrective cinematic P0 rebuild:** The user rejected the static gateway and documentation-style destination compositions as visual slop. The entire seven-page P0 flow was treated as failed and replaced rather than incrementally restyled.
+- Rebuilt `/investor` as a timed system-formation sequence. The interface begins with no menu: Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow locate, connect, and form an operating line before Investor/Customer choices appear. A skip control preserves accessibility, and reduced motion reveals the complete system immediately.
+- Rebuilt `/investor/customer` as a compact, one-question-at-a-time contextual framing flow. Role crossfades to Department, Department to Industry, and Industry to a concise modeled summary; the previous long taxonomy wall was removed while every required option and URL parameter remains available.
+- Replaced all six static destination documents with scroll-driven five-scene product films. Every route keeps one persistent Ahi system stage while captions, connector paths, request packets, active systems, graph boundaries, human authority, and audit events transform in place.
+- Venture now animates model abundance → coordination pressure → Search/Onyx context → AIGIS control → Colanode shared context → DeerFlow bounded execution.
+- Strategic now animates enterprise silos → connected, permissioned context → AIGIS governance boundary → Colanode shared state → DeerFlow partnership output.
+- Operator now follows one request packet through intent → hybrid retrieval/grounding → checkpointed graph state → CRDT collaboration → MCP/sandbox execution and record.
+- Executive now applies the selected department and industry to a modeled consequential request, then shows cited evidence, an accountable plan, a visible human review stop, and controlled execution/record.
+- Technical now traces identity and ACLs through BM25+dense retrieval, RRF and re-ranking, Onyx lineage, AIGIS/PostgreSQL checkpointing, Colanode CRDT/RLS state, and DeerFlow MCP/sandbox controls.
+- Workflow now moves one modeled work item through owner framing, evidence grounding, specialist orchestration, multiplayer review, human approval, bounded execution, and retained decision record.
+- Added manual five-scene controls to every film. These support direct inspection and provide the complete explanation in reduced-motion mode without relying on complex transforms.
+- Deleted the rejected static journey data, card/table/manual compositions, decorative gateway geometry, and separate proof workbench. The active visual system now uses technical lines only when they represent data flow, checkpoints, permissions, authority, or audit state.
+- Testing-agent iteration 15 reports the complete cinematic matrix passing: timed formation and skip, investor branch/reset, compact customer progression and filters, query persistence, all six scroll films and manual controls, CTA behaviors, reduced motion, desktop/tablet/mobile safety, global route isolation, unique automation identifiers, and no console/update-loop errors. JavaScript lint and production build also pass.
+
 ## Prioritized Backlog
 
 ### P0
@@ -163,5 +177,5 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 
 ## Next Tasks
 
-1. User review of the P0 gateway, customer taxonomy, six independent persona learning journeys, and their distinct five-system explanations.
-2. Apply only user-requested P0 copy, pacing, or visual refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
+1. User review of the corrected system-formation gateway, compact selector, and six animated causal films.
+2. Apply only user-requested P0 scene pacing, copy, or stage-composition refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.

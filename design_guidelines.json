@@ -1,185 +1,159 @@
 {
+  "theme_strategy": "Swiss Brutalist Cinematic / Monochrome",
   "typography": {
-    "strategy": "Swiss Brutalist",
-    "fonts": {
-      "headings": {
-        "family": "Cabinet Grotesk",
-        "description": "High-impact, geometric, brutalist grotesque for massive headlines and structural titles.",
-        "weights": [400, 800, 900],
-        "usage": "Use Black/900 weight for H1s. Use Light/400 for conceptual subheads. Never use Inter for headings."
-      },
-      "body": {
-        "family": "IBM Plex Mono",
-        "description": "Sterile, technical monospace for body copy, data points, and technical readouts.",
-        "weights": [400, 500, 600],
-        "usage": "All body copy, labels, and system readouts."
-      }
+    "headings": {
+      "family": "Cabinet Grotesk, Chivo, or Helvetica",
+      "style": "tracking-tighter leading-none font-black",
+      "usage": "Do not use Inter for headings. Use fluid text sizes up to text-6xl. No oversized text that dominates without explaining."
     },
-    "hierarchy": {
-      "H1": "text-5xl md:text-6xl+ font-black tracking-tighter uppercase",
-      "H2": "text-3xl md:text-4xl font-bold tracking-tight",
-      "H3": "text-xl md:text-2xl font-bold tracking-tight",
-      "Body": "text-sm md:text-base font-mono leading-relaxed tracking-tight",
-      "Label/Overline": "text-xs font-mono uppercase tracking-[0.2em]"
-    }
+    "body": {
+      "family": "IBM Plex Sans, JetBrains Mono",
+      "style": "leading-relaxed tracking-normal",
+      "usage": "Use monospace for technical labels, system names, and audit events."
+    },
+    "forbidden_fonts": ["Space Grotesk", "Inter (for headings)"]
   },
   "colors": {
-    "archetype": "Swiss & High-Contrast (Brutalist Monochrome)",
-    "palette": {
-      "background": {
-        "primary": "#050505",
-        "secondary": "#0A0A0A",
-        "surface": "#121212"
-      },
-      "foreground": {
-        "primary": "#FFFFFF",
-        "secondary": "#A1A1AA",
-        "muted": "#52525B"
-      },
-      "borders": {
-        "default": "rgba(255, 255, 255, 0.1)",
-        "hover": "rgba(255, 255, 255, 0.3)",
-        "active": "#FFFFFF"
-      },
-      "accent": {
-        "primary": "#FF3B30",
-        "description": "Signal Red. Use ONLY for critical status indicators, terminal prompts, or the singular primary CTA. Less than 1% of total UI."
-      }
-    },
-    "rules": [
-      "No full-screen gradients. Texture > gloss.",
-      "99% of UI must be strictly monochrome (Black, White, Greys).",
-      "Never use pure #000000; use #050505 to avoid cheap void contrast.",
-      "Foreground text must meet 4.5:1 APCA contrast. Use text shadow over any imagery/canvas."
-    ]
-  },
-  "grids_and_layouts": {
-    "strategy": "The 'Technical' Look / Swiss Grid",
-    "spacing": "Generous Spacing: p-8, p-12, p-24.",
-    "container": "border-collapse style layout, items with border-r border-b border-border/40.",
-    "patterns": {
-      "marketing_hero": "Asymmetrical layout, overlap of text and technical readouts. Use Mode A: 'Tetris' Grid.",
-      "system_proofs": "High Density Grid (Mode B) for displaying system internals."
-    },
-    "rules": [
-      "Use 1px sharp borders for all containers. No rounded corners (rounded-none).",
-      "No drop shadows for depth; use border weight and scale for hierarchy.",
-      "Never center-align paragraphs. Left align to follow strict Swiss structural grids."
-    ]
+    "background": "#050505",
+    "surface": "#111111",
+    "surface_glass": "rgba(17, 17, 17, 0.7)",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#888888",
+    "border": "#222222",
+    "accent": "#FFFFFF",
+    "forbidden_colors": ["#7351B7", "#1B93A4", "Generic full-screen gradients"]
   },
   "visual_enhancers": {
-    "surfaces": "Grid Borders (The 'Technical' Look). Expose the skeleton.",
-    "textures": "Heavy use of ASCII overlays, subtle noise texture, and raw HTML/SVG geometric borders.",
-    "glassmorphism": "Avoid entirely. Use flat, opaque surfaces to maintain the brutalist, serious tone."
+    "textures": "Subtle SVG noise overlay (opacity 0.03) fixed over the entire viewport to kill digital flatness.",
+    "borders": "1px solid #222222 strictly to define mechanical boundaries (e.g., sandboxes, ACL perimeters).",
+    "glows": "No diffuse blooms. Use hard dropshadows or 1px inset borders to create tension."
   },
   "motion": {
-    "philosophy": "Choreographed Snappiness. No bouncy/springy animations.",
-    "interactions": [
-      "Hover states: Strict 1px border highlights, text color snapping (no fade).",
-      "Page Load: Staggered reveal of structural grids. Lines draw first, text snaps in.",
-      "Scroll: Scroll-triggered ASCII or metric counter cascades using Framer Motion."
-    ],
-    "reduced_motion": "All major transitions must fall back to instant appearance if prefers-reduced-motion is enabled."
-  },
-  "accessibility": {
-    "contrast": "APCA focused. Ensure #A1A1AA text is readable against #050505.",
-    "focus": "focus:ring-1 focus:ring-white focus:ring-offset-2 focus:ring-offset-black",
-    "testing": "All interactive and key informational elements MUST include a `data-testid` attribute."
-  },
-  "components": {
-    "buttons": "Rectangular, zero border-radius. Minimal padding but wide. Default: transparent bg, 1px white border, white text. Hover: White bg, black text. Transition: instant or 0.1s.",
-    "cards": "Zero padding raw container. Header block (border bottom) + content block.",
-    "navigation": "Sticky, fixed top. Solid #050505 bg, 1px white bottom border. Mono links."
-  },
-  "3d_libraries": {
-    "strategy": "The Specialists (Deep Data & Geography)",
-    "libraries": [
-      "Visx: For math-heavy architectural visualisations (network graphs for AIGIS/Colanode) without D3's overhead.",
-      "react-spring/parallax: For scrolling 'blueprint' reveals.",
-      "react-force-graph-3d: For mapping Onyx ingest connectors or DeerFlow agent topologies."
-    ],
-    "context": "Keep canvas backgrounds transparent. Render using white/grey wireframes or mono-nodes. No colorful 3D blobs."
-  },
-  "journeys": {
-    "overview": "Six separate destination routes with six genuinely different information architectures, pedagogies, and interaction models, synthesizing the 5 core systems (Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow).",
-    "investor_venture": {
-      "thesis": "Category / Timing / Wedge / Compounding / Evidence.",
-      "narrative": "Prove how structural AI moats compound. Show Enterprise Search unlocking proprietary deals, Onyx scaling DD, AIGIS defending infra, Colanode proving scale, DeerFlow predicting shifts.",
-      "interaction_model": "Macro-level dashboard. Sweeping vertical timeline mapping investment thesis over time. High-level structural diagrams.",
-      "visuals": "Massive typography (text-6xl). 'Tetris' Bento grids showing hypothetical market expansion."
+    "philosophy": "Watch and understand. Cause and effect. Not just state swaps.",
+    "primitives": {
+      "scroll_linked": "Use Framer Motion `useScroll` and `useTransform` for progressing through states on a fixed stage.",
+      "svg_drawing": "Use `pathLength` animations for data flow, API calls, and system connections.",
+      "layout_transitions": "Use `LayoutGroup` and `motion.div layout` for seamless shifting of the Ahi architecture when focusing on different systems."
     },
-    "investor_strategic": {
-      "thesis": "Adjacency / Integration / Governance / Partnership.",
-      "narrative": "Focus on Enterprise IP and Risk. Map Enterprise Search across industries, Onyx for multi-tenant data, AIGIS for strict governance, Colanode for secure M&A rooms, DeerFlow for compliant R&D.",
-      "interaction_model": "Blueprint views. Cross-sectional 'layers' revealing compliance and scale meters. Interactive node connections.",
-      "visuals": "Dense, interconnected Visx graphs. Strict horizontal bands of content."
-    },
-    "investor_operator": {
-      "thesis": "Mechanism / Build Sequence / Human Boundary / Product Choices.",
-      "narrative": "Deep dive into 'the how'. Enterprise Search for immediate value, Onyx connecting legacy tech, AIGIS for execution, Colanode for remote build, DeerFlow for automated scaling.",
-      "interaction_model": "Step-by-step assembly manual. Interactive logic blocks, 'under-the-hood' toggles that switch UI to raw JSON/terminal outputs.",
-      "visuals": "Raw wireframes, exposed terminal components, dark mode IDE aesthetics."
-    },
-    "customer_executive": {
-      "thesis": "Outcome / Authority / Risk / Rollout (Contextualized by Dept/Industry).",
-      "narrative": "Enterprise Search answers board queries, Onyx unifies org silos, AIGIS provides oversight, Colanode aligns teams, DeerFlow executes autonomously.",
-      "interaction_model": "ROI calculators, risk mitigation sliders. Top-down 'Command Center' feel. Approval workflow simulators.",
-      "visuals": "Large singular metrics. Clean, sparse layout. 'Executive Summary' high-contrast blocks."
-    },
-    "customer_technical": {
-      "thesis": "End-to-End Architecture / Data Flow / Security / Deployment.",
-      "narrative": "BM25+Dense retrieval (Search), Connector ingestion (Onyx), LangGraph Postgres (AIGIS), CRDT local-first (Colanode), MCP Sandboxes (DeerFlow).",
-      "interaction_model": "Inspectable architecture console. API payload inspectors, network topology live maps, mock trace logs.",
-      "visuals": "Heavy use of IBM Plex Mono. 'Terminal' split-screens. Raw data streams."
-    },
-    "customer_workflow": {
-      "thesis": "Scenario-driven Day-in-the-Life Execution.",
-      "narrative": "Search for context, Onyx for grounding, AIGIS human-in-loop, Colanode multiplayer, DeerFlow background agents running tasks.",
-      "interaction_model": "Interactive timeline of a workday. Split-screen collaboration views. 'Approve/Reject' live notification interactions.",
-      "visuals": "Chat-like interfaces mixed with Kanban/CRDT boards. Minimalist but dense with micro-interactions."
-    }
+    "accessibility": "If `prefers-reduced-motion` is true, map scroll progress to step-based opacity crossfades instead of complex transforms."
   },
-  "image_urls": {
-    "description": "As this is a pure monochrome brutalist implementation, avoid lifestyle photography. Use ASCII art, SVG diagrams, and pure data visualizations natively built. If logos/sponsors are strictly needed, use high-contrast white SVGs.",
-    "categories": {
-      "venture": [],
-      "strategic": [],
-      "operator": [],
-      "executive": [],
-      "technical": [],
-      "workflow": []
-    }
+  "architecture_and_routes": {
+    "gateway_investor": {
+      "path": "/investor",
+      "experience": "Cinematic System Formation",
+      "timeline": [
+        "Scene 1: Screen is black. A single monospace coordinate appears.",
+        "Scene 2: SVG lines draw rapidly, forming the 5 systems (Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow) in an abstract topological layout.",
+        "Scene 3: The systems pulse synchronously, showing connected data flow.",
+        "Scene 4: The topological map physically recedes (scales down/blurs slightly into background).",
+        "Scene 5: The Investor / Customer selection elegant emerges from the center, anchored to the system."
+      ]
+    },
+    "customer_selector": {
+      "experience": "Progressive Contextual Framing",
+      "interaction": "Compact, one-viewport progressive disclosure.",
+      "flow": "Role selection -> Crossfades to Department -> Crossfades to Industry. Not a taxonomy wall. Animated with layout fluidly resizing."
+    },
+    "destinations": [
+      {
+        "route": "Venture Fund",
+        "stage": "Topological map of capital vs. compute.",
+        "scenes": [
+          "1. Model Abundance: Hundreds of dots (models) appear erratically.",
+          "2. Coordination Pressure: Dots collide, creating red error states.",
+          "3. Five-system Control Layer: The Ahi architecture overlays, capturing the dots into orderly streams.",
+          "4. Compounding Context: Streams route through Onyx and Search, enriching data.",
+          "5. Evidence Boundary: Data is locked into Colanode and DeerFlow with strict geometric borders."
+        ]
+      },
+      {
+        "route": "Strategic Corporate",
+        "stage": "Enterprise Estate Topology.",
+        "scenes": [
+          "1. Existing Estate: Messy, disconnected silos.",
+          "2. Connected Context: Onyx connectors draw paths to silos, pulling data.",
+          "3. Governance Boundary: A rigid boundary box (AIGIS) forms around the execution environment.",
+          "4. Collaboration: Colanode surfaces as multi-cursor interaction syncing state.",
+          "5. Partnership Surface: The system exposes clean output APIs."
+        ]
+      },
+      {
+        "route": "Operator/Angel",
+        "stage": "Workflow Pipeline.",
+        "scenes": [
+          "1. Intent Enters: A user query packet drops in.",
+          "2. Retrieval/Grounding: Packet moves through hybrid sparse+dense Search.",
+          "3. Stateful Plan: AIGIS forms a LangGraph state machine node map.",
+          "4. Shared State: Colanode CRDT syncs the plan to multiple virtual users.",
+          "5. Bounded Execution & Record: DeerFlow harness executes safely, dropping an immutable audit log."
+        ]
+      },
+      {
+        "route": "Executive Buyer",
+        "stage": "Command & Authority View.",
+        "scenes": [
+          "1. Consequential Request: High-level metric query.",
+          "2. Evidence: Onyx citations visually link back to raw PostgreSQL rows.",
+          "3. Accountable Plan: Subagents in DeerFlow are assigned specific constraints.",
+          "4. Human Authority: Execution pauses; a human 'Approve' node pulses red until clicked.",
+          "5. Controlled Rollout: State commits and dashboard updates safely."
+        ]
+      },
+      {
+        "route": "Technical Evaluator",
+        "stage": "Network & Protocol Layer (The Deep Dive).",
+        "scenes": [
+          "1. Request Packet: Query initiates with source ACLs attached.",
+          "2. Hybrid Retrieval: RRF (Reciprocal Rank Fusion) visualization between two lists.",
+          "3. Connector Context: Onyx permission replication tree.",
+          "4. Graph Checkpoint: AIGIS LangGraph state saves to PostgreSQL.",
+          "5. CRDT & MCP: Colanode local-first sync alongside DeerFlow sandbox middleware filtering."
+        ]
+      },
+      {
+        "route": "Workflow Owner",
+        "stage": "Collaborative Canvas.",
+        "scenes": [
+          "1. Owner Framing: Initial task definition.",
+          "2. Search Grounding: Context retrieved.",
+          "3. Orchestration: AIGIS assigns subtasks to specialist models.",
+          "4. Multiplayer Review: Human and AI cursors co-edit in Colanode.",
+          "5. Specialist Execution & Approval: Final DeerFlow execution and audit stamp."
+        ]
+      }
+    ]
+  },
+  "anti_patterns_to_delete": [
+    "Static split screens with oversized, static typography.",
+    "Generic boxed menu items that do not interact with the background or explain the thesis.",
+    "Bento grids, static card stacks, and giant headline viewports that act as styled documentation.",
+    "Decorative geometric shapes (rotated boxes, grids) that have no semantic tie to the 5 Ahi systems.",
+    "Unexplained fade-ins that do not map to the cause-and-effect of the systems."
+  ],
+  "testing": {
+    "attributes": "All interactive elements and animated stage containers MUST use `data-testid` (e.g., `data-testid='investor-gateway-stage'`, `data-testid='role-selector-btn'`)."
   },
   "instructions_to_main_agent": [
-    "You are building a Swiss Brutalist, monochrome website.",
-    "Do NOT use standard Shadcn cards with rounded corners and soft shadows. Override Shadcn components to have `rounded-none border-white/20 border shadow-none bg-black`.",
-    "Use `framer-motion` to create staggered, sharp reveals of borders and grids on page load.",
-    "Ensure all 6 paths (/investor/venture, /investor/strategic, /investor/operator, /customer/executive, /customer/technical, /customer/workflow) have explicitly unique React components and DOM structures. DO NOT use a shared `<LayoutTemplate>` that just swaps props. They must feel structurally distinct.",
-    "For technical pages, implement a fake terminal effect or JSON payload inspector.",
-    "Integrate the 5 systems (Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow) contextually in the text and visual proofs for EACH page, tailored to that persona's thesis.",
-    "DO NOT use generic AI emojis.",
-    "Use Radix UI primitives directly if Shadcn components are too opinionated to easily convert to pure brutalist.",
-    "Add `data-testid` to all interactive components.",
-    "Ensure `react-router-dom` or Next.js routing is set up correctly to direct URLs to these distinct pages.",
-    "Mobile layout must maintain brutalism. Stack grids, ensure typography clamp() functions don't overflow viewport.",
-    "No full-screen gradients. Use pure black #050505."
+    "1. Do not use generic Shadcn cards for these narrative routes. Use pure HTML/Tailwind with Framer Motion.",
+    "2. Build a `SceneController` component that maps scroll position to active scenes.",
+    "3. Ensure the gateway animation explicitly delays user interaction until the 5 systems have visually formed and connected.",
+    "4. Create specialized SVG components for Onyx, Search, AIGIS, Colanode, and DeerFlow that accept animation props (`active`, `processing`, `error`).",
+    "5. Keep the design strictly monochrome with high contrast. Use 1px borders for technical precision.",
+    "6. Do not create `.tsx` files. Use `.js` or `.jsx` as configured in the environment.",
+    "7. Never use transparent headers. Use `backdrop-blur-xl bg-black/60` with a 1px bottom border.",
+    "8. Ensure the customer selector maintains a fixed height to avoid layout shift, using Framer Motion's `AnimatePresence` with `mode='wait'` for crossfading steps."
   ],
   "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
-    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients",
-    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "You tend to converge toward generic, 'on distribution' outputs. Avoid the 'AI slop' aesthetic.",
     "Create depth through layered design elements with z-index hierarchy.",
-    "You MUST NOT apply universal transition. Eg: `transition: all`. This results in breaking transforms. Always add transitions for specific interactive elements like button, input excluding transforms",
-    "You MUST NOT center align the app container, ie do not add `.App { text-align: center; }` in the css file. This disrupts the human natural reading flow of text",
-    "Always use modern button styles like pill-shaped, or sharp button with interaction animations & color relevant to the app style",
-    "NEVER: use AI assistant Emoji characters like 🤖🧠💭💡🔮🎯 etc for icons.",
-    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations. Static = dead.",
-    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
-    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations: separates good from extraordinary.",
-    "Main agent relies on these image URLs. Missing categories (especially sponsor logos) = main agent will use placeholder text which is FORBIDDEN",
-    "Prioritize using pre-existing components from src/components/ui when applicable",
-    "Create new components that match the style and conventions of existing components when needed",
-    "Examine existing components to understand the project's component patterns before creating new ones",
-    "Use `sonner` for toasts"
+    "Use glass-morphism effects with backdrop filters (12-24px blur).",
+    "You MUST NOT apply universal transition (`transition: all`). Always target specific properties.",
+    "You MUST NOT center align the app container. No `.App { text-align: center; }`.",
+    "Always use modern button styles like pill-shaped, or sharp buttons with interaction animations.",
+    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
+    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations separate good from extraordinary.",
+    "Prioritize using pre-existing components from src/components/ui when applicable.",
+    "Use `sonner` for toasts located in `/app/src/components/ui/sonner.jsx`."
   ]
 }

@@ -1,19 +1,4 @@
-import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Check, RotateCcw } from 'lucide-react';
-import { Seo } from '../Seo';
-import { workflowProofs } from '../../data/journeyProofs';
-import { JourneyActions, JourneyBack, ProofLegend } from './JourneyPrimitives';
+import { customerFilm } from '../../data/cinematicJourneys';
+import { FilmJourney } from './FilmJourney';
 
-export const WorkflowJourney = ({ department, industry, onJoin }) => {
-  const [active, setActive] = useState(0);
-  const [decision, setDecision] = useState('pending');
-  const step = workflowProofs[active];
-  const context = `${department.label} / ${industry.label}`;
-  return <div className="journey-page workflow-journey" data-testid="workflow-destination-page">
-    <Seo title={`Workflow Owner — ${context} — Acoord`} description="Walk through a modeled, governed decision line for your team and industry." path={`/investor/customer/workflow/${department.slug}/${industry.slug}`} />
-    <section className="workflow-opening" data-testid="workflow-hero"><div className="workflow-opening-top"><JourneyBack customer prefix="workflow" /><span data-testid="workflow-context-label">{context.toUpperCase()}</span></div><p className="persona-label">WORKFLOW OWNER / MODELED DAY IN THE LIFE</p><h1 data-testid="workflow-title">Stop coordinating<br />around the work.</h1><p data-testid="workflow-intro">{department.label} teams need to {department.objective}. This walkthrough models how that decision could remain one visible line inside {industry.label}.</p><ProofLegend prefix="workflow" modeled /></section>
-    <section className="workflow-player" data-testid="workflow-player"><div className="workflow-timeline">{workflowProofs.map((item, index) => <button key={item.id} type="button" className={active === index ? 'active' : index < active ? 'passed' : ''} onClick={() => setActive(index)} data-testid={`workflow-step-${item.id}-button`}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.verb}</strong></button>)}</div><div className="workflow-stage" data-testid={`workflow-step-${step.id}-panel`}><header><span>{step.system}</span><b>STEP {String(active + 1).padStart(2, '0')} / {String(workflowProofs.length).padStart(2, '0')}</b></header><main><div><p className="persona-label">{step.verb}</p><h2>{step.title}</h2><p>{step.evidence}</p></div><aside><span>HUMAN LINE</span><p>{step.human}</p></aside></main><footer><button type="button" disabled={active === 0} onClick={() => setActive((value) => Math.max(0, value - 1))} data-testid="workflow-previous-step-button"><ArrowLeft size={15} /> Previous</button><button type="button" disabled={active === workflowProofs.length - 1} onClick={() => setActive((value) => Math.min(workflowProofs.length - 1, value + 1))} data-testid="workflow-next-step-button">Next <ArrowRight size={15} /></button></footer></div></section>
-    <section className="workflow-decision" data-testid="workflow-decision-section"><div><p className="persona-label">MODELED CHECKPOINT</p><h2>Nothing consequential crosses this line silently.</h2></div><article className={`decision-${decision}`}><span>OWNER / {department.label.toUpperCase()}</span><strong>{decision === 'pending' ? 'REVIEW REQUIRED' : decision === 'approved' ? 'APPROVED WITH RECORD' : 'RETURNED FOR REVISION'}</strong><p>{decision === 'pending' ? 'The proposed action, evidence, and boundary are ready for owner review.' : decision === 'approved' ? 'The decision can advance inside the declared scope.' : 'The run remains paused with reviewer direction attached.'}</p><div>{decision === 'pending' ? <><button type="button" onClick={() => setDecision('approved')} data-testid="workflow-approve-button"><Check size={15} /> Approve</button><button type="button" onClick={() => setDecision('revised')} data-testid="workflow-revise-button">Revise</button></> : <button type="button" onClick={() => setDecision('pending')} data-testid="workflow-reset-decision-button"><RotateCcw size={15} /> Reset modeled checkpoint</button>}</div></article></section>
-    <JourneyActions prefix="workflow" onJoin={onJoin} title="Bring the workflow that currently lives across tabs, threads, and handoffs." />
-  </div>;
-};
+export const WorkflowJourney = ({ department, industry, onJoin }) => <FilmJourney film={customerFilm('workflow', department, industry)} customer onJoin={onJoin} />;
