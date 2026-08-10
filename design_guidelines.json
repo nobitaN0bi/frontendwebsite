@@ -1,159 +1,91 @@
 {
-  "theme_strategy": "Swiss Brutalist Cinematic / Monochrome",
+  "theme": "dark",
+  "archetype": "Swiss & High-Contrast Monochrome",
   "typography": {
     "headings": {
-      "family": "Cabinet Grotesk, Chivo, or Helvetica",
-      "style": "tracking-tighter leading-none font-black",
-      "usage": "Do not use Inter for headings. Use fluid text sizes up to text-6xl. No oversized text that dominates without explaining."
+      "font": "Cabinet Grotesk",
+      "weights": ["light", "bold", "black"],
+      "classes": "font-sans tracking-tight leading-none"
     },
     "body": {
-      "family": "IBM Plex Sans, JetBrains Mono",
-      "style": "leading-relaxed tracking-normal",
-      "usage": "Use monospace for technical labels, system names, and audit events."
+      "font": "IBM Plex Sans",
+      "weights": ["regular", "medium"],
+      "classes": "font-sans leading-relaxed"
     },
-    "forbidden_fonts": ["Space Grotesk", "Inter (for headings)"]
+    "labels_and_code": {
+      "font": "JetBrains Mono",
+      "classes": "font-mono tracking-[0.2em] uppercase text-xs"
+    }
   },
   "colors": {
     "background": "#050505",
     "surface": "#111111",
     "surface_glass": "rgba(17, 17, 17, 0.7)",
     "text_primary": "#FFFFFF",
-    "text_secondary": "#888888",
-    "border": "#222222",
-    "accent": "#FFFFFF",
-    "forbidden_colors": ["#7351B7", "#1B93A4", "Generic full-screen gradients"]
+    "text_secondary": "#A1A1AA",
+    "border": "#27272A",
+    "accent": "#FFFFFF"
   },
-  "visual_enhancers": {
-    "textures": "Subtle SVG noise overlay (opacity 0.03) fixed over the entire viewport to kill digital flatness.",
-    "borders": "1px solid #222222 strictly to define mechanical boundaries (e.g., sandboxes, ACL perimeters).",
-    "glows": "No diffuse blooms. Use hard dropshadows or 1px inset borders to create tension."
+  "layouts": {
+    "page": "bg-[#050505] text-white min-h-screen selection:bg-white selection:text-black",
+    "macbook_container": "sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden",
+    "callout": "absolute z-50 flex flex-col gap-2 max-w-xs",
+    "callout_line": "absolute bg-white/20"
   },
   "motion": {
-    "philosophy": "Watch and understand. Cause and effect. Not just state swaps.",
-    "primitives": {
-      "scroll_linked": "Use Framer Motion `useScroll` and `useTransform` for progressing through states on a fixed stage.",
-      "svg_drawing": "Use `pathLength` animations for data flow, API calls, and system connections.",
-      "layout_transitions": "Use `LayoutGroup` and `motion.div layout` for seamless shifting of the Ahi architecture when focusing on different systems."
-    },
-    "accessibility": "If `prefers-reduced-motion` is true, map scroll progress to step-based opacity crossfades instead of complex transforms."
+    "macbook_scroll": "useTransform to map scrollYProgress to scale (0.9 to 1.05) and rotateX (10deg to 0deg) for cinematic framing.",
+    "callout_entrance": "Staggered fade-in (opacity 0 to 1, y 10 to 0) tied to active scene index.",
+    "scene_transition": "Crossfade content inside the DemoWorkspace."
   },
-  "architecture_and_routes": {
-    "gateway_investor": {
-      "path": "/investor",
-      "experience": "Cinematic System Formation",
-      "timeline": [
-        "Scene 1: Screen is black. A single monospace coordinate appears.",
-        "Scene 2: SVG lines draw rapidly, forming the 5 systems (Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow) in an abstract topological layout.",
-        "Scene 3: The systems pulse synchronously, showing connected data flow.",
-        "Scene 4: The topological map physically recedes (scales down/blurs slightly into background).",
-        "Scene 5: The Investor / Customer selection elegant emerges from the center, anchored to the system."
+  "components": {
+    "MacBookShell": "Renders a CSS/HTML based MacBook frame or uses the existing InvestorLaptopDemo.jsx. Must have a responsive wrapper.",
+    "DemoWorkspace": "Contains the 9 product surfaces. Controlled by active scene index.",
+    "SceneCallout": "Displays the Verb (e.g., UNDERSTAND), description, and Human Checkpoint badge.",
+    "HumanCheckpoint": "A specific UI badge indicating human-in-the-loop (e.g., 'HUMAN REVIEW REQUIRED' in mono font with a pulsing dot)."
+  },
+  "implementation_blueprint": {
+    "macbook_composition_and_motion": "MacBook sits sticky center-screen. On scroll, it subtly scales up (0.95 to 1.05) to pull the viewer into the product. SVG connector lines draw from the callout text into specific coordinates of the MacBook screen.",
+    "persona_playlists": {
+      "default_5_acts": [
+        {
+          "verb": "UNDERSTAND",
+          "surface": "Knowledge",
+          "description": "Synthesizes intent and unstructured context."
+        },
+        {
+          "verb": "GROUND",
+          "surface": "Ontology",
+          "description": "Maps intent to enterprise data realities and permissions."
+        },
+        {
+          "verb": "PLAN",
+          "surface": "Agent Builder",
+          "description": "Constructs a multi-step execution strategy."
+        },
+        {
+          "verb": "REVIEW",
+          "surface": "Collaboration",
+          "description": "Halts for human validation and override.",
+          "human_checkpoint": true
+        },
+        {
+          "verb": "ACT",
+          "surface": "Dispatch",
+          "description": "Executes approved actions across integrated systems."
+        }
       ]
     },
-    "customer_selector": {
-      "experience": "Progressive Contextual Framing",
-      "interaction": "Compact, one-viewport progressive disclosure.",
-      "flow": "Role selection -> Crossfades to Department -> Crossfades to Industry. Not a taxonomy wall. Animated with layout fluidly resizing."
-    },
-    "destinations": [
-      {
-        "route": "Venture Fund",
-        "stage": "Topological map of capital vs. compute.",
-        "scenes": [
-          "1. Model Abundance: Hundreds of dots (models) appear erratically.",
-          "2. Coordination Pressure: Dots collide, creating red error states.",
-          "3. Five-system Control Layer: The Ahi architecture overlays, capturing the dots into orderly streams.",
-          "4. Compounding Context: Streams route through Onyx and Search, enriching data.",
-          "5. Evidence Boundary: Data is locked into Colanode and DeerFlow with strict geometric borders."
-        ]
-      },
-      {
-        "route": "Strategic Corporate",
-        "stage": "Enterprise Estate Topology.",
-        "scenes": [
-          "1. Existing Estate: Messy, disconnected silos.",
-          "2. Connected Context: Onyx connectors draw paths to silos, pulling data.",
-          "3. Governance Boundary: A rigid boundary box (AIGIS) forms around the execution environment.",
-          "4. Collaboration: Colanode surfaces as multi-cursor interaction syncing state.",
-          "5. Partnership Surface: The system exposes clean output APIs."
-        ]
-      },
-      {
-        "route": "Operator/Angel",
-        "stage": "Workflow Pipeline.",
-        "scenes": [
-          "1. Intent Enters: A user query packet drops in.",
-          "2. Retrieval/Grounding: Packet moves through hybrid sparse+dense Search.",
-          "3. Stateful Plan: AIGIS forms a LangGraph state machine node map.",
-          "4. Shared State: Colanode CRDT syncs the plan to multiple virtual users.",
-          "5. Bounded Execution & Record: DeerFlow harness executes safely, dropping an immutable audit log."
-        ]
-      },
-      {
-        "route": "Executive Buyer",
-        "stage": "Command & Authority View.",
-        "scenes": [
-          "1. Consequential Request: High-level metric query.",
-          "2. Evidence: Onyx citations visually link back to raw PostgreSQL rows.",
-          "3. Accountable Plan: Subagents in DeerFlow are assigned specific constraints.",
-          "4. Human Authority: Execution pauses; a human 'Approve' node pulses red until clicked.",
-          "5. Controlled Rollout: State commits and dashboard updates safely."
-        ]
-      },
-      {
-        "route": "Technical Evaluator",
-        "stage": "Network & Protocol Layer (The Deep Dive).",
-        "scenes": [
-          "1. Request Packet: Query initiates with source ACLs attached.",
-          "2. Hybrid Retrieval: RRF (Reciprocal Rank Fusion) visualization between two lists.",
-          "3. Connector Context: Onyx permission replication tree.",
-          "4. Graph Checkpoint: AIGIS LangGraph state saves to PostgreSQL.",
-          "5. CRDT & MCP: Colanode local-first sync alongside DeerFlow sandbox middleware filtering."
-        ]
-      },
-      {
-        "route": "Workflow Owner",
-        "stage": "Collaborative Canvas.",
-        "scenes": [
-          "1. Owner Framing: Initial task definition.",
-          "2. Search Grounding: Context retrieved.",
-          "3. Orchestration: AIGIS assigns subtasks to specialist models.",
-          "4. Multiplayer Review: Human and AI cursors co-edit in Colanode.",
-          "5. Specialist Execution & Approval: Final DeerFlow execution and audit stamp."
-        ]
-      }
-    ]
+    "visible_capability_verbs": "Use stark, bold uppercase verbs (UNDERSTAND, GROUND, PLAN, REVIEW, ACT). Replace abstract internal names (Onyx, AIGIS) with these action-oriented verbs. Add a distinct 'HUMAN IN THE LOOP' visual indicator for the REVIEW phase.",
+    "responsive_strategy": "On desktop: Full MacBook frame with flanking callouts. On mobile: Remove the MacBook hardware bezel. Show only the DemoWorkspace UI full-width to maximize readability, with callouts overlaid or stacked below in a fixed panel.",
+    "cleanup": "Remove all references to the abstract system-map nodes (Enterprise Search, Onyx, AIGIS, Colanode, DeerFlow) from the visual UI. Ensure internal names are not visible to the user."
   },
-  "anti_patterns_to_delete": [
-    "Static split screens with oversized, static typography.",
-    "Generic boxed menu items that do not interact with the background or explain the thesis.",
-    "Bento grids, static card stacks, and giant headline viewports that act as styled documentation.",
-    "Decorative geometric shapes (rotated boxes, grids) that have no semantic tie to the 5 Ahi systems.",
-    "Unexplained fade-ins that do not map to the cause-and-effect of the systems."
-  ],
-  "testing": {
-    "attributes": "All interactive elements and animated stage containers MUST use `data-testid` (e.g., `data-testid='investor-gateway-stage'`, `data-testid='role-selector-btn'`)."
-  },
-  "instructions_to_main_agent": [
-    "1. Do not use generic Shadcn cards for these narrative routes. Use pure HTML/Tailwind with Framer Motion.",
-    "2. Build a `SceneController` component that maps scroll position to active scenes.",
-    "3. Ensure the gateway animation explicitly delays user interaction until the 5 systems have visually formed and connected.",
-    "4. Create specialized SVG components for Onyx, Search, AIGIS, Colanode, and DeerFlow that accept animation props (`active`, `processing`, `error`).",
-    "5. Keep the design strictly monochrome with high contrast. Use 1px borders for technical precision.",
-    "6. Do not create `.tsx` files. Use `.js` or `.jsx` as configured in the environment.",
-    "7. Never use transparent headers. Use `backdrop-blur-xl bg-black/60` with a 1px bottom border.",
-    "8. Ensure the customer selector maintains a fixed height to avoid layout shift, using Framer Motion's `AnimatePresence` with `mode='wait'` for crossfading steps."
-  ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "You tend to converge toward generic, 'on distribution' outputs. Avoid the 'AI slop' aesthetic.",
-    "Create depth through layered design elements with z-index hierarchy.",
-    "Use glass-morphism effects with backdrop filters (12-24px blur).",
-    "You MUST NOT apply universal transition (`transition: all`). Always target specific properties.",
-    "You MUST NOT center align the app container. No `.App { text-align: center; }`.",
-    "Always use modern button styles like pill-shaped, or sharp buttons with interaction animations.",
-    "NEVER use AI assistant Emoji characters like 🤖🧠💭💡.",
-    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
-    "Subtle grain textures, noise overlays, custom cursors, selection states, and loading animations separate good from extraordinary.",
-    "Prioritize using pre-existing components from src/components/ui when applicable.",
-    "Use `sonner` for toasts located in `/app/src/components/ui/sonner.jsx`."
+  "universal_guidelines_for_main_agent": [
+    "Do not use generic AI slop. Adhere strictly to the monochrome, high-contrast Palantir AIP aesthetic.",
+    "Ensure the gateway and persona selector remain untouched as requested.",
+    "Never use `transition: all`. Use specific transitions.",
+    "All interactive elements MUST have `data-testid`.",
+    "Use backdrop-blur for floating panels to ensure text contrast without muddying the background.",
+    "Avoid transparent backgrounds where content scrolls underneath.",
+    "Implement Sonner for any toast notifications."
   ]
 }

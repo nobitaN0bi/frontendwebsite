@@ -195,7 +195,7 @@
                 <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 0;">
                   <div style="display: flex; align-items: center; gap: 10px;">
                     <span class="status-dot online"></span>
-                    <span style="font-weight: 600; font-size: 0.85rem;">Enterprise Search RAG</span>
+                    <span id="grounded-evidence-agent" style="font-weight: 600; font-size: 0.85rem;">Enterprise Search RAG</span>
                   </div>
                   <span class="badge badge-info">Search</span>
                 </div>
@@ -213,6 +213,9 @@
   <script>
     document.getElementById('sidebar-mount').innerHTML = window.renderAHISidebar('home');
     document.getElementById('cmd-mount').innerHTML = window.renderCommandPaletteModal();
+    if (new URLSearchParams(window.location.search).get('lens') === 'capability') {
+      document.getElementById('grounded-evidence-agent').textContent = 'Grounded Evidence Agent';
+    }
 
     function setDispatchMode(mode, btn) {
       document.querySelectorAll('.dispatch-mode-btn').forEach(b => b.classList.remove('active'));

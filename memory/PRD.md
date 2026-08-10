@@ -18,7 +18,7 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - Customer destination URLs use `/investor/customer/:role/:department/:industry`, with explicit route components for Executive Buyer, Technical Evaluator, and Workflow Owner experiences. Direct loads resolve context from URL-safe taxonomy slugs.
 - The new investor subtree owns an isolated Swiss Brutalist monochrome CSS system. Existing homepage, demo, resource, legal, map, and use-case surfaces retain their established visual and functional systems.
 - Destination storytelling is grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
-- The six destination URLs retain separate route components and persona-specific scene data, but now share a cinematic scene controller and animated Ahi system stage. This keeps the product grammar coherent while each route changes the causal sequence, stage overlays, caption thesis, context, and system emphasis.
+- The six destination URLs retain separate route components and persona-specific scene data, but now share a cinematic scene controller and live-product MacBook stage. This keeps the product grammar coherent while each route changes the visible capability sequence, product-surface playlist, callout thesis, human checkpoint, modeled scenario, and operating context.
 - A custom CSS motion system recreates the supplied ASCII references with layered source images, scan lines, clipping, jitter, moving cursors, animated topology edges, and node execution states.
 - Reusable data-driven ICP model powers both homepage cards and dedicated story pages.
 - FastAPI service exposes health and waitlist endpoints; MongoDB persists requests with a unique email index and race-safe idempotency.
@@ -160,6 +160,17 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - Deleted the rejected static journey data, card/table/manual compositions, decorative gateway geometry, and separate proof workbench. The active visual system now uses technical lines only when they represent data flow, checkpoints, permissions, authority, or audit state.
 - Testing-agent iteration 15 reports the complete cinematic matrix passing: timed formation and skip, investor branch/reset, compact customer progression and filters, query persistence, all six scroll films and manual controls, CTA behaviors, reduced motion, desktop/tablet/mobile safety, global route isolation, unique automation identifiers, and no console/update-loop errors. JavaScript lint and production build also pass.
 
+- **2026-08-10 MacBook amalgamation:** Combined the accepted current gateway and separate persona routes with the strongest earlier five-act MacBook choreography and Palantir AIP's thesis → visible product action → human review → industry/persona discovery principle. This was implemented by reusing the surviving live `DemoWorkspace`, not reverting the current routing architecture.
+- Replaced the abstract system-map stage on all six destinations with a responsive MacBook containing the real nine-surface Ahi product simulation. The live iframe remains interactive and changes product surface in sync with scroll position, the bottom act rail, and a second capability rail attached to the MacBook.
+- Reframed all visible explanation around what Ahi does: `UNDERSTAND`, `GROUND`, `PLAN`, `REVIEW`, `ACT`, and `REMEMBER`. Internal microservice names are no longer used as the user-facing teaching layer.
+- Added persona-specific five-act product playlists. Venture uses Find Evidence → Ground Context → Plan Workflow → Review Together → Remember Decision. Strategic uses Ground Context → Find Evidence → Plan Workflow → Act in Sandbox → Remember Decision. Operator uses Understand Request → Find Evidence → Plan Workflow → Act in Sandbox → Remember Decision.
+- Executive Buyer uses Understand Request → Write Decision → Plan Workflow → Review Together → Remember Decision. Technical Evaluator uses Find Evidence → Ground Context → Plan Workflow → Act in Sandbox → Remember Decision. Workflow Owner uses Understand Request → Find Evidence → Write Decision → Review Together → Remember Decision.
+- Added action callouts outside the screen, connector lines into the live product, and a separate human-line callout for every act. The MacBook subtly scales/reframes as scenes advance. The modeled-scenario label remains visible throughout.
+- Added context-to-scenario routing so customer department/industry selections choose a relevant modeled enterprise channel while preserving the direct persona URL and copy context.
+- Added showcase-only action labels inside `DemoWorkspace`—Understand Request, Ground Context, Plan Workflow, Write Decision, Find Evidence, Review Together, Act in Sandbox, Verify Sources, and Remember Decision—without changing the global `/demo` labels.
+- On mobile, the hardware bezel, camera, and base are removed so the working product fills the available width; capability navigation, action callout, human line, and scene controls remain available.
+- Testing-agent iteration 16 passed gateway/selector regression, all six MacBook playlists, live iframe interaction, dual-rail synchronization, proof/CTA behavior, responsive/reduced-motion layouts, and global route isolation. It found one visible `Enterprise Search` phrase in showcase copy. The phrase and one showcase-only iframe label were neutralized with action-led language; a final automated scan confirmed all six routes and their live iframe bodies contain none of the forbidden internal names. Production build passes.
+
 ## Prioritized Backlog
 
 ### P0
@@ -177,5 +188,5 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 
 ## Next Tasks
 
-1. User review of the corrected system-formation gateway, compact selector, and six animated causal films.
-2. Apply only user-requested P0 scene pacing, copy, or stage-composition refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
+1. User review of the accepted gateway, compact selector, and six live-product MacBook films.
+2. Apply only user-requested P0 MacBook scale, act pacing, callout, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.

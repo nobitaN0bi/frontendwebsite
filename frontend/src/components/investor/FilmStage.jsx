@@ -12,11 +12,11 @@ const layouts = {
 };
 
 const systems = [
-  { id: 'search', label: 'ENTERPRISE SEARCH', from: 1 },
-  { id: 'onyx', label: 'ONYX', from: 1 },
-  { id: 'aigis', label: 'AIGIS', from: 2 },
-  { id: 'colanode', label: 'COLANODE', from: 3 },
-  { id: 'deerflow', label: 'DEERFLOW', from: 4 }
+  { id: 'search', label: 'UNDERSTAND', from: 1 },
+  { id: 'onyx', label: 'GROUND', from: 1 },
+  { id: 'aigis', label: 'PLAN', from: 2 },
+  { id: 'colanode', label: 'REVIEW', from: 3 },
+  { id: 'deerflow', label: 'ACT + REMEMBER', from: 4 }
 ];
 
 export const FilmStage = ({ variant, active, signal }) => {

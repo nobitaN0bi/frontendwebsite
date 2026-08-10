@@ -1,0 +1,57 @@
+{
+  "summary": "Frontend-only P0 regression executed on the public preview URL for gateway, customer selector persistence, six destination routes, MacBook live-product stage interactions, responsive layouts, reduced-motion behavior, CTA/proof boundaries, and global route isolation. One acceptance issue found: forbidden internal term exposure ('Enterprise Search') in destination body text.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Destination film + DemoWorkspace narrative copy",
+        "issue": "Forbidden internal term 'Enterprise Search' is present in rendered body text/scene caption context (violates requirement to avoid internal names in explanation text).",
+        "selector": "body text (includes demo-scene caption/content)",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Internal-name-free explanatory narrative across investor/customer destinations",
+        "issue": "String scan detected 'enterprise search' on venture and technical destination pages while all other forbidden names (Onyx/AIGIS/Colanode/DeerFlow) were absent.",
+        "affected_selectors": [
+          "[data-testid='venture-destination-page']",
+          "[data-testid='technical-destination-page']",
+          "[data-testid='demo-active-scene-caption']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_16.json"
+  ],
+  "action_items": [
+    "Replace/neutralize 'enterprise search' phrasing in user-visible destination/demo explanatory copy with approved action-led wording.",
+    "Re-run destination content scan for forbidden internal names across all six routes after copy update.",
+    "Keep existing routing, rail interactions, responsive behavior, and reduced-motion logic unchanged (currently passing)."
+  ],
+  "critical_code_review_comments": [
+    "Gateway timed formation and investor/customer branching remain functional; investor deep links for venture/strategic/operator are healthy.",
+    "Customer selector remains compact and query-persistent (role -> department -> industry), and state restores on reload.",
+    "All six destination routes currently implement five acts with synchronized bottom scene rail + capability rail controlling live DemoWorkspace surfaces.",
+    "Mobile 390x844 behavior matches requirement: MacBook base/camera hidden, full-width live product, no horizontal overflow in tested route.",
+    "Reduced-motion mode keeps complete scene switching and stable static MacBook shell transform (none -> none).",
+    "Known content-level compliance gap: forbidden internal term exposure ('Enterprise Search')."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_16.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "95%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated public URL with automated desktop/tablet/mobile runs. Passed: gateway routing, customer query persistence, 6 destination five-act rails and scene sync, proof/CTA visibility, responsive no-overflow checks, reduced-motion scene switching, and global /demo isolation. Failed: text scan found forbidden term 'enterprise search' in destination body context (venture + technical detections).",
+  "rca of the issue": "RCA: The acceptance criterion forbids exposing internal system names in visible explanation text. Reproduction: open /investor/venture and /investor/customer/technical/finance/manufacturing, then scan body text for forbidden tokens; 'enterprise search' appears. Likely source is user-visible copy tied to demo scene caption/content (e.g., wording in DemoWorkspace scene definitions or related narrative text). Mitigation: replace phrase with action-led neutral wording (e.g., 'find evidence across private context'), then rerun token scan across all destination routes."
+}

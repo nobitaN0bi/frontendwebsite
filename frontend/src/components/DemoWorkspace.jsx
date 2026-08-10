@@ -13,6 +13,11 @@ const scenes = [
   { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist owners, work state, approvals, and the final decision.' }
 ];
 
+const showcaseLabels = {
+  home: 'Understand request', ontology: 'Ground context', apps: 'Plan workflow', 'doc-workspace': 'Write decision',
+  library: 'Find evidence', chat: 'Review together', code: 'Act in sandbox', browser: 'Verify sources', teamspaces: 'Remember decision'
+};
+
 const fallbackChannels = [
   ['finance', 'Finance'], ['legal', 'Legal'], ['manufacturing', 'Manufacturing'], ['customer-support', 'Customer Support'],
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
@@ -30,6 +35,10 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
   activeRef.current = active;
   const scenarioId = controlledId || localId;
   const scene = scenes[active];
+  const sceneLabel = showcase ? showcaseLabels[scene.id] : scene.label;
+  const sceneCaption = showcase && scene.id === 'library'
+    ? 'Rank exact and semantic evidence with source permissions attached.'
+    : scene.caption;
   const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
 
   const sendScenarioToFrame = useCallback(() => {
@@ -79,7 +88,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     setTouring(false);
   };
 
-  const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}`;
+  const query = `scenario=${encodeURIComponent(scenarioId)}${touring ? '&autoplay=1' : ''}${showcase ? '&lens=capability' : ''}`;
 
   return (
     <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''} ${showcase ? 'exported-demo-showcase' : ''}`} data-testid="exported-html-demo">
@@ -98,8 +107,8 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">
         <div className="demo-chapter-copy">
           <span data-testid="demo-active-scene-number">0{active + 1} / 0{scenes.length}</span>
-          <strong data-testid="demo-active-scene-title">{scene.label}</strong>
-          <p data-testid="demo-active-scene-caption">{scene.caption}</p>
+          <strong data-testid="demo-active-scene-title">{sceneLabel}</strong>
+          <p data-testid="demo-active-scene-caption">{sceneCaption}</p>
         </div>
         <div className="demo-chapter-actions">
           <span className="demo-mock-label" data-testid="demo-mock-label">MOCKED SCENARIO / WORKING SIMULATION</span>
@@ -116,8 +125,8 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
         ))}
       </div>
       <div className={`demo-frame-shell ${touring ? 'is-touring' : ''}`}>
-        <div className="demo-window-bar" aria-hidden="true"><i /><i /><i /><span>{scenario.label.toUpperCase()} / {scene.label.toUpperCase()} / AHI DESKTOP</span><b>{scene.caption}</b></div>
-        <iframe ref={iframeRef} onLoad={sendScenarioToFrame} key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${scene.label} Ahi simulation`} sandbox="allow-scripts allow-forms allow-modals" data-testid="demo-export-iframe" />
+        <div className="demo-window-bar" aria-hidden="true"><i /><i /><i /><span>{scenario.label.toUpperCase()} / {sceneLabel.toUpperCase()} / AHI DESKTOP</span><b>{sceneCaption}</b></div>
+        <iframe ref={iframeRef} onLoad={sendScenarioToFrame} key={`${scenario.id}-${scene.id}-${touring}`} className="demo-export-frame" src={`/demo/demopages/${scene.id}.html?${query}`} title={`${scenario.label} ${sceneLabel} Ahi simulation`} sandbox="allow-scripts allow-forms allow-modals" data-testid="demo-export-iframe" />
         <span className="demo-tour-progress" aria-hidden="true" />
       </div>
       <div className="demo-story-continuity" data-testid="demo-story-continuity"><span>{scenario.label}</span><i /><strong>{scene.label}</strong><i /><span>Human checkpoint</span><ArrowRight size={15} /><a href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="demo-scenario-book-call-link">Book a demo</a></div>
