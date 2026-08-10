@@ -1,82 +1,145 @@
 {
-  "theme": "Enterprise-grade, Swiss/monochrome, Palantir AIP-level",
   "typography": {
     "headings": {
-      "family": "Cabinet Grotesk or Chivo",
-      "style": "font-black, tracking-tighter, uppercase or tight leading for high impact. Never use Inter for headings."
+      "family": "Space Grotesk, sans-serif",
+      "weights": ["400", "700"],
+      "usage": "Use Space Grotesk for the prominent onboarding questions and section headers to maintain a technical yet modern feel."
     },
     "body": {
-      "family": "IBM Plex Mono or Geist Mono",
-      "style": "Technical, sterile, authoritative. Optimal for data and interface elements."
+      "family": "Inter, sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Use Inter for body text, form inputs, and subtle descriptions for maximum readability."
     },
-    "hierarchy": {
-      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-tighter leading-none",
-      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-tight",
-      "body": "text-sm md:text-base leading-relaxed"
+    "labels": {
+      "family": "JetBrains Mono, monospace",
+      "weights": ["400"],
+      "usage": "Use monospace for tiny labels, data tags, and 'press Enter to continue' hints. tracking-[0.2em] uppercase."
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl tracking-tight",
+      "h2": "text-2xl sm:text-3xl tracking-tight",
+      "h3": "text-xl",
+      "body": "text-base",
+      "small": "text-sm",
+      "tiny": "text-xs tracking-widest uppercase"
     }
   },
   "colors": {
-    "archetype": "ARCHETYPE 4: SWISS & HIGH-CONTRAST",
-    "background": "#000000",
-    "surface": "#0A0A0A",
-    "surface_glass": "bg-black/60 backdrop-blur-xl border-white/10",
-    "text_primary": "#FFFFFF",
-    "text_secondary": "#888888",
-    "accent": "#FFFFFF",
-    "borders": "#222222",
-    "rules": "Color is function only. 95% of the UI must be monochrome. Never use full-screen gradients. Use pure high-contrast neutral scales."
+    "theme": "dark",
+    "backgrounds": {
+      "primary": "#0A0A0A",
+      "secondary": "#141414",
+      "canvas": "#0F0F13",
+      "glass": "bg-white/5 backdrop-blur-2xl"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A1A1AA",
+      "disabled": "#52525B"
+    },
+    "accents": {
+      "vibrant_primary": "#FF3B30",
+      "vibrant_secondary": "#007AFF",
+      "vibrant_success": "#34C759",
+      "glow": "rgba(0, 122, 255, 0.4)"
+    },
+    "borders": {
+      "default": "border-white/10",
+      "active": "border-white/30",
+      "vibrant": "border-blue-500/50"
+    },
+    "rules": "No generic gradients. Use pure high-contrast colors (Electric & Neon archetype) on a structural grayscale base (Swiss). Highlight active elements with vibrant borders and text colors."
   },
-  "routes": {
-    "/demo": {
-      "type": "Customer Gateway",
-      "flow": "Problem Statement Input -> Role -> Department -> Industry -> Summary -> Selected MacBook Film",
-      "notes": "Persist problem in URL. Background kinetic animation."
+  "visual enhancers": {
+    "shadows": {
+      "ambient": "shadow-[0_0_40px_rgba(0,122,255,0.15)]",
+      "direct": "shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
     },
-    "/investor": {
-      "type": "Investor Gateway",
-      "flow": "Timed system formation gateway -> Venture / Strategic / Operator",
-      "notes": "Strictly investor paths. Remove any customer options."
+    "borders": {
+      "radius_container": "rounded-3xl",
+      "radius_element": "rounded-xl",
+      "radius_button": "rounded-full"
     },
-    "/demo/workspace": {
-      "type": "Product Explorer",
-      "flow": "Moved from previous /demo to this new route.",
-      "notes": "Preserves the existing nine-surface DemoWorkspace."
-    },
-    "legacy_redirects": "Ensure old /demo customer deep links redirect to /demo/customer/:role/:department/:industry while maintaining query parameters."
-  },
-  "content_inventory": {
-    "capabilities": [
-      "Multimodal reasoning", "Image generation", "Image understanding", "Video product demo", "Video generation", "Video understanding", "Audio transcription", "Meeting notes", "Meeting memory/keeper", "Action items", "Slides", "Document drafting", "Spreadsheet analysis", "PDF analysis", "Evidence search", "Citation grounding", "Web research", "Browser automation", "Coding", "Sandbox execution", "Data/charts", "Workflow building", "Specialist teams", "Approvals", "Policy/access/audit", "Decision records", "Knowledge/context graphs", "CRM/tickets/email/calendar", "Procurement", "Contracts", "Finance", "Forecasting", "Fashion merchandising", "Marketing", "Sales", "Incident response", "Supply chain", "Hiring", "Board packs", "Executive briefings", "Sentiment analysis", "Root cause analysis", "Anomaly detection", "Persona simulation", "Translation", "Voice synthesis", "Data normalization", "Trend forecasting", "Compliance checking", "Predictive maintenance"
-    ],
-    "tools_to_ditch": [
-      "Salesforce", "HubSpot", "Jira", "Asana", "Monday.com", "Trello", "Zendesk", "Intercom", "Slack Workflows", "Notion", "Confluence", "Google Docs", "Tableau", "PowerBI", "Looker", "Snowflake UI", "Amplitude", "Mixpanel", "Marketo", "Mailchimp", "Zapier", "Make.com", "Workato", "MuleSoft", "DocuSign", "Calendly", "Gong", "Chorus.ai", "Seismic", "Highspot", "Outreach", "SalesLoft"
-    ],
-    "connectors": [
-      "PostgreSQL", "MySQL", "MongoDB", "Redis", "S3", "Azure Blob", "GCS", "Snowflake", "Databricks", "BigQuery", "Redshift", "Kafka", "RabbitMQ", "Elasticsearch", "Splunk", "Datadog", "GitHub", "GitLab", "Bitbucket", "Stripe", "Plaid", "Shopify", "AWS IAM", "Okta", "Active Directory", "SAP", "Oracle ERP", "NetSuite", "Workday", "ServiceNow"
-    ]
-  },
-  "visual_enhancers": {
-    "kinetic_background": {
-      "concept": "Vanishing carousel / perspective motion framing the Problem input.",
-      "choreography": "Three distinct streams: 1. 'DITCH THE STITCHING' (SaaS tools) moving inward and collapsing into the center Ahi core. 2. 'CONNECT THE SOURCES' (Connectors) feeding continuously into the core. 3. Ahi Capabilities radiating and emerging from the center.",
-      "implementation": "Use Framer Motion with 3D transforms (scale, rotateX, rotateY, translateZ, opacity). Texts should exist in 3D space, heavily blurred at distance, sharpening as they approach. Text-only execution (no 3rd party logos needed).",
-      "mobile_safe": "Reduce density and speed on mobile. Ensure tap controls and input fields remain above the Z-index of animations.",
-      "reduced_motion": "Respect prefers-reduced-motion media query by falling back to static faint text grids with simple opacity fades."
-    },
-    "problem_gateway": {
-      "layout": "Center stage overlaying the kinetic background. Glassmorphism container (crystal variant) to separate from moving text.",
-      "interactions": "Large fluid input for 'What problem are you solving?'. Below it, 3-4 suggested problem prompts for fast entry."
+    "textures": {
+      "noise": "Subtle SVG noise overlay on the main canvas to kill digital flatness."
     }
   },
-  "instructions_to_main_agent": [
-    "Execute route split: /demo for customers, /investor for investors, /demo/workspace for the full explorer.",
-    "Implement the progressive customer decision flow on /demo: Problem -> Role -> Dept -> Industry -> Summary.",
-    "Pass the entered Problem string via URL state to the final MacBook film so it contextualizes the demo.",
-    "Build the kinetic background component using Framer Motion with the provided 50/50/50 inventory lists.",
-    "Ensure 'DITCH THE STITCHING' and 'CONNECT THE SOURCES' streams have aggressive, dynamic motion collapsing into Ahi.",
-    "Maintain the existing live product/MacBook films intact; only update their entry logic.",
-    "No generic AI emojis or bloat. Strict monochrome, high-tension Palantir AIP aesthetic.",
-    "Add 'data-testid' to all interactive elements."
+  "components": [
+    {
+      "name": "AnimatedCanvas",
+      "description": "Shared central visual state container that reacts to user inputs. Uses framer-motion for smooth causal transitions."
+    },
+    {
+      "name": "InputCard",
+      "description": "Used for 'Problem', 'Role/Authority', 'Team', 'Industry'. Features glassmorphism background with a shimmering border on active state."
+    },
+    {
+      "name": "InvestorStep",
+      "description": "Visual question card for investor flow. Supports multi-select and skippable logic with respectful copy ('Prefer not to say', 'Explore')."
+    }
   ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "Focus on extreme contrast, generous padding (p-8 to p-12 minimum for containers), and optical alignment. Do not center everything; use grids and tension. Ensure text contrast meets APCA/WCAG standards. Never use plain transparent backgrounds for overlapping content—always use backdrop-blur or solid fills. Every interaction needs micro-animations (hover, focus, active). Avoid 'AI slop' gradients; use noise or static grayscale instead."
+  "grids": {
+    "canvas_layout": "grid-cols-1 md:grid-cols-12 gap-6",
+    "investor_options": "grid-cols-1 sm:grid-cols-2 gap-4"
+  },
+  "layouts": {
+    "variant_a_demo": "All-in-one animated canvas. 12-column bento grid where inputs (Problem, Role, Team, Industry) span specific columns and surround a central dynamic visual representing the 'Ahi state'.",
+    "variant_b_demopages": "Sequential morphed layout. Problem input dominates center first. Upon completion, shrinks and moves to top-left of the canvas, revealing Role, Team, and Industry in the bento grid format.",
+    "investor_flow": "Centered immersive flow. Progress indicator at top. Single large question in center with bento-style selectable options below. 'Skip' and 'Prefer not to say' subtly placed at the bottom.",
+    "spacing_scale": "Use generous spacing. p-8 or p-12 for main containers."
+  },
+  "motion": {
+    "principles": "Emil Kowalski principles strictly.",
+    "timings": {
+      "micro": "duration-150",
+      "standard": "duration-250",
+      "entrance": "duration-400"
+    },
+    "easings": {
+      "enter_exit": "ease-out",
+      "movement": "ease-in-out"
+    },
+    "rules": "No bounce. Transform and opacity only. Pair elements to share timing. Stagger entrance animations. Central state visual must react immediately (causal) as fields are filled."
+  },
+  "accessibility": {
+    "contrast": "Ensure minimum 4.5:1 for standard text against #0A0A0A. Hover states must have higher contrast (e.g., text-white on hover).",
+    "motion": "Respect prefers-reduced-motion. Disable complex framer-motion transitions if true.",
+    "keyboard": "All inputs and selectable cards must be focusable (tabIndex=0) and support Enter/Space to select."
+  },
+  "media": {
+    "laptop_reveal": "The final state triggers a cinematic zoom into the MacBook frame, fading out the surrounding UI."
+  },
+  "3d libraries": {
+    "usage": "If needed for the central Ahi state, use Framer Motion 3D for simple, performant card spins or positional depth instead of heavy Three.js, to ensure snappy form performance."
+  },
+  "image_urls": [],
+  "component_path": "/app/frontend/src/components/",
+  "instructions_to_main_agent": [
+    "Create two routes: /demo (Variant A) and /demopages (Variant B).",
+    "Create /investor route with 4 visual steps.",
+    "Implement a shared 'OnboardingCanvas' component that both demo variants use to render the fields.",
+    "For Variant A, render all fields simultaneously in a bento grid.",
+    "For Variant B, implement a multi-step state where Step 1 is just 'Problem', and Step 2 morphs the layout into the Variant A grid.",
+    "Role and Authority must be combined into a single logical block/input card (e.g., a dual dropdown or split form).",
+    "Team and Industry should use compact searchable dropdowns/comboboxes (Shadcn popover + command), not huge lists.",
+    "The central visual (laptop context) must react dynamically as fields are filled (e.g., glowing brighter or unlocking layers).",
+    "In the Investor flow, ensure all questions have a 'Skip' or 'Prefer not to say' option.",
+    "End the investor flow with a visual 'CRM Handoff' confirmation screen that states 'Tailored brief created. Connect database to save.', redirecting to the specific persona URL (Venture, Strategic, etc.).",
+    "Use framer-motion extensively but strictly adhering to the timing and easing rules provided.",
+    "Ensure all components use generic HTML/Tailwind for layouts and Shadcn for interactive logic, highly customized for the dark vibrant theme."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "Avoid generic, 'on distribution' outputs. Make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts (unless for a specific focused question like Investor flow), simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur) and 1px delicate borders (border-white/10).",
+    "You MUST NOT apply universal transition (e.g., transition: all). Always add transitions for specific properties (transition: transform 0.2s ease, opacity 0.2s ease).",
+    "You MUST NOT center align the app container in global CSS.",
+    "Always use modern button styles like pill-shaped, or sharp buttons with interaction animations & color relevant to the app style.",
+    "NEVER use AI assistant Emoji characters (🤖🧠💭💡🔮🎯) for icons. Use lucide-react.",
+    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
+    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
+    "All interactive and key informational elements MUST include a 'data-testid' attribute for testing."
+  ]
 }

@@ -4,6 +4,7 @@ import { SiteChrome } from './components/SiteChrome';
 import { WaitlistModal } from './components/WaitlistModal';
 import HomePage from './pages/HomePage';
 import DemoPage from './pages/DemoPage';
+import DemoPagesVariantPage from './pages/DemoPagesVariantPage';
 import WorkspaceDemoPage from './pages/WorkspaceDemoPage';
 import LegacyCustomerRedirectPage from './pages/LegacyCustomerRedirectPage';
 import MapPage from './pages/MapPage';
@@ -33,6 +34,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/demo" element={<DemoPage />} />
+        <Route path="/demopages" element={<DemoPagesVariantPage />} />
         <Route path="/demo/workspace" element={<WorkspaceDemoPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/demo/customer/executive/:department/:industry" element={<ExecutiveCustomerPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/demo/customer/technical/:department/:industry" element={<TechnicalCustomerPage onJoin={() => setWaitlistOpen(true)} />} />

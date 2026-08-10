@@ -190,6 +190,8 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - Final deployment-readiness analysis reports **PASS** for the React + FastAPI + MongoDB architecture: environment variables, routes, compilation, MongoDB access, supervisor commands, static files, secrets, CORS, and ports are launch-ready.
 - **2026-08-10 preview verification:** Public homepage and `/api/health` both return HTTP 200; Playwright renders the homepage successfully with the expected Acoord title and full page content. Frontend and backend supervisor services are running. Removed `.env` ignore patterns that blocked required deployment configuration; the follow-up deployment-readiness scan reports **PASS** with no remaining blockers.
 
+- **2026-06 SearchPicker fix verification (this fork):** Verified the previously patched customer-onboarding SearchPicker against both iteration_18 defects. Keyboard-only combobox flow now works end-to-end on `/demo` Variant A: ArrowDown/ArrowUp roving highlight, Enter selection, and Escape close set `department` and `industry` query params and drive the context to 4/4 READY with the launch button active. Mobile popover on `/demopages` at 390x844 renders fully inside the viewport (portal-based fixed positioning with flip/clamp measurement); the picker close button carries `data-testid`. Also re-verified `/investor` 4-step qualification: choice selection, Continue/Skip footer, and the tailored "Venture fund lens" brief with THESIS/ENGAGEMENT/INTENT/CONTEXT ledger and session-only CRM handoff note. No console errors on any of the three routes.
+
 ## Prioritized Backlog
 
 ### P0
@@ -209,5 +211,12 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 
 ## Next Tasks
 
-1. User launch review of `/demo`, `/demo/workspace`, `/investor`, and one complete customer/investor MacBook film.
+1. User launch review of `/demo`, `/demopages`, `/demo/workspace`, `/investor`, and one complete customer/investor MacBook film.
 2. Apply only user-requested P0 motion pacing, ecosystem density, MacBook scale, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
+
+### P1 backlog (not authorized to start without user request)
+- Replace mocked demo data and scenario simulations with authenticated Ahi workspace APIs.
+- Conversion analytics: track industry/chapter watched before booking.
+- Connect `/investor` brief to a real CRM/lead workflow.
+- Publish verified production subprocessors and assurance reports (P2).
+- Narrated Mode, Map Guestbook, Cinematic Sound (P2/P3).
