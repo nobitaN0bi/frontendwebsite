@@ -23,7 +23,7 @@ export const SiteChrome = ({ children, onJoin }) => {
           <a href="/#use-cases" onClick={closeMenu} data-testid="header-use-cases-link">Use cases</a>
           <Link className={location.pathname.startsWith('/resources') ? 'active' : ''} to="/resources" onClick={closeMenu} data-testid="header-resources-link">Resources</Link>
           <Link className={location.pathname === '/demo' ? 'active' : ''} to="/demo" onClick={closeMenu} data-testid="header-demo-link">Watch demo</Link>
-          <Link className={location.pathname === '/investor' ? 'active' : ''} to="/investor" onClick={closeMenu} data-testid="header-investor-link">Investors</Link>
+          <Link className={location.pathname.startsWith('/investor') ? 'active' : ''} to="/investor" onClick={closeMenu} data-testid="header-investor-link">Investors</Link>
           <MotionControl />
           <button className="header-access-link" onClick={() => { closeMenu(); onJoin(); }} data-testid="header-waitlist-button">Download app</button>
           <a className="button button-ink nav-cta" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="header-book-demo-link">Book a demo <ArrowUpRight size={15} strokeWidth={1.8} /></a>

@@ -8,10 +8,16 @@ The 2026-08-02 rework expanded the brief: integrate the real exported Ahi deskto
 
 The 2026-08-09 investor expansion added a dedicated `/investor` narrative: explain the counter-intuitive thesis that abundant intelligence makes coordination scarcer, connect market timing to the Agent Human Interface category, show the product through nine synchronized laptop feature dialogs, reuse the existing modeled agent profiles, articulate commercial and defensibility theses without inventing metrics, separate working product from modeled evidence, and end with investor meeting and desktop-waitlist conversion paths.
 
+The 2026-08-10 P0 scope replaced that single investor narrative with a persona-driven gateway and genuinely separate destinations. `/investor` now asks whether the visitor is evaluating Acoord as an investor or customer. Investor paths separate Venture Fund, Strategic Corporate, and Operator or Angel lenses. Customer paths separate Executive Buyer, Technical Evaluator, and Workflow Owner lenses, then contextualize the destination by one of 15 departments and 18 industries. The user explicitly limited the current horizon to this P0 experience; P1/P2 implementation is not authorized in this scope.
+
 ## Architecture Decisions
 
 - React 19 single-page marketing application with route-level pages for the homepage, interactive demo, and 10 ICP stories.
 - A dedicated `/investor` route composes modular narrative sections for thesis, timing, product, agent teams, commercial model, moat, proof boundaries, roadmap, and conversion.
+- `/investor` is now a stateful, query-persisted persona gateway rather than a long-form destination. It routes investors to `/investor/venture`, `/investor/strategic`, or `/investor/operator` and customers through `/investor/customer` to role/department/industry-specific URLs.
+- Customer destination URLs use `/investor/customer/:role/:department/:industry`, with explicit route components for Executive Buyer, Technical Evaluator, and Workflow Owner experiences. Direct loads resolve context from URL-safe taxonomy slugs.
+- The new investor subtree owns an isolated Swiss Brutalist monochrome CSS system. Existing homepage, demo, resource, legal, map, and use-case surfaces retain their established visual and functional systems.
+- Destination storytelling uses a shared five-system operational proof model grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
 - A custom CSS motion system recreates the supplied ASCII references with layered source images, scan lines, clipping, jitter, moving cursors, animated topology edges, and node execution states.
 - Reusable data-driven ICP model powers both homepage cards and dedicated story pages.
 - FastAPI service exposes health and waitlist endpoints; MongoDB persists requests with a unique email index and race-safe idempotency.
@@ -119,36 +125,31 @@ The 2026-08-09 investor expansion added a dedicated `/investor` narrative: expla
 - Reduced oversized hero/closing typography and tightened supporting copy to preserve negative space without returning to generic large-heading section patterns.
 - Verified on 2026-08-09: JavaScript lint and production build pass; smoke checks confirm the act rail, overflow, Act IV visual modes, and clean console. Testing-agent iteration 12 reports 100% frontend pass across act navigation and active state, Act II CHAT → OPERATIONS → GOVERNED progression, all nine product scenes, channel/guided-run regression, all Act IV/V modes, CTAs, desktop/tablet/mobile responsiveness, reduced motion, unique test IDs, and no horizontal overflow.
 
+- **2026-08-10 Persona gateway P0:** Replaced the five-act `/investor` page with an animated thesis-first gateway that cleanly branches into investor and customer journeys while preserving the global Acoord site chrome.
+- Added separate Venture Fund, Strategic Corporate, and Operator or Angel destination pages with distinct category, platform, and builder theses.
+- Added a separate customer selection page with URL-persisted role, department, and industry state. The taxonomy includes 15 departments—All Teams, Engineering, Customer Service, Sales, IT, Marketing, B2B Marketing, B2C Marketing, People, Finance, Legal, IT Management, Procurement, Human Resource, and Accounting—and 18 industries spanning Retail through Higher Education.
+- Added separate Executive Buyer, Technical Evaluator, and Workflow Owner destination routes. Each resolves its department and industry directly from the URL and presents a role-specific operating thesis.
+- Added a five-stage interactive architecture workbench for Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow. It covers hybrid retrieval and query-time ACLs, connector-led citation surfaces, stateful checkpointed orchestration and human interrupts, CRDT shared state, MCP tool use, specialist dispatch, and isolated execution.
+- Added play/pause system choreography, manual architecture tabs, responsive layouts, reduced-motion handling, proof-boundary labels, booking/waitlist actions, and unique automation identifiers across the new flow.
+- Kept contextual workflows explicitly **MODELED** and technical systems labeled **ARCHITECTURE**; no customer outcomes, financial metrics, traction claims, or fundraising figures were introduced.
+- Testing-agent iteration 13 verified investor routing, distinct destinations, taxonomy completeness, architecture interactions, route isolation, global homepage/demo safety, responsive overflow, and clean console. It found one sticky launch-bar pointer interception; the bar was made non-sticky, then real-click customer progression passed on desktop and mobile reduced-motion flows. Final mobile text-bound testing confirms the longest destination headline remains inside its safe area. JavaScript lint and production build pass.
+
 ## Prioritized Backlog
 
 ### P0
 
-- No open launch-blocking product issues.
+- Persona-driven investor/customer gateway and destination-page architecture: implemented and verified.
+- No open P0 blockers.
 
 ### P1
 
-- Add privacy-conscious conversion analytics for investor-page chapter depth, demo surfaces viewed, channel selected, and investor-meeting CTA conversion.
-- Replace investor-page modeled evidence with approved traction, customer outcomes, market sizing, and commercial metrics only after those materials are verified for publication.
-- Add consent/retention language and an internal request-management view before handling real enterprise lead volume.
-- Have qualified counsel review the published legal drafts before accepting production customers or regulated data.
-- Replace modeled ICP outcomes with approved, verifiable customer evidence before presenting metrics as real-world proof.
+- Intentionally out of current scope per user direction; do not begin without a new request.
 
 ### P2
 
-- Add real workspace authentication and connect the demo to live orchestration telemetry.
-- Add CMS-managed ICP stories and editorial case-study publishing.
-- Add product analytics for CTA conversion, story engagement, and demo scenario completion.
-- Add a decision-map guestbook so recipients can signal “worth a screening” to the sender.
-- Add editorial newsletter operations such as unsubscribe handling, suppression lists, and campaign delivery before sending production email.
-- Replace the **MOCKED** enterprise scenario runtime with authenticated, tenant-scoped APIs when production Ahi workspace services are available.
+- Intentionally out of current scope per user direction; do not begin without a new request.
 
 ## Next Tasks
 
-0. Extend the verified five-act investor animation language into the remaining global homepage motion audit: one argument per stage, visual explanation modes instead of repetitive cards, `ease-out` for entrances/exits, `ease-in-out` for on-screen movement, transform/opacity-first motion, and complete reduced-motion/touch guards.
-1. Conversion analytics: track which investor chapter, industry, and product surface visitors view before booking a demo or joining the download waitlist.
-2. Connect the product demo to authenticated Ahi workspace APIs and live orchestration telemetry when available.
-3. Narrated Mode: optional voiced walkthrough of the nine chapters while diagrams animate.
-4. Decision-map guestbook: let recipients signal “worth a screening” and show the sender who watched.
-5. Review claims, modeled metrics, fictionalized company names, newsletter language, and legal text with legal/brand stakeholders.
-6. Add an internal lead/newsletter management workflow with retention, export, deletion, and unsubscribe controls.
-7. Publish verified production subprocessors and assurance reports before processing customer workspace data.
+1. User review of the P0 gateway, customer taxonomy, six persona narratives, and five-system architecture workbench.
+2. Apply only user-requested P0 copy, pacing, or visual refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.

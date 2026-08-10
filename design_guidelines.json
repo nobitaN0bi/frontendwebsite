@@ -1,80 +1,93 @@
 {
-  "component_name": "Investor",
+  "theme_strategy": {
+    "mode": "dark",
+    "justification": "Swiss Brutalist enterprise design demands high contrast, deep blacks, and harsh lighting to emulate a 'command center' feel. Dark mode aligns perfectly with Palantir AIP's serious, operational thesis-first approach."
+  },
   "typography": {
-    "font_families": [
-      "Display: 'SF Pro Display', Inter, sans-serif (for headings)",
-      "Mono: 'SF Mono', monospace (for labels, kickers, system text, and acts)",
-      "Body: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif"
-    ],
-    "scales": "Strictly limited to text-xs through text-6xl. No text-7xl+ to maintain editorial density. Tight tracking on headings, wide tracking on uppercase labels.",
-    "copy_tightening": {
-      "Act I Hero": {
-        "old": "Acoord is building the Agent Human Interface—the operating surface where people and specialist agents become one governable team.",
-        "new": "Acoord builds the Agent Human Interface—where people and agents operate as one governable team."
-      },
-      "Act I Bet": {
-        "old": "Every model improvement increases the surface area of work that must be coordinated.",
-        "new": "Model improvements multiply the work requiring coordination."
-      },
-      "Act II Assumption": {
-        "old": "That is true only while the model remains a conversation.",
-        "new": "True only for isolated conversations."
-      },
-      "Act II Reality": {
-        "old": "Agents add tools, permissions, context, evidence, handoffs, and parallel state.",
-        "new": "Agents introduce tools, parallel state, and handoffs."
-      },
-      "Act II Category": {
-        "old": "Ahi coordinates the work before capability turns into organisational entropy.",
-        "new": "Ahi coordinates capability before it becomes entropy."
-      },
-      "Act V Closing": {
-        "old": "Acoord’s answer is Ahi: the interface between abundant intelligence and consequential human work.",
-        "new": "Ahi: the interface between abundant intelligence and consequential work."
-      }
+    "headings": {
+      "family": "Chivo, sans-serif",
+      "styles": "font-black tracking-tighter uppercase",
+      "usage": "Massive thesis statements, hero sections, section titles."
+    },
+    "body": {
+      "family": "IBM Plex Sans, sans-serif",
+      "styles": "font-light leading-relaxed tracking-wide text-zinc-300",
+      "usage": "Paragraphs, long-form explanations, architecture descriptions."
+    },
+    "mono_labels": {
+      "family": "IBM Plex Mono, monospace",
+      "styles": "font-medium text-xs tracking-[0.2em] uppercase text-zinc-400",
+      "usage": "Explicit BUILT / ARCHITECTURE / MODELED proof labels, metadata, system states."
     }
   },
   "colors": {
-    "palette": "Strict monochrome (#000, #fff, varying grays like #09090b, #111113, #29292c, #a1a1aa).",
-    "restrictions": "No gradients, orbs, or saturated colors. Only the laptop demo canvas may carry typical Apple-style UI colors."
+    "background": {
+      "primary": "#050505",
+      "secondary": "#0A0A0A",
+      "glass": "rgba(10, 10, 10, 0.7)"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A1A1AA",
+      "tertiary": "#52525B"
+    },
+    "border": {
+      "default": "rgba(255, 255, 255, 0.1)",
+      "focus": "rgba(255, 255, 255, 0.4)"
+    },
+    "accents": {
+      "white": "#FFFFFF",
+      "warning": "#FF3B30",
+      "success": "#34C759"
+    }
   },
-  "visual enhancers": {
-    "progress_grammar": "Add a fixed vertical 'Act' progress indicator on the right or left margin that highlights I, II, III, IV, V as the user scrolls. Minimalist, monochrome dots or lines.",
-    "transitions": "Remove explicit borders between acts if they create hard stops. Blend acts via opacity fades, overlapping sticky sections, or a continuous 1px connecting vertical line that strings the arguments together.",
-    "box_hierarchy": "Ensure every box visually separates the 'Category insight' from 'Proof' with a single, clear typographic hierarchy. No excessive cards or shadows, just 1px #29292c borders and flat #09090b backgrounds."
+  "surfaces_and_textures": {
+    "cards": "Flat solid background (#0A0A0A), strict 1px solid border (rgba(255, 255, 255, 0.1)), completely sharp corners (rounded-none) or max 2px. No drop shadows. Use inner glow (box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05)) for depth.",
+    "glassmorphism": "Only used for sticky navigation. background: rgba(5,5,5,0.7), backdrop-blur-2xl, border-bottom 1px solid rgba(255,255,255,0.1).",
+    "background_texture": "Subtle SVG noise or film grain overlay on hero sections to kill the digital flatness (opacity 2-4%)."
   },
-  "component_path": [
-    "/app/frontend/src/components/investor/InvestorHero.jsx",
-    "/app/frontend/src/components/investor/InvestorNarrative.jsx",
-    "/app/frontend/src/components/investor/InvestorLaptopDemo.jsx",
-    "/app/frontend/src/components/investor/InvestorAgents.jsx",
-    "/app/frontend/src/components/investor/InvestorCase.jsx",
-    "/app/frontend/src/investor.css"
+  "grid_and_layouts": {
+    "general": "Swiss Grid protocol. Extreme asymmetry. Grid items must snap perfectly with visible 1px borders between them (border-collapse style).",
+    "spacing": "Generous. p-8, p-12 for inner card content. py-24, py-32 for section spacing.",
+    "taxonomy_list": "For the massive Department and Industry lists, use a dense, multicolumn brutalist text grid, combined with a slow-moving marquee for inactive states."
+  },
+  "motion_and_interaction": {
+    "hover_states": "Invert colors on hover for key CTAs (bg-white text-black). Cards should have a slight border brightness increase.",
+    "page_transitions": "Staggered fade-in and slight Y-translate for text blocks. System diagrams should 'build' themselves via SVG line drawing animations.",
+    "interactive_diagrams": "Use framer-motion to create stateful logic loops representing Search -> Context -> Orchestration -> Collaboration -> Execution."
+  },
+  "architecture_components": {
+    "Enterprise Search": "Visualized as hybrid BM25+dense retrieval node graphs.",
+    "Onyx": "Visualized as enterprise connectors with flowing data lines.",
+    "AIGIS": "Stateful LangGraph orchestration shown as checkpoint nodes.",
+    "Colanode": "CRDT shared workspace shown as a local-first node graph.",
+    "DeerFlow": "Agent harness shown as isolated sandboxes with lead/subagent dispatch."
+  },
+  "user_journey_routes": {
+    "/investor": "The high-contrast gateway. Thesis-first statement. Two massive brutalist quadrants: 'INVESTOR' vs 'CUSTOMER'.",
+    "/investor/role/:type": "Investor destination routes (Venture Fund, Strategic Corporate, Operator, Angel). Contains waitlist/booking actions and deep architecture thesis.",
+    "/investor/customer": "Customer gateway. 3-step visible taxonomy selection: Role (Exec/Tech/Workflow) -> Department -> Industry. Persists state via URL query params.",
+    "/investor/customer/destination": "Contextualized destination weaving the 5 microservices based on the selected Role, Department, and Industry."
+  },
+  "taxonomy": {
+    "departments": ["All Teams", "Engineering", "Customer Service", "Sales", "IT", "Marketing", "B2B Marketing", "B2C Marketing", "People", "Finance", "Legal", "IT Management", "Procurement", "Human Resource", "Accounting"],
+    "industries": ["Retail", "Consumer Goods", "Industrials", "Energy & Utilities", "Manufacturing", "Supply Chain", "Professional Services", "Consulting", "Construction", "IT Services", "Financial Services", "Banking", "PE/VC", "Asset management", "Insurance", "Government", "Healthcare", "Higher Education"]
+  },
+  "image_urls": {
+    "hero_abstract_1": "https://images.unsplash.com/photo-1527576539890-dfa815648363?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA4Mzl8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGJsYWNrJTIwYW5kJTIwd2hpdGUlMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzg2MzQwNjM4fDA&ixlib=rb-4.1.0&q=85",
+    "hero_abstract_2": "https://images.unsplash.com/photo-1488972685288-c3fd157d7c7a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA4Mzl8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGJsYWNrJTIwYW5kJTIwd2hpdGUlMjBhcmNoaXRlY3R1cmV8ZW58MHx8fHwxNzg2MzQwNjM4fDA&ixlib=rb-4.1.0&q=85",
+    "usage": "Use as heavily darkened (bg-black/80 overlay) background textures for the persona gateway and architecture proof sections."
+  },
+  "universal_guidelines_for_main_agent": [
+    "DO NOT use Inter for Headings. Use Chivo font-black.",
+    "DO NOT use generic centered text alignments. Use aggressive left-alignment and asymmetric grid layouts.",
+    "Ensure all interactive elements have data-testid attributes.",
+    "Do NOT use transparent backgrounds for dropdowns or floating headers; use solid or blurred glass.",
+    "Implement pure HTML/Tailwind for structural marketing elements to allow maximum creative freedom, only using Shadcn for form inputs/selects.",
+    "Ensure strict URL parameter persistence for the Customer journey (e.g., ?role=executive&dept=engineering&industry=retail) rather than conditional rendering on a single page."
   ],
-  "grids": "Use bento-style asymmetrical grids for the system modes (Act IV). For Act V (Evidence Room), maintain strict table-like rows.",
-  "layouts": "Ensure smooth scroll-jacking in Act II and Act III via sticky positioning. Prevent overlap on mobile. Maintain explicit boundaries for MOCKED/MODELED data. Ensure every visual box carries exactly one investor argument.",
-  "motion": {
-    "pacing": "Transform/opacity first. Use ease-out for entrances/exits, ease-in-out for movement. Stagger children with 0.03s - 0.1s delays. Spring animations only for dialog boxes with damping 22, stiffness 120.",
-    "reduced_motion": "All motion must instantly resolve or conditionally skip if useInvestorReducedMotion() returns true. Never disable scrolling logic."
-  },
-  "accessibility": {
-    "testing": "Unique data-testid coverage required on all interactive buttons, tabs, and major text blocks.",
-    "focus": "Maintain focus states for the tablist in Act IV and Act V."
-  },
-  "media": {
-    "images": "No new images. Retain ASCII art in Hero. Retain DemoWorkspace inside laptop frame."
-  },
-  "3d_libraries": null,
-  "image_urls": [],
-  "instructions_to_main_agent": [
-    "Do not redesign from scratch; improve what is already implemented.",
-    "Apply exact copy edits specified in the typography.copy_tightening section.",
-    "Add a minimalist 'Progress Grammar' component (e.g., a fixed sidebar with Act I, II, III, IV, V indicators tied to scroll).",
-    "Elevate cinematic transitions: In Act II and Act IV, ensure boxes are connected by 1px stroke lines showing logic flow (category insight -> why now -> product mechanism). Remove hard borders between acts and use a vertical connecting line or overlapping sticky sections.",
-    "Ensure every visual box carries one concise investor argument and shows its relationship to the next.",
-    "Enhance micro-motion with specific Framer Motion spring and ease-out curves.",
-    "Retain the strict monochrome style in investor.css. Strip any gradients.",
-    "Retain the strict boundaries marking evidence as MOCKED, MODELED, or WORKING."
-  ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "Do not converge to generic 'AI slop'. Maintain high-craft, tension-driven editorial layouts. Focus on typographic hierarchy, deliberate negative space, and explicit logic rather than decorative containers."
+  "components_path": {
+    "ui_library": "src/components/ui",
+    "instruction": "Use purely custom HTML/Tailwind grid structures for the main layout to enforce the Swiss Brutalist aesthetic. Use Shadcn only for deep interactive elements like Select or Dialog if needed for the taxonomy dropdowns, but heavily override their styles to be square, 1px bordered, and dark."
+  }
 }
