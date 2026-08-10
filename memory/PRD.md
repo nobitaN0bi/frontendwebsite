@@ -10,11 +10,17 @@ The 2026-08-09 investor expansion added a dedicated `/investor` narrative: expla
 
 The 2026-08-10 P0 scope replaced that single investor narrative with a persona-driven gateway and genuinely separate destinations. `/investor` now asks whether the visitor is evaluating Acoord as an investor or customer. Investor paths separate Venture Fund, Strategic Corporate, and Operator or Angel lenses. Customer paths separate Executive Buyer, Technical Evaluator, and Workflow Owner lenses, then contextualize the destination by one of 15 departments and 18 industries. The user explicitly limited the current horizon to this P0 experience; P1/P2 implementation is not authorized in this scope.
 
+The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is now strictly investor-facing and `/demo` is strictly customer-facing. Customer discovery begins with an operating problem before asking role, department, and industry. The previous complete nine-surface demo remains available at `/demo/workspace`.
+
 ## Architecture Decisions
 
 - React 19 single-page marketing application with route-level pages for the homepage, interactive demo, and 10 ICP stories.
 - A dedicated `/investor` route composes modular narrative sections for thesis, timing, product, agent teams, commercial model, moat, proof boundaries, roadmap, and conversion.
-- `/investor` is now a stateful, query-persisted persona gateway rather than a long-form destination. It routes investors to `/investor/venture`, `/investor/strategic`, or `/investor/operator` and customers through `/investor/customer` to role/department/industry-specific URLs.
+- `/investor` is now an investor-only timed formation gateway. It routes only to `/investor/venture`, `/investor/strategic`, and `/investor/operator`; no customer choice remains in the investor experience.
+- `/demo` is the customer-only problem-solving gateway. Its progressive URL-persisted flow is Problem → Role → Department → Industry → Summary.
+- Customer destination URLs now use `/demo/customer/:role/:department/:industry`. The selected problem plus role/department/industry remain in query parameters and directly contextualize the selected MacBook film.
+- `/demo/workspace` preserves the original full nine-surface, eight-channel Ahi product explorer.
+- Legacy `/investor/customer` and `/investor/customer/:role/:department/:industry` links redirect to the corresponding `/demo` route while preserving query parameters.
 - Customer destination URLs use `/investor/customer/:role/:department/:industry`, with explicit route components for Executive Buyer, Technical Evaluator, and Workflow Owner experiences. Direct loads resolve context from URL-safe taxonomy slugs.
 - The new investor subtree owns an isolated Swiss Brutalist monochrome CSS system. Existing homepage, demo, resource, legal, map, and use-case surfaces retain their established visual and functional systems.
 - Destination storytelling is grounded in supplied Enterprise Search, Onyx, AIGIS, Colanode, and DeerFlow technical documents. UI proof labels distinguish the current product shell (`BUILT`), supplied technical designs (`ARCHITECTURE`), and contextual narrative (`MODELED`).
@@ -171,11 +177,25 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 - On mobile, the hardware bezel, camera, and base are removed so the working product fills the available width; capability navigation, action callout, human line, and scene controls remain available.
 - Testing-agent iteration 16 passed gateway/selector regression, all six MacBook playlists, live iframe interaction, dual-rail synchronization, proof/CTA behavior, responsive/reduced-motion layouts, and global route isolation. It found one visible `Enterprise Search` phrase in showcase copy. The phrase and one showcase-only iframe label were neutralized with action-led language; a final automated scan confirmed all six routes and their live iframe bodies contain none of the forbidden internal names. Production build passes.
 
+- **2026-08-10 Customer problem field and audience split:** Separated customer and investor discovery before launch. The Watch Demo navigation now owns `/demo` and all descendants; Investors owns `/investor` and its descendants.
+- Rebuilt `/demo` around “What problem are you solving?” rather than starting with a product surface or persona. Users can enter a free-form operating problem or choose one of four prompts covering meeting memory, cited board materials, incident investigation, and multimodal product campaigns.
+- The operating problem persists in the URL, appears in the customer summary, and is injected into Executive Buyer, Technical Evaluator, and Workflow Owner film context. The route remains directly shareable.
+- Added a continuous vanishing ecosystem field behind the problem step. It includes exactly 50 Ahi capabilities, 36 recognizable SaaS tools under `DITCH THE STITCHING`, and 48 destinations under `CONNECT THE SOURCES`.
+- Capability inventory covers multimodal reasoning, image generation/understanding, video generation/understanding and product demos, transcription, meeting notes and memory keeper, action items, slides, documents, spreadsheets, PDFs, evidence/citations, web/browser work, coding/sandbox execution, analysis/charts, workflows/specialists/approvals, policy/access/audit, decision memory, knowledge/context graphs, CRM/tickets/email/calendar, procurement/contracts/finance, forecasting, fashion merchandising, campaigns, sales, incident response, supply chain, hiring, board packs, executive briefings, RCA, anomaly detection, and translation.
+- The kinetic ecosystem uses five capability lanes plus separate perspective tool and connector streams. Tools visually collapse toward the central Ahi core; connectors feed inward; capabilities circulate across the problem. Once a problem is framed, the field dims and reframes behind the progressive customer questions.
+- Reduced-motion mode replaces all continuous lane and core animation with a static perspective field while preserving the complete inventory and progressive flow.
+- Moved the previous full `DemoWorkspace` experience intact to `/demo/workspace`, with its booking and desktop-access actions preserved.
+- Testing-agent iteration 17 reports the customer/investor route split, 50/36/48 kinetic inventory, normal and reduced motion, problem persistence, progressive selector, all new customer URLs, legacy redirects, all six MacBook films, CTAs, desktop/tablet/mobile safety, and unrelated-route isolation passing. A Framer reduced-motion development warning was removed by replacing the library hook with a native `matchMedia` listener; self-testing confirms static motion and a clean console. JavaScript lint and production build pass.
+- Added explicit backend CORS configuration using required `APP_URL` and `CORS_ORIGINS` environment variables. Internal and external ingress preflight checks return 200 with the configured policy; external `/api/health` returns 200. Backend Python lint passes.
+- Final deployment-readiness analysis reports **PASS** for the React + FastAPI + MongoDB architecture: environment variables, routes, compilation, MongoDB access, supervisor commands, static files, secrets, CORS, and ports are launch-ready.
+
 ## Prioritized Backlog
 
 ### P0
 
 - Persona-driven investor/customer gateway and destination-page architecture: implemented and verified.
+- Investor/customer route separation, problem-first customer discovery, kinetic capability/tool/connector field, and legacy redirects: implemented and verified.
+- Deployment-readiness scan: passed.
 - No open P0 blockers.
 
 ### P1
@@ -188,5 +208,5 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 
 ## Next Tasks
 
-1. User review of the accepted gateway, compact selector, and six live-product MacBook films.
-2. Apply only user-requested P0 MacBook scale, act pacing, callout, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
+1. User launch review of `/demo`, `/demo/workspace`, `/investor`, and one complete customer/investor MacBook film.
+2. Apply only user-requested P0 motion pacing, ecosystem density, MacBook scale, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.

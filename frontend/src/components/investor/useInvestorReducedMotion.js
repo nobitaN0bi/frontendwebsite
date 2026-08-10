@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useReducedMotion } from 'framer-motion';
 
 export const useInvestorReducedMotion = () => {
-  const systemReduced = useReducedMotion();
+  const [systemReduced, setSystemReduced] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const [siteReduced, setSiteReduced] = useState(document.documentElement.dataset.motion === 'reduced');
 
   useEffect(() => {
-    const sync = () => setSiteReduced(document.documentElement.dataset.motion === 'reduced');
-    window.addEventListener('acoord:motion', sync);
-    return () => window.removeEventListener('acoord:motion', sync);
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncSystem = (event) => setSystemReduced(event.matches);
+    const syncSite = () => setSiteReduced(document.documentElement.dataset.motion === 'reduced');
+    media.addEventListener('change', syncSystem);
+    window.addEventListener('acoord:motion', syncSite);
+    return () => {
+      media.removeEventListener('change', syncSystem);
+      window.removeEventListener('acoord:motion', syncSite);
+    };
   }, []);
 
-  return Boolean(systemReduced || siteReduced);
+  return systemReduced || siteReduced;
 };

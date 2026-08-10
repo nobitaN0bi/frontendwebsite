@@ -54,10 +54,10 @@ const scenarioForContext = (department, industry) => {
   return 'saas';
 };
 
-export const customerFilm = (role, department, industry) => {
+export const customerFilm = (role, department, industry, problem = '') => {
   const context = `${department.label} / ${industry.label}`;
-  const modeled = `${department.label} teams need to ${department.objective}. In ${industry.label}, ${industry.pressure}.`;
-  const shared = { id: role, label: role === 'executive' ? 'EXECUTIVE BUYER' : role === 'technical' ? 'TECHNICAL EVALUATOR' : 'WORKFLOW OWNER', path: `/investor/customer/${role}/${department.slug}/${industry.slug}`, scenarioId: scenarioForContext(department, industry), proof, context };
+  const modeled = `${problem ? `Problem to solve: ${problem}. ` : ''}${department.label} teams need to ${department.objective}. In ${industry.label}, ${industry.pressure}.`;
+  const shared = { id: role, label: role === 'executive' ? 'EXECUTIVE BUYER' : role === 'technical' ? 'TECHNICAL EVALUATOR' : 'WORKFLOW OWNER', path: `/demo/customer/${role}/${department.slug}/${industry.slug}`, scenarioId: scenarioForContext(department, industry), proof, context };
 
   if (role === 'executive') return { ...shared, close: 'Choose the first decision where speed matters and authority cannot disappear.', scenes: [
     scene('UNDERSTAND', 0, '01 / CONSEQUENTIAL REQUEST', 'This is not another chat request.', modeled, 'Frames the request with an owner, objective, constraints, and a visible stop condition.', 'The accountable owner defines what must not be automated.'),
@@ -68,7 +68,7 @@ export const customerFilm = (role, department, industry) => {
   ] };
 
   if (role === 'technical') return { ...shared, close: 'Bring your identity, data, execution, and deployment constraints to the review.', scenes: [
-    scene('GROUND', 4, '01 / RETRIEVAL', 'Exact and semantic evidence meet in one context.', `The ${context} review begins with ranked private knowledge, citations, and the user's source permissions still attached.`, 'Combines exact-term and meaning-based retrieval, then re-ranks one context for the run.', 'Permission filtering happens before context reaches generation.'),
+    scene('GROUND', 4, '01 / RETRIEVAL', 'Exact and semantic evidence meet in one context.', `${problem ? `For “${problem}”, ` : ''}the ${context} review begins with ranked private knowledge, citations, and the user's source permissions still attached.`, 'Combines exact-term and meaning-based retrieval, then re-ranks one context for the run.', 'Permission filtering happens before context reaches generation.'),
     scene('UNDERSTAND', 1, '02 / OPERATING MODEL', 'The product resolves what is true here.', 'People, policy, records, systems, and evidence become a tenant-scoped graph that the operator can inspect.', 'Maps retrieved evidence to the working entities and relationships of the organisation.', 'Unknown or conflicting state remains visible instead of being smoothed away.', 'left-top'),
     scene('PLAN', 2, '03 / CHECKPOINTED LOGIC', 'The workflow can stop, resume, and be inspected.', 'The visual plan exposes typed steps, tool scopes, pending review, and the state needed to resume after an interruption.', 'Turns intent into checkpointed, inspectable execution logic.', 'Consequential tools wait behind an explicit interrupt.'),
     scene('ACT', 6, '04 / ISOLATED EXECUTION', 'Tools and code remain bounded.', 'The execution surface scopes files, terminal, tests, credentials, network access, and output away from the application host.', 'Runs approved technical work inside a controlled sandbox.', 'The evaluator can inspect the action surface and resulting artifact.', 'left-top'),

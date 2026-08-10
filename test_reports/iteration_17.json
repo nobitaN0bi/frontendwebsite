@@ -1,0 +1,46 @@
+{
+  "summary": "Frontend-only regression completed on public preview URL. Customer /demo gateway, /demo/workspace separation, investor-only /investor flow, legacy redirects, customer/investor film routes, responsive behavior, reduced-motion behavior, kinetic ecosystem counts/motion, and global unaffected routes were validated. One minor console warning appears during reduced-motion mode from framer-motion troubleshooting output.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Reduced-motion console cleanliness",
+        "issue": "Console prints a framer-motion warning when reduced-motion is enabled: 'You have Reduced Motion enabled on your device. Animations may not appear as expected.'",
+        "affected_selectors": [
+          "[data-testid='demo-page']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_17.json"
+  ],
+  "action_items": [
+    "(Optional) Suppress or handle the framer-motion reduced-motion warning if strict console-clean policy is required.",
+    "No functional regressions found for requested /demo, /demo/workspace, /investor separation and route flow requirements."
+  ],
+  "critical_code_review_comments": [
+    "Routing split is correctly implemented: /demo (customer selector), /demo/workspace (full explorer), /investor (investor-only gateway), and legacy /investor/customer redirects preserve query params.",
+    "Header active-state logic correctly scopes Watch demo to /demo descendants and Investors to /investor descendants.",
+    "Kinetic ecosystem wiring is consistent with requested inventory: 50 capabilities, 36 tools, 48 connectors; compact mode toggles after problem step; reduced-motion halts continuous lane/core transforms.",
+    "Progressive selector flow is step-replacement based (single visible step), with working Previous navigation, filtering, suggestion shortcuts, and URL persistence for problem/role/department/industry.",
+    "All six film routes (venture/strategic/operator + executive/technical/workflow) load live MacBook iframe stages with 5-scene rails and both booking/waitlist CTAs present."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_17.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "99%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated desktop, tablet (768x1024), and mobile (390x844) on public URL. Confirmed no horizontal overflow on tested pages, reduced-motion static behavior, and full route split behavior. Legacy investor customer redirects are healthy. If strict console-cleanliness is enforced, verify whether the reduced-motion warning should be suppressed.",
+  "rca of the issue": "Minor RCA (console-only): framer-motion emits an informational warning when reduced-motion is enabled to explain disabled animations. Reproduction: emulate reduced motion and load /demo; warning appears in browser console. Mitigation: keep as-is (expected informational warning) or add conditional log filtering/wrapper policy if zero-warning console is a hard acceptance gate."
+}

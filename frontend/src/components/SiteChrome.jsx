@@ -22,7 +22,7 @@ export const SiteChrome = ({ children, onJoin }) => {
           <a href="/#system" onClick={closeMenu} data-testid="header-agents-link">How it works</a>
           <a href="/#use-cases" onClick={closeMenu} data-testid="header-use-cases-link">Use cases</a>
           <Link className={location.pathname.startsWith('/resources') ? 'active' : ''} to="/resources" onClick={closeMenu} data-testid="header-resources-link">Resources</Link>
-          <Link className={location.pathname === '/demo' ? 'active' : ''} to="/demo" onClick={closeMenu} data-testid="header-demo-link">Watch demo</Link>
+          <Link className={location.pathname.startsWith('/demo') ? 'active' : ''} to="/demo" onClick={closeMenu} data-testid="header-demo-link">Watch demo</Link>
           <Link className={location.pathname.startsWith('/investor') ? 'active' : ''} to="/investor" onClick={closeMenu} data-testid="header-investor-link">Investors</Link>
           <MotionControl />
           <button className="header-access-link" onClick={() => { closeMenu(); onJoin(); }} data-testid="header-waitlist-button">Download app</button>

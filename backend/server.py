@@ -22,15 +22,18 @@ load_dotenv()
 mongo_url = os.environ.get("MONGO_URL")
 db_name = os.environ.get("DB_NAME")
 app_url = os.environ.get("APP_URL")
-if not mongo_url or not db_name:
-    raise RuntimeError("MONGO_URL and DB_NAME are required")
+cors_origin_value = os.environ.get("CORS_ORIGINS")
+if not mongo_url or not db_name or not app_url or not cors_origin_value:
+    raise RuntimeError("MONGO_URL, DB_NAME, APP_URL, and CORS_ORIGINS are required")
+
+cors_origins = list(dict.fromkeys([app_url, *[origin.strip() for origin in cors_origin_value.split(",") if origin.strip()]]))
 
 client = AsyncIOMotorClient(mongo_url)
 db = client[db_name]
 app = FastAPI(title="Acoord Website API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[app_url] if app_url else [],
+    allow_origins=cors_origins,
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],

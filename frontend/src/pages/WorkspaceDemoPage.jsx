@@ -1,0 +1,8 @@
+import { ArrowRight } from 'lucide-react';
+import { DemoWorkspace } from '../components/DemoWorkspace';
+import { Seo } from '../components/Seo';
+import { AsciiNarrative } from '../components/AsciiNarrative';
+
+export default function WorkspaceDemoPage({ onJoin }) {
+  return <div className="page-shell demo-page" data-testid="workspace-demo-page"><Seo title="Ahi Full Product Explorer" description="Explore nine connected Ahi product surfaces across eight modeled enterprise channels." path="/demo/workspace" /><section className="page-hero compact-hero ascii-stage" data-testid="workspace-demo-hero"><AsciiNarrative mode="compile" label="INTENT / EXECUTION" /><p className="eyebrow">Eight enterprise channels / nine connected surfaces</p><h1 data-testid="workspace-demo-title">Explore every surface.<br /><em>Follow the work.</em></h1><p>Choose a modeled enterprise channel and move through the complete Ahi desktop interface.</p></section><section className="full-demo" data-testid="workspace-full-demo-section"><DemoWorkspace /></section><section className="demo-page-cta"><div><span className="mono-kicker">READY / PRIVATE ALPHA</span><h2>Bring this operating context to your workflow.</h2></div><div className="inline-cta-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="workspace-demo-book-link">Book a demo <ArrowRight size={16} /></a><button className="text-button" onClick={onJoin} data-testid="workspace-demo-access-button">Download the desktop app</button></div></section></div>;
+}
