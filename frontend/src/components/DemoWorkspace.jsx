@@ -11,11 +11,14 @@ const scenes = [
   { id: 'code', label: 'Code', caption: 'Run the full coding agent panel inside an isolated sandbox.' },
   { id: 'browser', label: 'Browser', caption: 'Collect current external evidence from approved sources.' },
   { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist owners, work state, approvals, and the final decision.' }
+  ,{ id: 'meeting-keeper', label: 'Meeting Keeper', caption: 'Capture decisions, evidence, owners, and follow-up from the live meeting.' }
+  ,{ id: 'studio', label: 'Multimodal Studio', caption: 'Compose slides, images, and video into one reviewable product story.' }
 ];
 
 const showcaseLabels = {
   home: 'Understand request', ontology: 'Ground context', apps: 'Plan workflow', 'doc-workspace': 'Write decision',
-  library: 'Find evidence', chat: 'Review together', code: 'Act in sandbox', browser: 'Verify sources', teamspaces: 'Remember decision'
+  library: 'Find evidence', chat: 'Review together', code: 'Act in sandbox', browser: 'Verify sources', teamspaces: 'Remember decision',
+  'meeting-keeper': 'Keep meeting memory', studio: 'Create multimodal story'
 };
 
 const fallbackChannels = [
@@ -28,6 +31,12 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
   const [channels, setChannels] = useState(fallbackChannels);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      const saved = window.localStorage.getItem('ahi-showcase-sidebar-collapsed');
+      return saved === null ? showcase : saved === '1';
+    } catch { return showcase; }
+  });
   const iframeRef = useRef(null);
   const activeRef = useRef(0);
   const sceneControlled = Number.isInteger(activeSceneIndex);
@@ -46,9 +55,20 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
     iframeRef.current.contentWindow.postMessage({
       type: 'ahi:scenario',
       scenario,
-      motion: document.documentElement.dataset.motion || 'cinematic'
+      motion: document.documentElement.dataset.motion || 'cinematic',
+      sidebarCollapsed
     }, '*');
-  }, [scenario]);
+  }, [scenario, sidebarCollapsed]);
+
+  useEffect(() => {
+    const receiveSidebarState = (event) => {
+      if (event.data?.type !== 'ahi:sidebar-state' || typeof event.data.collapsed !== 'boolean') return;
+      setSidebarCollapsed(event.data.collapsed);
+      try { window.localStorage.setItem('ahi-showcase-sidebar-collapsed', event.data.collapsed ? '1' : '0'); } catch { /* Parent storage can be unavailable in strict embeds. */ }
+    };
+    window.addEventListener('message', receiveSidebarState);
+    return () => window.removeEventListener('message', receiveSidebarState);
+  }, []);
 
   const changeActive = useCallback((next) => {
     const value = typeof next === 'function' ? next(activeRef.current) : next;
@@ -95,7 +115,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
           <span data-testid="demo-channel-label">Choose the enterprise channel</span>
-          <strong data-testid="demo-channel-instruction">One operating problem. Nine connected surfaces. Every step explainable.</strong>
+          <strong data-testid="demo-channel-instruction">One operating problem. Eleven connected surfaces. Every step explainable.</strong>
         </div>
         <div className="demo-channel-list" role="tablist" aria-label="Enterprise demo channels">
           {channels.map((channel) => (
@@ -106,7 +126,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, scenarioId: c
 
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">
         <div className="demo-chapter-copy">
-          <span data-testid="demo-active-scene-number">0{active + 1} / 0{scenes.length}</span>
+          <span data-testid="demo-active-scene-number">{String(active + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')}</span>
           <strong data-testid="demo-active-scene-title">{sceneLabel}</strong>
           <p data-testid="demo-active-scene-caption">{sceneCaption}</p>
         </div>

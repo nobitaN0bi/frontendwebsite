@@ -33,6 +33,30 @@
     safeStorage.set('ahi-theme', theme);
   };
 
+  window.setSidebarCollapsed = function (collapsed, persist = false) {
+    const sidebar = document.querySelector('.app-sidebar');
+    if (!sidebar) return;
+    sidebar.classList.toggle('collapsed', Boolean(collapsed));
+    document.documentElement.dataset.sidebar = collapsed ? 'collapsed' : 'expanded';
+    const button = sidebar.querySelector('.sidebar-collapse-btn');
+    if (button) {
+      button.setAttribute('aria-expanded', String(!collapsed));
+      button.title = collapsed ? 'Expand sidebar' : 'Collapse sidebar';
+    }
+    if (persist) safeStorage.set('ahi-sidebar-collapsed', collapsed ? '1' : '0');
+  };
+
+  window.toggleSidebar = function () {
+    const collapsed = !document.querySelector('.app-sidebar')?.classList.contains('collapsed');
+    window.setSidebarCollapsed(collapsed, true);
+    if (window.parent !== window) window.parent.postMessage({ type: 'ahi:sidebar-state', collapsed }, '*');
+  };
+
+  window.addEventListener('message', (event) => {
+    if (event.source !== window.parent || event.data?.type !== 'ahi:scenario') return;
+    if (typeof event.data.sidebarCollapsed === 'boolean') window.setSidebarCollapsed(event.data.sidebarCollapsed);
+  });
+
   // Global Command Palette (⌘K)
   window.toggleCommandPalette = function () {
     const palette = document.getElementById('command-palette-modal');
@@ -67,6 +91,15 @@
     }
   });
 
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('button, a, .doc-card, .app-directory-card, .tree-node, .canvas-node, .filter-pill, .channel-item, [role="tab"]');
+    if (!target) return;
+    target.classList.remove('ahi-clicked');
+    void target.offsetWidth;
+    target.classList.add('ahi-clicked');
+    window.setTimeout(() => target.classList.remove('ahi-clicked'), 260);
+  });
+
   // Teamspace Tree Node Expansion
   window.toggleTreeNode = function (element, event) {
     if (event) event.stopPropagation();
@@ -82,6 +115,7 @@
 
   // Build Unified Sidebar HTML
   window.renderAHISidebar = function (activeTabId) {
+    const isCollapsed = safeStorage.get('ahi-sidebar-collapsed') === '1';
     const navItems = [
       { id: 'home', label: 'Home', icon: `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>`, href: 'home.html' },
       { id: 'library', label: 'Library', icon: `<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>`, href: 'library.html' },
@@ -91,15 +125,20 @@
       { id: 'browser', label: 'Browser', icon: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>`, href: 'browser.html' },
       { id: 'teamspaces', label: 'Teamspaces', icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`, href: 'teamspaces.html' },
       { id: 'ontology', label: 'Ontology', icon: `<path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"/>`, href: 'ontology.html' }
+      ,{ id: 'meeting-keeper', label: 'Meeting Keeper', icon: `<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>`, href: 'meeting-keeper.html' }
+      ,{ id: 'studio', label: 'Multimodal Studio', icon: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 13l2-2 3 3 2-2 3 3"/><circle cx="8" cy="9" r="1"/>`, href: 'studio.html' }
     ];
 
     return `
-      <aside class="app-sidebar">
+      <aside class="app-sidebar ${isCollapsed ? 'collapsed' : ''}" data-testid="ahi-sidebar">
         <div class="sidebar-header">
           <a href="../demo.html" class="brand-logo" title="AHI Desktop Landing Visual">
             <div class="logo-badge">A</div>
             <span>AHI Desktop</span>
           </a>
+          <button class="sidebar-collapse-btn" type="button" onclick="window.toggleSidebar()" aria-expanded="${String(!isCollapsed)}" title="${isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}" data-testid="ahi-sidebar-toggle">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
           <button class="theme-toggle-btn" onclick="window.toggleTheme()" title="Toggle Dark/Light Mode">
             <div class="theme-toggle-slider"></div>
           </button>
@@ -111,7 +150,7 @@
             <ul class="sidebar-menu">
               ${navItems.map(item => `
                 <li>
-                  <a href="${item.href}" class="sidebar-item ${activeTabId === item.id ? 'active' : ''}">
+                  <a href="${item.href}" class="sidebar-item ${activeTabId === item.id ? 'active' : ''}" title="${item.label}">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${item.icon}</svg>
                     <span style="flex:1;">${item.label}</span>
                     ${item.badge ? `<span class="badge badge-primary">${item.badge}</span>` : ''}
@@ -122,7 +161,7 @@
           </div>
 
           <!-- Teamspaces Navigation Tree -->
-          <div style="margin-top: 14px;">
+          <div class="sidebar-teamspaces" style="margin-top: 14px;">
             <div class="sidebar-section-title">TEAMSPACES</div>
             <div class="teamspace-tree">
               <div class="tree-item-wrapper">
@@ -183,6 +222,8 @@
             <li class="cmd-item" onclick="location.href='browser.html'"><span style="display:flex; align-items:center; gap:8px;">🌐 <strong>Browser</strong></span><span class="badge badge-primary">⌘6</span></li>
             <li class="cmd-item" onclick="location.href='teamspaces.html'"><span style="display:flex; align-items:center; gap:8px;">🏢 <strong>Teamspaces</strong></span><span class="badge badge-primary">⌘7</span></li>
             <li class="cmd-item" onclick="location.href='ontology.html'"><span style="display:flex; align-items:center; gap:8px;">🧠 <strong>Ontology</strong></span><span class="badge badge-success">Graph</span></li>
+            <li class="cmd-item" onclick="location.href='meeting-keeper.html'"><span style="display:flex; align-items:center; gap:8px;">🎙️ <strong>Meeting Keeper</strong></span><span class="badge badge-primary">Live</span></li>
+            <li class="cmd-item" onclick="location.href='studio.html'"><span style="display:flex; align-items:center; gap:8px;">◫ <strong>Multimodal Studio</strong></span><span class="badge badge-primary">Create</span></li>
           </ul>
         </div>
       </div>

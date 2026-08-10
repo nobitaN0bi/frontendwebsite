@@ -37,7 +37,7 @@ export const MacBookDemoHero = ({ scenarioId, onScenarioChange }) => {
         <motion.header className="usecase-showcase-heading" style={{ opacity: reduced ? 1 : introOpacity }}>
           <p data-testid="watch-demo-kicker">14 / THE REAL PRODUCT</p>
           <h2 data-testid="watch-demo-title">Now open the interface<br />you just watched.</h2>
-          <p data-testid="watch-demo-description">Nine connected surfaces. One real product shell. Follow a modeled enterprise decision while every boundary, handoff, and approval stays visible.</p>
+          <p data-testid="watch-demo-description">Eleven connected surfaces. One real product shell. Follow a modeled enterprise decision while every boundary, handoff, and approval stays visible.</p>
         </motion.header>
 
         <motion.div className="macbook-stage" style={{ scale: reduced ? 1 : laptopScale, y: reduced ? 0 : laptopY }} data-testid="macbook-demo-stage">

@@ -5,7 +5,7 @@ import { roadmap } from '../../data/investorContent';
 import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
 const evidence = {
-  built: [['WORKING', 'Nine connected product surfaces'], ['WORKING', 'Eight scenario-aware enterprise channels'], ['WORKING', 'Decision maps, waitlist, and guided runs'], ['WORKING', 'Human checkpoints and evidence boundaries']],
+  built: [['WORKING', 'Eleven connected product surfaces'], ['WORKING', 'Eight scenario-aware enterprise channels'], ['WORKING', 'Decision maps, waitlist, and guided runs'], ['WORKING', 'Human checkpoints and evidence boundaries']],
   modeled: [['MOCKED', 'Companies and operator identities'], ['MOCKED', 'Run volumes and operational outcomes'], ['MODELED', 'Commercial expansion thesis'], ['MODELED', 'Illustrative enterprise workflows']],
   next: roadmap.map(([phase, title, text]) => [phase, title, text]),
   risks: [['RISK', 'Enterprise trust must be earned with verified deployments'], ['RISK', 'Live workspace APIs are not connected in this public demo'], ['RISK', 'Commercial evidence must replace modeled proof'], ['RISK', 'Governance depth must keep pace with agent capability']]

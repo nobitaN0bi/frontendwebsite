@@ -12,7 +12,7 @@ export const fallbackScenarios = labels.map(([id, label]) => ({
   owner: 'Operations lead',
   role: `${label} operations`,
   hook: 'Loading the enterprise scenario…',
-  intent: 'One operating problem, routed across nine connected surfaces.',
+  intent: 'One operating problem, routed across eleven connected surfaces.',
   trigger: 'A signal arrives from an upstream system.',
   checkpoint: 'A human approves the consequential step.',
   outcome: 'The decision stays reconstructable.',

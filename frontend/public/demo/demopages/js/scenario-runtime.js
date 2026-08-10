@@ -13,6 +13,22 @@
     code: ['Run the isolated analysis', 'Provisioning the sandbox', 'Executing bounded code', 'Persisting verified output'],
     browser: ['Collect external evidence', 'Opening the approved source', 'Extracting structured facts', 'Citing the current guidance'],
     teamspaces: ['Persist the operating plan', 'Syncing collaborative state', 'Assigning accountable owners', 'Recording the final decision']
+    ,'meeting-keeper': ['Capture the live meeting', 'Separating decisions and action items', 'Assigning accountable owners', 'Saving the cited meeting record']
+    ,studio: ['Compose the multimodal brief', 'Generating slide and image variants', 'Rendering the product demo sequence', 'Holding publish approval']
+  };
+
+  const metrics = {
+    home: [['Open runs', '12', '14'], ['Specialists', '4', '6'], ['Reviews', '3', '4'], ['Context', '84%', '93%']],
+    ontology: [['Entities', '181', '188'], ['Links', '624', '649'], ['Policies', '28', '31'], ['Coverage', '87%', '92%']],
+    apps: [['Nodes', '8', '11'], ['Tools', '14', '16'], ['Checks', '6', '8'], ['Ready', '82%', '100%']],
+    'doc-workspace': [['Sources', '12', '16'], ['Comments', '7', '9'], ['Owners', '3', '4'], ['Resolved', '68%', '81%']],
+    library: [['Sources', '42', '47'], ['Citations', '18', '24'], ['Chunks', '142k', '145k'], ['Relevance', '.88', '.93']],
+    chat: [['Participants', '7', '9'], ['Agents', '3', '4'], ['Threads', '5', '6'], ['Review', 'Pending', 'Ready']],
+    code: [['Files', '18', '21'], ['Tests', '42', '48'], ['Findings', '6', '3'], ['Sandbox', 'Scoped', 'Verified']],
+    browser: [['Sources', '8', '12'], ['Facts', '31', '44'], ['Citations', '10', '16'], ['Freshness', '2h', 'Now']],
+    teamspaces: [['Owners', '4', '5'], ['Tasks', '18', '22'], ['Decisions', '6', '7'], ['State', 'Review', 'Recorded']],
+    'meeting-keeper': [['Speakers', '6', '7'], ['Decisions', '3', '5'], ['Actions', '7', '11'], ['Coverage', '76%', '96%']],
+    studio: [['Assets', '14', '19'], ['Variants', '8', '12'], ['Scenes', '6', '9'], ['Publish', 'Held', 'Ready']]
   };
 
   const setText = (selector, value, index = 0) => {
@@ -124,9 +140,31 @@
     scenario.tasks.forEach((task, index) => { if (taskTitles[index]) taskTitles[index].textContent = task; });
   };
 
+  const populateMeetings = (scenario) => {
+    setText('#meeting-title', `${scenario.company} decision review`);
+    setText('#meeting-objective', scenario.intent);
+    const owners = document.querySelectorAll('.meeting-owner');
+    scenario.people.slice(0, owners.length).forEach((name, index) => { owners[index].textContent = name; });
+  };
+
+  const populateStudio = (scenario) => {
+    setText('#studio-project-title', `${scenario.company} product story`);
+    setText('#studio-brief', scenario.hook);
+  };
+
   const populatePage = (scenario) => {
     populateSidebar(scenario);
-    ({ home: populateHome, ontology: populateOntology, apps: populateApps, 'doc-workspace': populateDocument, library: populateLibrary, chat: populateChat, code: populateCode, browser: populateBrowser, teamspaces: populateTeamspaces }[page] || (() => {}))(scenario);
+    ({ home: populateHome, ontology: populateOntology, apps: populateApps, 'doc-workspace': populateDocument, library: populateLibrary, chat: populateChat, code: populateCode, browser: populateBrowser, teamspaces: populateTeamspaces, 'meeting-keeper': populateMeetings, studio: populateStudio }[page] || (() => {}))(scenario);
+  };
+
+  const injectTelemetry = () => {
+    const strip = document.createElement('section');
+    strip.className = 'scenario-telemetry';
+    strip.dataset.testid = 'ahi-scenario-telemetry';
+    strip.innerHTML = (metrics[page] || metrics.home).map(([label, start, end], index) => `<div class="scenario-metric"><span>${escapeHtml(label)}</span><strong data-start="${escapeHtml(start)}" data-end="${escapeHtml(end)}" data-testid="ahi-metric-${index + 1}">${escapeHtml(start)}</strong></div>`).join('');
+    const workbar = document.querySelector('.scenario-workbar');
+    workbar?.insertAdjacentElement('afterend', strip);
+    return strip;
   };
 
   const injectWorkbar = (scenario) => {
@@ -140,10 +178,12 @@
     else document.body.prepend(workbar);
     const button = workbar.querySelector('button');
     const status = workbar.querySelector('[data-testid="ahi-scenario-status"]');
+    const telemetry = injectTelemetry();
     const run = () => {
       if (button.disabled) return;
       button.disabled = true;
       workbar.classList.add('is-running');
+      telemetry?.classList.add('is-running');
       let step = 1;
       status.textContent = spec[step];
       const interval = window.setInterval(() => {
@@ -155,6 +195,9 @@
         window.clearInterval(interval);
         workbar.classList.remove('is-running');
         workbar.classList.add('is-complete');
+        telemetry?.classList.remove('is-running');
+        telemetry?.classList.add('is-complete');
+        telemetry?.querySelectorAll('strong').forEach((metric, index) => window.setTimeout(() => { metric.textContent = metric.dataset.end; }, index * 90));
         status.textContent = `Complete — ${scenario.outcome}`;
         button.innerHTML = 'Simulation complete <b>✓</b>';
         if (page === 'code') setText('#terminal-log', `[Sandboxed Runtime] Policy validated.\n✔ ${scenario.codeTask}\n✔ Evidence persisted\n⏸ ${scenario.checkpoint}`);
@@ -188,6 +231,7 @@
     try { savedMotion = localStorage.getItem('acoord-motion') || savedMotion; } catch { /* Strict sandbox: motion arrives from parent. */ }
     document.documentElement.dataset.motion = savedMotion;
     document.documentElement.dataset.scenario = scenarioId;
+    document.documentElement.dataset.lens = params.get('lens') || 'workspace';
     window.addEventListener('message', (event) => {
       if (event.source !== window.parent || event.data?.type !== 'ahi:scenario') return;
       if (event.data.motion) document.documentElement.dataset.motion = event.data.motion;

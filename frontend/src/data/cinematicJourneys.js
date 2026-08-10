@@ -1,5 +1,5 @@
 const proof = {
-  built: 'The live Ahi interface and the nine product surfaces shown inside the MacBook are built.',
+  built: 'The live Ahi interface and the eleven product surfaces shown inside the MacBook are built.',
   architecture: 'The retrieval, orchestration, collaboration, sandbox, and record behavior is grounded in supplied technical designs.',
   modeled: 'Companies, department context, industry context, workflow volume, and outcomes are modeled—not customer proof.'
 };
@@ -57,11 +57,13 @@ const scenarioForContext = (department, industry) => {
 export const customerFilm = (role, department, industry, problem = '') => {
   const context = `${department.label} / ${industry.label}`;
   const modeled = `${problem ? `Problem to solve: ${problem}. ` : ''}${department.label} teams need to ${department.objective}. In ${industry.label}, ${industry.pressure}.`;
-  const shared = { id: role, label: role === 'executive' ? 'EXECUTIVE BUYER' : role === 'technical' ? 'TECHNICAL EVALUATOR' : 'WORKFLOW OWNER', path: `/demo/customer/${role}/${department.slug}/${industry.slug}`, scenarioId: scenarioForContext(department, industry), proof, context };
+  const scenarioId = scenarioForContext(department, industry);
+  const creativeContext = ['fashion', 'ecommerce'].includes(scenarioId);
+  const shared = { id: role, label: role === 'executive' ? 'EXECUTIVE BUYER' : role === 'technical' ? 'TECHNICAL EVALUATOR' : 'WORKFLOW OWNER', path: `/demo/customer/${role}/${department.slug}/${industry.slug}`, scenarioId, proof, context };
 
   if (role === 'executive') return { ...shared, close: 'Choose the first decision where speed matters and authority cannot disappear.', scenes: [
     scene('UNDERSTAND', 0, '01 / CONSEQUENTIAL REQUEST', 'This is not another chat request.', modeled, 'Frames the request with an owner, objective, constraints, and a visible stop condition.', 'The accountable owner defines what must not be automated.'),
-    scene('GROUND', 3, '02 / DECISION BRIEF', 'The evidence arrives inside the work.', 'The product writes the brief while it retrieves source material, attaches citations, and surfaces disagreement.', 'Co-authors the decision rationale with evidence already attached.', 'The reviewer sees what supports the proposal and what remains uncertain.', 'left-top'),
+    scene('CAPTURE', 9, '02 / MEETING MEMORY', 'The decision survives the meeting.', 'The product separates discussion, evidence, decisions, owners, and follow-up while the conversation is still happening.', 'Keeps live meeting memory and turns spoken commitments into owned work.', 'The reviewer can inspect what was said, decided, and assigned.', 'left-top'),
     scene('PLAN', 2, '03 / ACCOUNTABLE PLAN', 'The request becomes visible work.', 'The operating plan exposes the steps, tools, owners, and review gates required to move from evidence to action.', 'Builds the plan before asking the enterprise to trust it.', 'The owner can change scope before execution begins.'),
     scene('REVIEW', 5, '04 / HUMAN AUTHORITY', 'Execution stops at the declared line.', 'The same live thread carries specialist output, comments, assignments, the proposed action, and the pending approval.', 'Presents one review state instead of sending the owner to five systems.', 'The work remains paused until an accountable person decides.', 'left-top'),
     scene('REMEMBER', 8, '05 / CONTROLLED ROLLOUT', 'Approved work becomes a record.', 'The resulting artifact, rationale, edits, approval, and owner remain attached to the operating state.', 'Preserves the complete decision for adjacent teams and the next run.', 'Rollout expands from a reconstructable decision—not an unverifiable result.')
@@ -78,7 +80,9 @@ export const customerFilm = (role, department, industry, problem = '') => {
   return { ...shared, close: 'Bring the workflow that currently lives across tabs, threads, and handoffs.', scenes: [
     scene('UNDERSTAND', 0, '01 / OWNER FRAMING', 'Frame the decision once.', modeled, 'Reads the operating request, identifies the owner, and assembles the right work surfaces.', 'The owner sets the objective and the line the system cannot cross.'),
     scene('GROUND', 4, '02 / EXISTING EVIDENCE', 'Pull the work already done into view.', 'The knowledge surface retrieves exact records, related context, and citations without sending the owner tab hunting.', 'Grounds the work in private evidence the team can inspect.', 'Only approved context enters the run.', 'left-top'),
-    scene('PLAN', 3, '03 / LIVE RATIONALE', 'Write the decision while it happens.', 'People and specialists co-author the brief, attach evidence, surface uncertainty, and keep review beside the work.', 'Turns research and specialist output into one evolving decision document.', 'Dissent and missing evidence remain visible.'),
+    creativeContext
+      ? scene('CREATE', 10, '03 / MULTIMODAL STORY', 'Turn the brief into a reviewable product story.', 'Slides, images, and product-demo video stay grounded in one brief and one human publish checkpoint.', 'Generates the multimodal asset set without detaching it from the operating evidence.', 'The owner reviews every variant before it can publish.')
+      : scene('CAPTURE', 9, '03 / LIVE MEMORY', 'Keep the meeting inside the workflow.', 'The system separates transcript, decisions, evidence, action items, and owners while the work is still live.', 'Turns spoken commitments into one evolving decision record.', 'Unresolved assumptions and missing owners remain visible.'),
     scene('REVIEW', 5, '04 / MULTIPLAYER REVIEW', 'Review one current state.', 'Comments, assignments, presence, specialist work, and the proposed action converge without stale copies or side channels.', 'Keeps the people and the work in one live operating thread.', 'The accountable reviewer stays inside the flow.', 'left-top'),
     scene('REMEMBER', 8, '05 / APPROVAL + RECORD', 'Approve the action. Keep the record.', 'The final workspace retains the evidence, rationale, changes, owner, approval, and resulting artifact for the next decision.', 'Ends the run as durable team memory instead of an expired conversation.', 'The record shows who approved what and why.')
   ] };

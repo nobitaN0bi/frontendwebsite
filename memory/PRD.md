@@ -188,6 +188,7 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - Testing-agent iteration 17 reports the customer/investor route split, 50/36/48 kinetic inventory, normal and reduced motion, problem persistence, progressive selector, all new customer URLs, legacy redirects, all six MacBook films, CTAs, desktop/tablet/mobile safety, and unrelated-route isolation passing. A Framer reduced-motion development warning was removed by replacing the library hook with a native `matchMedia` listener; self-testing confirms static motion and a clean console. JavaScript lint and production build pass.
 - Added explicit backend CORS configuration using required `APP_URL` and `CORS_ORIGINS` environment variables. Internal and external ingress preflight checks return 200 with the configured policy; external `/api/health` returns 200. Backend Python lint passes.
 - Final deployment-readiness analysis reports **PASS** for the React + FastAPI + MongoDB architecture: environment variables, routes, compilation, MongoDB access, supervisor commands, static files, secrets, CORS, and ports are launch-ready.
+- **2026-08-10 preview verification:** Public homepage and `/api/health` both return HTTP 200; Playwright renders the homepage successfully with the expected Acoord title and full page content. Frontend and backend supervisor services are running. Removed `.env` ignore patterns that blocked required deployment configuration; the follow-up deployment-readiness scan reports **PASS** with no remaining blockers.
 
 ## Prioritized Backlog
 

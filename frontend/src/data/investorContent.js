@@ -50,7 +50,7 @@ export const moatLayers = [
 ];
 
 export const roadmap = [
-  ['NOW', 'Product shell', 'Nine connected working surfaces, eight modeled enterprise channels, shareable decision maps, and explicit human checkpoints.'],
+  ['NOW', 'Product shell', 'Eleven connected working surfaces, eight modeled enterprise channels, shareable decision maps, and explicit human checkpoints.'],
   ['NEXT', 'Production bridge', 'Authenticated tenant workspaces, live orchestration telemetry, conversion instrumentation, and verified customer evidence.'],
   ['LATER', 'Coordination network', 'Reusable operating patterns, team signals, narrated decision maps, and broader enterprise administration.']
 ];
