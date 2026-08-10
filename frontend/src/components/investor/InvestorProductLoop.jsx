@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { ScanEye } from 'lucide-react';
 import { DemoWorkspace } from '../DemoWorkspace';
 import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
@@ -60,6 +61,9 @@ export const InvestorProductLoop = () => {
           transition={{ duration: reduced ? 0 : 0.45, ease: [0.215, 0.61, 0.355, 1] }}
           data-testid="investor-loop-macbook"
         >
+          <div className="investor-loop-transparency" role="img" aria-label="Transparent, explainable product run" title="Transparent product run" data-testid="investor-transparency-icon">
+            <ScanEye size={14} strokeWidth={1.7} />
+          </div>
           <motion.div
             className="investor-loop-lid"
             initial={reduced ? false : { rotateX: -86 }}
