@@ -192,3 +192,25 @@
   .canvas-picker-menu>div button{min-height:44px}
   .problem-capture textarea,.canvas-problem textarea,.canvas-picker-menu input{font-size:16px}
 }
+
+/* Investor qualification product reel: eleven explained surfaces. */
+.investor-loop-stage{padding:24px 0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px}
+.investor-loop-laptop{flex:0 0 auto}
+.investor-loop-caption{width:min(82%,720px);min-height:62px;color:#fff}
+.investor-loop-caption span{display:block;color:#777780;font:600 6px 'IBM Plex Mono',monospace;letter-spacing:.09em}
+.investor-loop-caption strong{display:block;margin-top:7px;font:600 13px 'IBM Plex Sans',sans-serif}
+.investor-loop-caption p{max-width:520px;margin:5px 0 0;color:#9b9ba2;font-size:9px;line-height:1.5}
+
+@media(max-width:980px){
+  .investor-loop-caption{width:94%}
+}
+
+@media(max-width:760px){
+  .investor-product-loop{height:330px}
+  .investor-loop-stage{padding:17px 0;gap:14px}
+  .investor-loop-laptop{width:calc(100% - 38px)}
+  .investor-loop-caption{width:calc(100% - 38px);min-height:56px}
+  .investor-loop-caption strong{font-size:12px}
+  .investor-loop-caption p{font-size:9px}
+  .investor-onboarding>main{min-height:calc(100svh - var(--header-height) - 452px)}
+}

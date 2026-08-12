@@ -44,6 +44,34 @@
     [scenario.document, scenario.tasks[0], 'Evidence graph'].forEach((label, index) => { if (treeLabels[index]) treeLabels[index].textContent = label; });
     setText('.account-name', scenario.owner);
     setText('.account-role', scenario.role);
+    setText('#settings-modal h3', scenario.owner);
+    setText('#settings-modal h3 + p', `investor@acoord.co · ${scenario.role}`);
+    document.querySelectorAll('.avatar-badge').forEach((node) => { node.textContent = scenario.label.slice(0, 2).toUpperCase(); });
+  };
+
+  const replaceFallbackPeople = (scenario) => {
+    const replacements = [
+      [/Jane Doe/g, scenario.people[0] || scenario.owner],
+      [/Mike Ross/g, scenario.people[1] || scenario.owner],
+      [/Alex Kim/g, scenario.people[1] || scenario.owner],
+      [/Sarah Chen/g, scenario.people[2] || scenario.owner],
+      [/\bJane\b/g, scenario.people[0] || scenario.owner],
+      [/\bAlex\b/g, scenario.people[1] || scenario.owner],
+      [/\bSarah\b/g, scenario.people[2] || scenario.owner],
+      [/jane\.doe@ahi-operating\.platform/g, 'investor@acoord.co']
+    ];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let node = walker.nextNode();
+    while (node) {
+      if (!['SCRIPT', 'STYLE'].includes(node.parentElement?.tagName)) {
+        let copy = node.nodeValue;
+        replacements.forEach(([pattern, value]) => { copy = copy.replace(pattern, value); });
+        if (copy.trim() === 'JD') copy = copy.replace('JD', 'IN');
+        node.nodeValue = copy;
+      }
+      node = walker.nextNode();
+    }
+    document.querySelectorAll('.avatar-circle').forEach((avatar) => { if (avatar.textContent.trim() === 'JD') avatar.textContent = 'IN'; });
   };
 
   const populateHome = (scenario) => {
@@ -53,8 +81,18 @@
     if (search) search.placeholder = scenario.intent;
     const recentTitles = document.querySelectorAll('.recent-item > div > div > div:first-child');
     [scenario.document, scenario.tasks[3], scenario.workflow].forEach((title, index) => { if (recentTitles[index]) recentTitles[index].textContent = title; });
+    const recentMetadata = document.querySelectorAll('.recent-item > div > div > div:nth-child(2)');
+    [
+      `Updated by ${scenario.owner} · just now in ${scenario.teamspace}`,
+      `Reviewed by ${scenario.people[1]} · today in ${scenario.teamspace}`,
+      `Executed by ${scenario.agents[0]} · recorded in ${scenario.workflow}`
+    ].forEach((copy, index) => { if (recentMetadata[index]) recentMetadata[index].textContent = copy; });
     const names = document.querySelectorAll('.page-container span[style*="font-weight: 600"]');
     [...scenario.people, ...scenario.agents.slice(0, 3)].forEach((name, index) => { if (names[index]) names[index].textContent = name; });
+    ['Investor', 'Product diligence', 'Enterprise operator'].forEach((role, index) => {
+      const row = names[index]?.parentElement?.parentElement;
+      if (row?.lastElementChild) row.lastElementChild.textContent = role;
+    });
   };
 
   const populateOntology = (scenario) => {
@@ -213,6 +251,7 @@
       if (scenarioApplied || !scenario || !scenario.agents) return;
       scenarioApplied = true;
       populatePage(scenario);
+      replaceFallbackPeople(scenario);
       injectWorkbar(scenario);
       document.querySelectorAll('a[href$=".html"]').forEach((link) => {
         const url = new URL(link.href, window.location.href);

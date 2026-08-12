@@ -26,7 +26,7 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimulation = false, scenarioId: controlledId, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
+export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimulation = false, scenarioId: controlledId, scenarioOverride, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
   const [internalActive, setInternalActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
@@ -42,13 +42,13 @@ export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimul
   const sceneControlled = Number.isInteger(activeSceneIndex);
   const active = sceneControlled ? activeSceneIndex : internalActive;
   activeRef.current = active;
-  const scenarioId = controlledId || localId;
+  const scenarioId = scenarioOverride?.id || controlledId || localId;
   const scene = scenes[active];
   const sceneLabel = showcase ? showcaseLabels[scene.id] : scene.label;
   const sceneCaption = showcase && scene.id === 'library'
     ? 'Rank exact and semantic evidence with source permissions attached.'
     : scene.caption;
-  const scenario = useMemo(() => channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId]);
+  const scenario = useMemo(() => scenarioOverride || channels.find((item) => item.id === scenarioId) || channels[0], [channels, scenarioId, scenarioOverride]);
 
   const sendScenarioToFrame = useCallback(() => {
     if (!scenario?.agents || !iframeRef.current?.contentWindow) return;

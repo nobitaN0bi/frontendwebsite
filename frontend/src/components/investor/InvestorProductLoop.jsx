@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ScanEye } from 'lucide-react';
+import { investorProductScenario } from '../../data/investorProductScenario';
 import { DemoWorkspace } from '../DemoWorkspace';
 import { useInvestorReducedMotion } from './useInvestorReducedMotion';
 
 const productReel = [
-  { scenario: 'finance', scene: 0 },
-  { scenario: 'legal', scene: 3 },
-  { scenario: 'manufacturing', scene: 6 },
-  { scenario: 'customer-support', scene: 5 },
-  { scenario: 'logistics', scene: 1 },
-  { scenario: 'ecommerce', scene: 4 },
-  { scenario: 'saas', scene: 8 },
-  { scenario: 'fashion', scene: 10 }
+  { scene: 0, title: 'Understand the investor question', explanation: 'Intent enters one operating context before any agent acts.' },
+  { scene: 1, title: 'Ground the company context', explanation: 'Product, evidence, people, and policy resolve into one graph.' },
+  { scene: 2, title: 'Compile the diligence workflow', explanation: 'Specialists receive bounded tasks, tools, and checkpoints.' },
+  { scene: 3, title: 'Write the evidence brief', explanation: 'Claims and citations become one reviewable decision document.' },
+  { scene: 4, title: 'Retrieve trusted knowledge', explanation: 'Private context returns with permissions and sources attached.' },
+  { scene: 5, title: 'Coordinate the review', explanation: 'People and agents work together without hiding the approval line.' },
+  { scene: 6, title: 'Verify in a sandbox', explanation: 'Bounded code tests claims without production write access.' },
+  { scene: 7, title: 'Inspect current evidence', explanation: 'Approved external sources enter the same cited context.' },
+  { scene: 8, title: 'Persist the decision state', explanation: 'Owners, tasks, approvals, and outcomes survive the run.' },
+  { scene: 9, title: 'Keep the meeting memory', explanation: 'Decisions and follow-ups are captured while the discussion happens.' },
+  { scene: 10, title: 'Compose the investor story', explanation: 'Slides, images, and product scenes become a reviewable brief.' }
 ];
 
 const phaseDuration = {
@@ -73,17 +77,37 @@ export const InvestorProductLoop = () => {
           >
             <div className="investor-loop-camera" aria-hidden="true" />
             <div className="investor-loop-screen" data-testid="investor-loop-product-screen">
-              <motion.div
-                animate={{ opacity: phase === 'closed' ? 0 : 1 }}
-                transition={{ duration: reduced ? 0 : 0.24, ease: 'easeOut' }}
-                data-testid="investor-loop-product-player"
-              >
-                <DemoWorkspace compact showcase autoPlaySimulation scenarioId={frame.scenario} activeSceneIndex={frame.scene} />
-              </motion.div>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={frame.scene}
+                  initial={reduced ? false : { opacity: 0, x: 10 }}
+                  animate={{ opacity: phase === 'closed' ? 0 : 1, x: 0 }}
+                  exit={reduced ? undefined : { opacity: 0, x: -8 }}
+                  transition={{ duration: reduced ? 0 : 0.22, ease: [0.215, 0.61, 0.355, 1] }}
+                  data-testid="investor-loop-product-player"
+                >
+                  <DemoWorkspace compact showcase autoPlaySimulation scenarioOverride={investorProductScenario} activeSceneIndex={frame.scene} />
+                </motion.div>
+              </AnimatePresence>
             </div>
           </motion.div>
           <div className="investor-loop-base" aria-hidden="true"><i /></div>
         </motion.div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={`caption-${frame.scene}`}
+            className="investor-loop-caption"
+            initial={reduced ? false : { opacity: 0, y: 8 }}
+            animate={{ opacity: phase === 'closed' ? 0 : 1, y: 0 }}
+            exit={reduced ? undefined : { opacity: 0, y: -6 }}
+            transition={{ duration: reduced ? 0 : 0.22, ease: [0.215, 0.61, 0.355, 1] }}
+            data-testid="investor-loop-explanation"
+          >
+            <span>{String(frame.scene + 1).padStart(2, '0')} / 11 · INVESTOR PRODUCT REEL</span>
+            <strong data-testid="investor-loop-explanation-title">{frame.title}</strong>
+            <p data-testid="investor-loop-explanation-copy">{frame.explanation}</p>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </aside>
   );

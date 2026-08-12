@@ -1,0 +1,46 @@
+{
+  "summary": "Frontend-only validation completed for /investor on the public preview URL across 390x844, 320x700, 1440x900, and 1920x800. The MacBook reel opens, runs all 11 scenes in the required order with synced captions, closes/reopens, and restarts; form controls, reduced-motion static behavior, transparency icon, and /investor/{venture|strategic|operator} non-regression checks passed. One content-override defect remains: investor reel iframe still shows fallback person name 'Jane Doe' in visible Home scene activity text.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {
+        "flow": "Investor scenario override inside strict-sandbox iframe",
+        "issue": "Home surface still renders fallback persona text 'Updated by Jane Doe' in visible activity content, violating investor-only override requirement (no fallback to Jane/other customer personas).",
+        "affected_selectors": [
+          "[data-testid='demo-export-iframe']",
+          ".recent-item"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_21.json"
+  ],
+  "action_items": [
+    "Patch scenario runtime/page-population for the Home demo surface so visible activity/person strings are investor-specific and never include fallback names like Jane Doe.",
+    "Re-run /investor full-cycle UI check after fix to confirm no fallback persona strings appear in any of the 11 scenes."
+  ],
+  "critical_code_review_comments": [
+    "InvestorProductLoop state machine is correct: opening -> 11 scene playback -> closing -> closed pause -> restart (confirmed with 500ms timeline capture over ~48s).",
+    "Caption and scene mapping are synchronized when sampled at sufficient cadence; earlier 3.4s polling can alias transitions and produce false negatives.",
+    "Scenario override wiring is mostly correct (iframe src always uses scenario=investor&autoplay=1&lens=capability), but content replacement in Home scene is incomplete, leaving residual fallback person labels.",
+    "Critical reel elements have unique data-testid coverage (all required checked testids count=1)."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_21.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "96%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Use high-frequency (<=500ms) sampling for reel timing assertions. Verified order and timing: Home(0s), Ontology(~5s), Apps(~8s), Doc(~11.5s), Library(~15s), Chat(~18s), Code(~21.5s), Browser(~25s), Teamspaces(~28s), Meeting Keeper(~31.5s), Studio(~35s), restart Home(~40s). Reduced-motion + saved reduced-mode remains static on first frame for >6s. /investor/venture, /investor/strategic, /investor/operator load with no qualification-loop bleed.",
+  "rca of the issue": "Reproduction: open /investor (390x844), inspect iframe body text in the first Home scene; token 'JANE' appears in recent activity line ('Updated by Jane Doe'). Root cause: scenario-runtime applies investor override to multiple dynamic regions but does not fully overwrite all static person-name placeholders in Home template activity content. Mitigation: extend Home population mapping in /frontend/public/demo/demopages/js/scenario-runtime.js (or template source) to replace remaining hardcoded user-name strings with investor-scenario people fields. Note: investor scenarios/outcomes and CRM handoff remain explicitly **MOCKED** simulations/session-only flows."
+}
