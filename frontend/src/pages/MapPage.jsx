@@ -5,6 +5,8 @@ import { Seo } from '../components/Seo';
 import { buildFilm } from '../cinematic/filmScript';
 import { useScenarios } from '../cinematic/useScenarios';
 
+const decisionMapIdPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 const dateLabel = (iso) => {
   try {
     return new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
@@ -21,6 +23,11 @@ export default function MapPage({ onJoin }) {
 
   useEffect(() => {
     let live = true;
+    if (!decisionMapIdPattern.test(id || '')) {
+      setRecord(null);
+      setState('missing');
+      return () => { live = false; };
+    }
     setState('loading');
     fetch(`${process.env.REACT_APP_BACKEND_URL}/api/decision-maps/${id}`)
       .then((response) => {
@@ -52,8 +59,8 @@ export default function MapPage({ onJoin }) {
       <div className="map-page map-missing-page" data-testid="map-missing">
         <Seo title="Decision map not found | Acoord" description="This Acoord decision map does not exist." path={`/map/${id}`} />
         <p className="map-kicker">ACOORD / DECISION MAP</p>
-        <h1>This reel was never cut.</h1>
-        <p className="map-missing-copy">The decision map you are looking for does not exist. Watch the film and cut your own.</p>
+        <h1 data-testid="map-missing-title">This reel was never cut.</h1>
+        <p className="map-missing-copy" data-testid="map-missing-description">The decision map you are looking for does not exist. Watch the film and cut your own.</p>
         <Link className="button button-ink" to="/" data-testid="map-missing-home-link">Watch the film <ArrowRight size={16} /></Link>
       </div>
     );

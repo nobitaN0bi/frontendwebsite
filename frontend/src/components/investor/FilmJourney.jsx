@@ -17,7 +17,7 @@ export const FilmJourney = ({ film, customer = false, onJoin }) => {
         <header className="film-header"><Link to={customer ? '/demo' : '/investor?intent=investor'} data-testid={`${film.id}-back-link`}><ArrowLeft size={14} /> Change lens</Link><div><span>{film.label}</span>{film.context && <b data-testid={`${film.id}-context-label`}>{film.context.toUpperCase()}</b>}<em>{String(active + 1).padStart(2, '0')} / {String(film.scenes.length).padStart(2, '0')}</em></div></header>
         <div className="film-composition">
           <div className="film-caption" data-testid={`${film.id}-scene-caption`}>
-            <AnimatePresence mode="wait"><motion.div key={active} initial={reduced ? false : { opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} exit={reduced ? undefined : { opacity: 0, y: -16 }} transition={{ duration: reduced ? 0 : .45, ease: [0.16, 1, 0.3, 1] }}><p>{scene.eyebrow}</p><h1 data-testid={`${film.id}-title`}>{scene.title}</h1><span>{scene.body}</span></motion.div></AnimatePresence>
+            <AnimatePresence mode="wait"><motion.div key={active} initial={reduced ? false : { opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={reduced ? undefined : { opacity: 0, y: -10 }} transition={{ duration: reduced ? 0 : .24, ease: [0.215, 0.61, 0.355, 1] }}><p>{scene.eyebrow}</p><h1 data-testid={`${film.id}-title`}>{scene.title}</h1><span>{scene.body}</span></motion.div></AnimatePresence>
           </div>
           <LaptopFilmStage film={film} active={active} onSceneChange={goTo} />
         </div>

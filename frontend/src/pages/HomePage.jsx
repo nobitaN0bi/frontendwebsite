@@ -20,6 +20,7 @@ import { useScenarios } from '../cinematic/useScenarios';
 import { capabilities, faqs, operatingSteps } from '../data/marketingContent';
 import { resources } from '../data/resources';
 import { useCases } from '../data/useCases';
+import { useAcoordReducedMotion } from '../hooks/useAcoordReducedMotion';
 
 const iconSet = [GitBranch, Search, Users, LockKeyhole, Cable, Braces, Network];
 const connectorTicker = 'SLACK · SALESFORCE · JIRA · GITHUB · SAP · GMAIL · NOTION · HUBSPOT · ZENDESK · SNOWFLAKE · STRIPE · WORKDAY · SERVICENOW · TEAMS · CONFLUENCE · LINEAR · SHOPIFY · NETSUITE · FIGMA · ASANA — 1,000+ CONNECTORS — ';
@@ -32,6 +33,7 @@ const homeSchema = {
 };
 
 export default function HomePage({ onJoin }) {
+  const reduced = useAcoordReducedMotion();
   const scenarios = useScenarios();
   const [industryId, setIndustryId] = useState('finance');
   const [chapter, setChapter] = useState(0);
@@ -49,25 +51,34 @@ export default function HomePage({ onJoin }) {
         const next = current + 1;
         if (next >= film.length) {
           setPlaying(false);
-          shareRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          shareRef.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
           return current;
         }
-        chapterRefs.current[next]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        chapterRefs.current[next]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
         return next;
       });
     }, 7000);
     return () => window.clearInterval(timer);
-  }, [playing, film.length]);
+  }, [playing, film.length, reduced]);
+
+  useEffect(() => {
+    if (reduced) setPlaying(false);
+  }, [reduced]);
 
   const selectIndustry = (id) => {
     setIndustryId(id);
     setChapter(0);
-    window.requestAnimationFrame(() => chapterRefs.current[0]?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    window.requestAnimationFrame(() => chapterRefs.current[0]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }));
   };
 
   const toggleFilm = () => {
+    if (reduced) {
+      setPlaying(false);
+      chapterRefs.current[chapter]?.scrollIntoView({ behavior: 'auto', block: 'start' });
+      return;
+    }
     setPlaying((current) => {
-      if (!current) chapterRefs.current[chapter]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (!current) chapterRefs.current[chapter]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
       return !current;
     });
   };

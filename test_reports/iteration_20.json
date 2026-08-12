@@ -1,0 +1,58 @@
+{
+  "summary": "Frontend-only regression completed on public preview URL across required public routes and target viewports (320x700, 390x844, 768x900, 1440x900). Route rendering/overflow checks passed broadly, mobile nav behavior and reduced-motion startup behavior passed, and investor/customer film routes remained functional. Found two UX/accessibility regressions and one console-noise issue against the stated acceptance criteria.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Home embedded demo controls",
+        "issue": "On mobile (390x844), visible demo control [data-testid='demo-guided-tour-button'] renders at 34px height, below the 44x44 minimum touch-target requirement.",
+        "selector": "[data-testid='demo-guided-tour-button']",
+        "priority": "HIGH"
+      },
+      {
+        "component": "Customer onboarding form fields on mobile",
+        "issue": "Relevant mobile input text sizes are below 16px (problem textarea ~15px; picker search input ~11px), which can trigger iOS zoom and fails the explicit 16px mobile form-text requirement.",
+        "selector": "[data-testid='canvas-problem-input'], [data-testid='customer-department-search'], [data-testid='customer-industry-search']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Map missing-id route",
+        "issue": "/map/not-found triggers repeated 404 network console errors for /api/decision-maps/not-found; route UI works but violates strict no-console-errors criterion.",
+        "affected_selectors": [
+          "[data-testid='map-missing-page']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_20.json"
+  ],
+  "action_items": [
+    "Raise mobile home demo guided-tour control to >=44px hit area without changing visual language or layout structure.",
+    "Set relevant mobile form control font-size to >=16px for customer onboarding fields/search pickers to prevent iOS zoom.",
+    "Suppress or handle expected map-missing 404 fetch behavior to avoid browser console error spam for /map/not-found."
+  ],
+  "critical_code_review_comments": [
+    "Root cause for hit-area failure: cinematic showcase CSS sets .exported-demo-showcase .demo-chapter-actions button/a min-height:34px in mobile-visible context.",
+    "Root cause for iOS-zoom risk: investor onboarding CSS uses small text sizing for key controls (e.g., problem textarea and picker search input) below 16px on phone viewports.",
+    "Map missing route currently performs real decision-map fetch against the literal id 'not-found'; expected 404 is surfaced as console error repeatedly during route checks."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_20.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "94%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Validated: all requested public routes at 4 target viewports showed no horizontal overflow; mobile menu aria/body lock/Escape passed; reduced mode startup static behavior passed (data-motion=reduced, animated=0, transitioning=0, scrollBehavior=auto); customer keyboard picker flow passed with valid searchable value (e.g., 'financial' -> financial-services). Recheck touch targets and mobile form font-size after fixes.",
+  "rca of the issue": "1) Touch target: reproduce on '/' at 390x844; demo-guided-tour button in embedded showcase computes ~34px height. 2) Mobile text size: reproduce on '/demo' at 390x844; customer problem/search controls compute <16px. 3) Console: open '/map/not-found' and inspect console/network; repeated 404 logs from /api/decision-maps/not-found appear despite user-facing missing-state page rendering."
+}

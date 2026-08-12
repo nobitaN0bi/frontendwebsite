@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { AsciiNarrative } from './AsciiNarrative';
@@ -9,6 +9,19 @@ export const SiteChrome = ({ children, onJoin }) => {
   const location = useLocation();
   const closeMenu = () => setMenuOpen(false);
 
+  useEffect(() => setMenuOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setMenuOpen(false); };
+    document.body.classList.add('nav-open');
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.classList.remove('nav-open');
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [menuOpen]);
+
   return (
     <div className="site-shell" data-testid="site-shell">
       <AsciiNarrative mode="ambient" tone="global" label="ACOORD / LIVE SIGNAL" />
@@ -17,7 +30,7 @@ export const SiteChrome = ({ children, onJoin }) => {
           <span className="wordmark-mark" aria-hidden="true">a:</span>
           <span data-testid="header-logo-text">acoord</span>
         </Link>
-        <nav className={`header-nav ${menuOpen ? 'is-open' : ''}`} data-testid="header-navigation">
+        <nav id="primary-navigation" className={`header-nav ${menuOpen ? 'is-open' : ''}`} data-testid="header-navigation">
           <a href="/#capabilities" onClick={closeMenu} data-testid="header-system-link">Product</a>
           <a href="/#system" onClick={closeMenu} data-testid="header-agents-link">How it works</a>
           <a href="/#use-cases" onClick={closeMenu} data-testid="header-use-cases-link">Use cases</a>
@@ -28,7 +41,7 @@ export const SiteChrome = ({ children, onJoin }) => {
           <button className="header-access-link" onClick={() => { closeMenu(); onJoin(); }} data-testid="header-waitlist-button">Download app</button>
           <a className="button button-ink nav-cta" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="header-book-demo-link">Book a demo <ArrowUpRight size={15} strokeWidth={1.8} /></a>
         </nav>
-        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" data-testid="mobile-menu-button">
+        <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen} aria-controls="primary-navigation" data-testid="mobile-menu-button">
           {menuOpen ? <X size={21} /> : <Menu size={21} />}
         </button>
       </header>
