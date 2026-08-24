@@ -1,26 +1,23 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowRight, Braces, Cable, Download, GitBranch, LockKeyhole, Network, Search, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AsciiBackdrop } from '../components/AsciiBackdrop';
 import { AsciiNarrative } from '../components/AsciiNarrative';
+import { HomeRoiSection } from '../components/HomeRoiSection';
 import { NewsletterForm } from '../components/NewsletterForm';
 import { Seo } from '../components/Seo';
 import { AsciiArt } from '../cinematic/AsciiArt';
-import { ChapterScene } from '../cinematic/ChapterScene';
 import { EyeScene } from '../cinematic/EyeScene';
-import { FilmHud } from '../cinematic/FilmHud';
 import { HandsScene } from '../cinematic/HandsScene';
-import { IndustryScene } from '../cinematic/IndustryScene';
 import { InfiniteScene } from '../cinematic/InfiniteScene';
-import { PortraitScene } from '../cinematic/PortraitScene';
 import { ShareScene } from '../cinematic/ShareScene';
 import { AhiNarratedShowcase } from '../cinematic/AhiNarratedShowcase';
-import { buildFilm } from '../cinematic/filmScript';
+import { FounderOceanScene } from '../cinematic/FounderOceanScene';
+import { ConnectorDirectory } from '../components/ConnectorDirectory';
 import { useScenarios } from '../cinematic/useScenarios';
 import { capabilities, faqs, operatingSteps } from '../data/marketingContent';
 import { resources } from '../data/resources';
 import { useCases } from '../data/useCases';
-import { useAcoordReducedMotion } from '../hooks/useAcoordReducedMotion';
 
 const iconSet = [GitBranch, Search, Users, LockKeyhole, Cable, Braces, Network];
 const connectorTicker = 'COMMUNICATION · PROJECTS · CODE · KNOWLEDGE · CRM · STORAGE · MEETINGS · PUBLIC WEB · GOVERNED THROUGH AHI — ';
@@ -33,13 +30,8 @@ const homeSchema = {
 };
 
 export default function HomePage({ onJoin }) {
-  const reduced = useAcoordReducedMotion();
   const scenarios = useScenarios();
   const [industryId, setIndustryId] = useState('finance');
-  const [chapter, setChapter] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const chapterRefs = useRef([]);
-  const shareRef = useRef(null);
 
   const seeAhiLive = (event) => {
     event.preventDefault();
@@ -48,46 +40,6 @@ export default function HomePage({ onJoin }) {
   };
 
   const scenario = useMemo(() => scenarios.find((item) => item.id === industryId) || scenarios[0], [scenarios, industryId]);
-  const film = useMemo(() => buildFilm(scenario), [scenario]);
-
-  useEffect(() => {
-    if (!playing) return undefined;
-    const timer = window.setInterval(() => {
-      setChapter((current) => {
-        const next = current + 1;
-        if (next >= film.length) {
-          setPlaying(false);
-          shareRef.current?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-          return current;
-        }
-        chapterRefs.current[next]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-        return next;
-      });
-    }, 7000);
-    return () => window.clearInterval(timer);
-  }, [playing, film.length, reduced]);
-
-  useEffect(() => {
-    if (reduced) setPlaying(false);
-  }, [reduced]);
-
-  const selectIndustry = (id) => {
-    setIndustryId(id);
-    setChapter(0);
-    window.requestAnimationFrame(() => chapterRefs.current[0]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }));
-  };
-
-  const toggleFilm = () => {
-    if (reduced) {
-      setPlaying(false);
-      chapterRefs.current[chapter]?.scrollIntoView({ behavior: 'auto', block: 'start' });
-      return;
-    }
-    setPlaying((current) => {
-      if (!current) chapterRefs.current[chapter]?.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-      return !current;
-    });
-  };
 
   return (
     <>
@@ -97,24 +49,13 @@ export default function HomePage({ onJoin }) {
         <HandsScene onJoin={onJoin} onSeeAhi={seeAhiLive} />
         <InfiniteScene />
         <EyeScene />
-        <AhiNarratedShowcase />
-        <div className="legacy-film-deep-dive" data-testid="industry-deep-dive">
-          <IndustryScene scenarios={scenarios} activeId={industryId} onSelect={selectIndustry} />
-          {film.map((entry, index) => (
-            <ChapterScene
-              key={`${scenario.id}-${entry.id}`}
-              chapter={entry}
-              index={index}
-              total={film.length}
-              scenario={scenario}
-              innerRef={(node) => { chapterRefs.current[index] = node; }}
-              onEnter={() => setChapter(index)}
-            />
-          ))}
-          <ShareScene scenario={scenario} innerRef={shareRef} />
-          <FilmHud industry={scenario.label} chapter={chapter + 1} total={film.length} playing={playing} onToggle={toggleFilm} />
-        </div>
+        <AhiNarratedShowcase scenarios={scenarios} activeId={industryId} onScenarioSelect={setIndustryId} />
+        <ShareScene scenario={scenario} />
       </div>
+
+      <HomeRoiSection />
+
+      <ConnectorDirectory />
 
       <section className="story-problem editorial-section inverted-section ascii-stage scene-snap" data-testid="problem-solution-section">
         <AsciiNarrative mode="signal" tone="dark" label="HUMAN / AGENT / ONE TEAM" />
@@ -207,7 +148,7 @@ export default function HomePage({ onJoin }) {
         </div>
       </section>
 
-      <PortraitScene onJoin={onJoin} />
+      <FounderOceanScene onJoin={onJoin} />
     </>
   );
 }

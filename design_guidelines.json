@@ -1,145 +1,93 @@
 {
+  "theme": "brutalist_terminal",
   "typography": {
-    "headings": {
-      "family": "Space Grotesk, sans-serif",
-      "weights": ["400", "700"],
-      "usage": "Use Space Grotesk for the prominent onboarding questions and section headers to maintain a technical yet modern feel."
-    },
-    "body": {
-      "family": "Inter, sans-serif",
-      "weights": ["400", "500"],
-      "usage": "Use Inter for body text, form inputs, and subtle descriptions for maximum readability."
-    },
-    "labels": {
-      "family": "JetBrains Mono, monospace",
-      "weights": ["400"],
-      "usage": "Use monospace for tiny labels, data tags, and 'press Enter to continue' hints. tracking-[0.2em] uppercase."
-    },
-    "scale": {
-      "h1": "text-4xl sm:text-5xl tracking-tight",
-      "h2": "text-2xl sm:text-3xl tracking-tight",
-      "h3": "text-xl",
-      "body": "text-base",
-      "small": "text-sm",
-      "tiny": "text-xs tracking-widest uppercase"
-    }
+    "fonts": [
+      {
+        "family": "Unbounded",
+        "usage": "Headings, primary display text, brand mark"
+      },
+      {
+        "family": "JetBrains Mono",
+        "usage": "Body text, navigation, labels, data tables, terminal output"
+      }
+    ],
+    "instructions_to_main_agent": "Use Unbounded for high-impact display and JetBrains Mono for everything else. Keep text alignment left. Letter-spacing tight for headings."
   },
   "colors": {
-    "theme": "dark",
-    "backgrounds": {
-      "primary": "#0A0A0A",
-      "secondary": "#141414",
-      "canvas": "#0F0F13",
-      "glass": "bg-white/5 backdrop-blur-2xl"
-    },
-    "text": {
-      "primary": "#FFFFFF",
-      "secondary": "#A1A1AA",
-      "disabled": "#52525B"
-    },
-    "accents": {
-      "vibrant_primary": "#FF3B30",
-      "vibrant_secondary": "#007AFF",
-      "vibrant_success": "#34C759",
-      "glow": "rgba(0, 122, 255, 0.4)"
-    },
-    "borders": {
-      "default": "border-white/10",
-      "active": "border-white/30",
-      "vibrant": "border-blue-500/50"
-    },
-    "rules": "No generic gradients. Use pure high-contrast colors (Electric & Neon archetype) on a structural grayscale base (Swiss). Highlight active elements with vibrant borders and text colors."
+    "background": "#000000",
+    "surface": "#0a0a0a",
+    "border": "#333333",
+    "text_primary": "#ffffff",
+    "text_secondary": "#a1a1aa",
+    "accent": "#ffffff",
+    "macbook_gradient": "linear-gradient(135deg, #111111 0%, #000000 100%)",
+    "instructions": "Monochrome palette ONLY. No colorful gradients except inside the MacBook functional icons. Use pure white, deep black, and slate grays for structure."
   },
-  "visual enhancers": {
-    "shadows": {
-      "ambient": "shadow-[0_0_40px_rgba(0,122,255,0.15)]",
-      "direct": "shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
-    },
-    "borders": {
-      "radius_container": "rounded-3xl",
-      "radius_element": "rounded-xl",
-      "radius_button": "rounded-full"
-    },
-    "textures": {
-      "noise": "Subtle SVG noise overlay on the main canvas to kill digital flatness."
-    }
+  "visual_enhancers": {
+    "borders": "1px solid #333333 on all containers and cards",
+    "shadows": "none, strictly hard edges",
+    "radius": "0px or max 2px for terminal feel, pill CTAs are the ONLY exception (rounded-full)",
+    "ascii_art": "Use ASCII art for loaders, 404s, and structural separators."
   },
-  "components": [
-    {
-      "name": "AnimatedCanvas",
-      "description": "Shared central visual state container that reacts to user inputs. Uses framer-motion for smooth causal transitions."
-    },
-    {
-      "name": "InputCard",
-      "description": "Used for 'Problem', 'Role/Authority', 'Team', 'Industry'. Features glassmorphism background with a shimmering border on active state."
-    },
-    {
-      "name": "InvestorStep",
-      "description": "Visual question card for investor flow. Supports multi-select and skippable logic with respectful copy ('Prefer not to say', 'Explore')."
-    }
-  ],
-  "grids": {
-    "canvas_layout": "grid-cols-1 md:grid-cols-12 gap-6",
-    "investor_options": "grid-cols-1 sm:grid-cols-2 gap-4"
+  "brand_logo": {
+    "type": "svg_instruction",
+    "description": "Distinctive infinity logo system, geometrically simple, monochrome-first, recognizable at 16px, hard-edged terminal aesthetic.",
+    "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\"><path d=\"M8 8 C 4 8, 4 16, 8 16 C 12 16, 12 8, 16 8 C 20 8, 20 16, 16 16 C 12 16, 12 8, 8 8 Z\"/></svg>",
+    "rules": "Must be sharp-edged, strictly monochrome, usable in header and footer."
   },
   "layouts": {
-    "variant_a_demo": "All-in-one animated canvas. 12-column bento grid where inputs (Problem, Role, Team, Industry) span specific columns and surround a central dynamic visual representing the 'Ahi state'.",
-    "variant_b_demopages": "Sequential morphed layout. Problem input dominates center first. Upon completion, shrinks and moves to top-left of the canvas, revealing Role, Team, and Industry in the bento grid format.",
-    "investor_flow": "Centered immersive flow. Progress indicator at top. Single large question in center with bento-style selectable options below. 'Skip' and 'Prefer not to say' subtly placed at the bottom.",
-    "spacing_scale": "Use generous spacing. p-8 or p-12 for main containers."
+    "homepage": "30/70 split-screen. Left 30% is scrolling narrative text (Unbounded headers, JetBrains Mono body). Right 70% is a sticky, framed MacBook mockup. Above the MacBook sits a dropdown/pill selector for the 9 industries. Changing it updates the 30% text and the MacBook internal UI.",
+    "macbook_internal": "Uses the blackish-grey gradient. Retain colorful functional icons inside the demo screen. Show AHI workflow.",
+    "waitlist": "Forms must have 1px borders, square edges, pill submit button. Post-submission shows queue position and copyable referral link (MongoDB backed).",
+    "directory": "Searchable/filterable grid of 49 connectors. 1px borders, dense data layout, JetBrains Mono.",
+    "roi_calculator": "Interactive inputs and live updating results. Terminal style sliders or numeric inputs.",
+    "footer": "Procedural Canvas founder/ocean closing section."
   },
-  "motion": {
-    "principles": "Emil Kowalski principles strictly.",
-    "timings": {
-      "micro": "duration-150",
-      "standard": "duration-250",
-      "entrance": "duration-400"
-    },
-    "easings": {
-      "enter_exit": "ease-out",
-      "movement": "ease-in-out"
-    },
-    "rules": "No bounce. Transform and opacity only. Pair elements to share timing. Stagger entrance animations. Central state visual must react immediately (causal) as fields are filled."
+  "components": {
+    "pill_cta": "rounded-full bg-white text-black px-6 py-2 font-mono uppercase tracking-wider hover:bg-gray-200 transition-colors",
+    "card": "border border-[#333333] bg-[#0a0a0a] p-6 square-edges",
+    "industry_selector": "Pill-based tab list or sleek dropdown above the MacBook. border border-[#333333].",
+    "ahi_eye": "Interactive pointer-following element. SVGs reacting to mousemove."
   },
-  "accessibility": {
-    "contrast": "Ensure minimum 4.5:1 for standard text against #0A0A0A. Hover states must have higher contrast (e.g., text-white on hover).",
-    "motion": "Respect prefers-reduced-motion. Disable complex framer-motion transitions if true.",
-    "keyboard": "All inputs and selectable cards must be focusable (tabIndex=0) and support Enter/Space to select."
-  },
-  "media": {
-    "laptop_reveal": "The final state triggers a cinematic zoom into the MacBook frame, fading out the surrounding UI."
-  },
-  "3d libraries": {
-    "usage": "If needed for the central Ahi state, use Framer Motion 3D for simple, performant card spins or positional depth instead of heavy Three.js, to ensure snappy form performance."
-  },
-  "image_urls": [],
-  "component_path": "/app/frontend/src/components/",
-  "instructions_to_main_agent": [
-    "Create two routes: /demo (Variant A) and /demopages (Variant B).",
-    "Create /investor route with 4 visual steps.",
-    "Implement a shared 'OnboardingCanvas' component that both demo variants use to render the fields.",
-    "For Variant A, render all fields simultaneously in a bento grid.",
-    "For Variant B, implement a multi-step state where Step 1 is just 'Problem', and Step 2 morphs the layout into the Variant A grid.",
-    "Role and Authority must be combined into a single logical block/input card (e.g., a dual dropdown or split form).",
-    "Team and Industry should use compact searchable dropdowns/comboboxes (Shadcn popover + command), not huge lists.",
-    "The central visual (laptop context) must react dynamically as fields are filled (e.g., glowing brighter or unlocking layers).",
-    "In the Investor flow, ensure all questions have a 'Skip' or 'Prefer not to say' option.",
-    "End the investor flow with a visual 'CRM Handoff' confirmation screen that states 'Tailored brief created. Connect database to save.', redirecting to the specific persona URL (Venture, Strategic, etc.).",
-    "Use framer-motion extensively but strictly adhering to the timing and easing rules provided.",
-    "Ensure all components use generic HTML/Tailwind for layouts and Shadcn for interactive logic, highly customized for the dark vibrant theme."
+  "pages_to_build": [
+    "/",
+    "/pricing",
+    "/partners",
+    "/roi",
+    "/use-cases/healthcare",
+    "/use-cases/cfo"
   ],
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
-    "Avoid generic, 'on distribution' outputs. Make creative, distinctive frontends that surprise and delight.",
-    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
-    "Don't make generic centered layouts (unless for a specific focused question like Investor flow), simplistic gradients, and uniform styling.",
-    "Create depth through layered design elements with z-index hierarchy.",
-    "Use glass-morphism effects with backdrop filters (12-24px blur) and 1px delicate borders (border-white/10).",
-    "You MUST NOT apply universal transition (e.g., transition: all). Always add transitions for specific properties (transition: transform 0.2s ease, opacity 0.2s ease).",
-    "You MUST NOT center align the app container in global CSS.",
-    "Always use modern button styles like pill-shaped, or sharp buttons with interaction animations & color relevant to the app style.",
-    "NEVER use AI assistant Emoji characters (🤖🧠💭💡🔮🎯) for icons. Use lucide-react.",
-    "Every interaction needs micro-animations - hover states, transitions, parallax effects, and entrance animations.",
-    "Use 2-3x more spacing than feels comfortable. Cramped designs look cheap.",
-    "All interactive and key informational elements MUST include a 'data-testid' attribute for testing."
+  "motion": {
+    "general": "Minimal, instant, mechanical. No bouncy spring animations.",
+    "ahi_eye": "Follows pointer using JS event listeners.",
+    "macbook": "Sticky positioned on scroll while the left side text scrolls past."
+  },
+  "image_urls": {
+    "macbook_frame": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80",
+    "notes": "Use minimal external imagery. Rely on terminal UI, ASCII, and the MacBook frame."
+  },
+  "instructions_to_main_agent": [
+    "Install and use 'lucide-react' for basic icons, keeping them sharp and minimal.",
+    "Set up Tailwind to use 'Unbounded' and 'JetBrains Mono'.",
+    "Implement the 30/70 split using CSS Grid (grid-cols-10, col-span-3 and col-span-7).",
+    "The Macbook component should have `position: sticky; top: 2rem;`.",
+    "Create the AHI Eye component tracking mouse using Framer Motion or pure React state.",
+    "Build the MongoDB waitlist backend in FastAPI with endpoints for signup and referral tracking.",
+    "Include <title>, <meta name='description'>, and OpenGraph tags in all routes for SEO/AEO.",
+    "Do NOT use invented claims/customer proof. Use realistic mechanical placeholder text if needed.",
+    "Procedural Canvas closing section should use a HTML5 Canvas or Three.js to render an ocean/wave effect in monochrome."
+  ],
+  "accessibility": {
+    "contrast": "Maintain WCAG AAA contrast ratio with black and white. Minimum 7:1 for text.",
+    "testing": "All interactive elements MUST include a data-testid attribute in kebab-case."
+  },
+  "universal_guidelines_for_main_agent": [
+    "You MUST NOT apply universal transition (e.g., transition: all).",
+    "You MUST NOT center align the app container in CSS.",
+    "Create depth through layered design elements with z-index hierarchy, but keep borders 1px solid.",
+    "NEVER use placeholder URLs or AI emoji characters for icons.",
+    "For toasts, use 'sonner'.",
+    "All interactive elements MUST include a `data-testid` attribute to facilitate robust automated testing.",
+    "DO NOT use a complete `transparent` background in headers or overlays if content scrolls beneath them. Use a solid black or heavily blurred glass background (`bg-black/90 backdrop-blur`)."
   ]
 }

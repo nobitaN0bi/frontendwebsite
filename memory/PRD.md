@@ -12,6 +12,8 @@ The 2026-08-10 P0 scope replaced that single investor narrative with a persona-d
 
 The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is now strictly investor-facing and `/demo` is strictly customer-facing. Customer discovery begins with an operating problem before asking role, department, and industry. The previous complete nine-surface demo remains available at `/demo/workspace`.
 
+The 2026-08-24 expansion superseded the earlier narrow homepage-only amendment. The user authorized P0 and P1 together: complete Pricing, Partners, ROI, healthcare/CFO workflow libraries, referral ranking, the connector directory, nine-industry AHI synchronization, an infinity-symbol brand mark, and the founder/ocean close while preserving the live Acoord visual identity.
+
 ## Architecture Decisions
 
 - React 19 single-page marketing application with route-level pages for the homepage, interactive demo, and 10 ICP stories.
@@ -33,6 +35,10 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - The exported desktop application remains an unchanged static product artifact under `frontend/public/demo`; React provides the accessible scene navigation, guided-tour controls, fullscreen links, and marketing context around sandboxed iframes.
 - `DemoWorkspace` emits active-scene changes to host pages, allowing the investor laptop to synchronize explanatory dialogs and human-boundary callouts with all nine existing product surfaces without duplicating the demo runtime.
 - Enterprise demo content is centralized in `frontend/public/demo/scenarios.json`; the React host sends the selected scenario and motion setting into a strict opaque-origin iframe through `postMessage`, avoiding same-origin sandbox privileges while preserving the exported app's working controls.
+- Public conversion routes now include `/pricing`, `/partners`, `/roi`, `/use-cases/healthcare`, and `/use-cases/cfo`; specialized workflow routes are registered before the generic use-case route.
+- The waitlist remains a real FastAPI/MongoDB flow. Responses include queue position, generated referral code/link, and referral count; referred signups remain idempotent.
+- The homepage connector directory is a client-side searchable/filterable inventory of exactly 49 supported surfaces. No connector card claims an active third-party API session.
+- The homepage AHI story synchronizes nine modeled industries—including Healthcare—through the strict sandbox and requests its blackish-grey product theme through the existing query/postMessage contract.
 
 ## Implemented
 
@@ -219,6 +225,16 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - Updated homepage React metadata and static `index.html` metadata to AHI / Agent Human Interface positioning. Removed the unsupported visible `1,000+ connectors` claim from current homepage copy and ticker without introducing replacement metrics.
 - QA on 2026-08-24: testing-agent iteration 22 validated placement, 30/70 split, all direct modes, reversible approval, steering, neutral scenario isolation, reduced motion, touch targets, route overflow safety, and existing-route regression. It reported three blockers: exact hero copy, legacy HUD visibility, and speech-stub voice compatibility. All three were fixed and directly reproduced as passing afterward. A deterministic plain-object voice harness now speaks all six chapters Observe→Scale and returns to idle; pause→resume→stop and single-chapter narration also pass.
 - Final verification: React lint passes; strict iframe runtime lint passes; Python lint passes; optimized frontend build passes; all 25 backend tests pass; 40 route/viewport combinations across `/`, `/demo`, `/demopages`, `/demo/workspace`, `/investor`, `/resources`, `/legal`, and `/map/not-found` at 320/390/768/1024/1440 report zero horizontal overflow or clipped critical text. Existing embedded AHI and investor product surfaces remain clearly labeled interactive **MOCKED** simulations with no customer data; no new mock backend flow was added.
+- **2026-08-24 P0/P1 AHI conversion expansion:** Reconciled `App.js` and shipped direct routes for Pricing, Partners, ROI, Healthcare workflows, and CFO workflows. Each route has distinct metadata, structured data, conversion paths, responsive layouts, and direct-load behavior.
+- Added a designer-directed geometric infinity mark to the site header, footer, favicon, and generated social-share artwork. The mark is monochrome-first and remains legible at compact sizes.
+- Finished the homepage 30/70 AHI proof: the nine-option industry rail sits above the MacBook, selection updates both narrative and strict-sandbox product context, and the embedded AHI surface uses a blackish-grey theme while functional accents retain their state colors.
+- Expanded the modeled industry set from eight to nine with Healthcare across React fallback data, the exported scenario runtime, and backend decision-map validation/posters.
+- Added an exact 49-surface searchable/filterable connector directory with category filters, live result counts, clear and zero-result states, responsive grids, and explicit availability labels.
+- Added specialized Healthcare and CFO workflow libraries with role/category filters, inspectable workflow state, named evidence sources, specialist sequences, human checkpoints, durable records, and explicit modeled-pattern disclaimers.
+- Completed the waitlist success experience against the real MongoDB API: queue position, referral count, generated share URL, clipboard fallback, and `ref` query attribution are visible and usable after signup.
+- Added a procedural Canvas ocean finale with pointer-responsive perspective, reduced-motion static fallback, founder ASCII portrait, and founder/waitlist conversion paths. The existing AHI eye retains pointer tracking and reduced-motion behavior.
+- Added route-level canonical, OpenGraph, Twitter, and JSON-LD metadata; updated static index metadata, favicon, share artwork, sitemap, and `llms.txt` for all new routes.
+- Verification on 2026-08-24: frontend and strict-iframe JavaScript lint pass; Python lint passes; optimized production build passes; 27 backend tests pass. Testing-agent iteration 23 validated the complete P0/P1 route, connector, workflow, AHI synchronization, referral, canvas, SEO, reduced-motion, and regression matrix. Its duplicate logo test ID and compact header target findings were fixed; follow-up checks pass at 320, 390, 1024, 1440, and 1920px with unique test IDs, >=44px header targets, and readable active-selector contrast.
 
 ## Prioritized Backlog
 
@@ -228,22 +244,26 @@ The 2026-08-10 launch split removed the mixed-audience choice. `/investor` is no
 - Investor/customer route separation, problem-first customer discovery, kinetic capability/tool/connector field, and legacy redirects: implemented and verified.
 - Deployment-readiness scan: passed.
 - No open P0 blockers.
+- AHI-first routing, homepage proof, referral success UI, and direct-load conversion routes: implemented and verified.
 
 ### P1
 
-- Intentionally out of current scope per user direction; do not begin without a new request.
+- 49-connector directory, Healthcare/CFO workflow libraries, infinity branding, procedural founder/ocean close, interactive AHI eye, and route/share metadata: implemented and verified.
+- Static route prerendering remains a separate build-system modernization item; the current CRA SPA has crawler metadata, sitemap, `llms.txt`, canonical URLs, and JSON-LD but does not emit route-specific HTML snapshots during `yarn build`.
 
 ### P2
 
-- Intentionally out of current scope per user direction; do not begin without a new request.
+- Admin referral CSV/export dashboard remains deferred by user.
+- Transactional waitlist welcome email remains deferred by user.
+- Replace the clearly labeled **MOCKED** product simulations with authenticated Ahi workspace data when production APIs are available.
 
 ## Next Tasks
 
-1. User launch review of the new homepage AHI eye, instant AHI jump, browser narration, 30/70 product split, six direct modes, and phone sticky behavior.
-2. Only after approval, separately scope deferred Pricing, Partners, ROI, connector directory, healthcare/CFO libraries, referral system, and internal admin tool; transactional email remains blocked on provider credentials.
-2. Apply only user-requested P0 motion pacing, ecosystem density, MacBook scale, or product-playlist refinements; do not expand into analytics, live APIs, or operational tooling under the current scope.
+1. User review of the complete AHI conversion journey on desktop and mobile: homepage synchronization, Pricing/Partners/ROI, workflow libraries, and referral success state.
+2. Decide whether to modernize the CRA build into framework-native route prerendering or keep the current metadata/sitemap-based crawler strategy.
+3. After review, consider conversion analytics for industry selection, ROI completion, referral sharing, and booked working sessions.
 
-### P1 backlog (not authorized to start without user request)
+### Future backlog
 - Replace mocked demo data and scenario simulations with authenticated Ahi workspace APIs.
 - Conversion analytics: track industry/chapter watched before booking.
 - Connect `/investor` brief to a real CRM/lead workflow.

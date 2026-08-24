@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Check, LoaderCircle, X } from 'lucide-react';
+import { Check, Copy, LoaderCircle, X } from 'lucide-react';
 
 const initialForm = { name: '', email: '', company: '', role: '', use_case: 'ai-native', message: '', consent: false };
 
@@ -7,6 +7,8 @@ export const WaitlistModal = ({ open, onClose }) => {
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
+  const [result, setResult] = useState(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (!open) return undefined;
@@ -30,14 +32,35 @@ export const WaitlistModal = ({ open, onClose }) => {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/waitlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
+        body: JSON.stringify({
+          ...form,
+          source_page: `${window.location.pathname}${window.location.search}`.slice(0, 160),
+          referred_by: new URLSearchParams(window.location.search).get('ref') || null
+        })
       });
       if (!response.ok) throw new Error('Request failed');
+      setResult(await response.json());
       setStatus('success');
     } catch (requestError) {
       setError('We could not save your request. Please check the form and try again.');
       setStatus('error');
     }
+  };
+
+  const copyReferralLink = async () => {
+    if (!result?.referral_link) return;
+    try {
+      await navigator.clipboard.writeText(result.referral_link);
+    } catch {
+      const input = document.createElement('textarea');
+      input.value = result.referral_link;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      input.remove();
+    }
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
   };
 
   return (
@@ -50,6 +73,8 @@ export const WaitlistModal = ({ open, onClose }) => {
             <p className="eyebrow">You&rsquo;re on the list</p>
             <h2 id="waitlist-title">Your seat in the cohort is reserved.</h2>
             <p>We&rsquo;ll send the desktop download link to <strong>{form.email}</strong> the moment your access opens.</p>
+            <div className="waitlist-queue" data-testid="waitlist-queue-position"><span>QUEUE POSITION</span><strong>#{result?.queue_position || '—'}</strong><small>{result?.referral_count || 0} successful referrals</small></div>
+            <div className="waitlist-referral" data-testid="waitlist-referral-panel"><label htmlFor="waitlist-referral-link">MOVE FORWARD WITH YOUR TEAM</label><div><input id="waitlist-referral-link" readOnly value={result?.referral_link || ''} data-testid="waitlist-referral-link-input" /><button type="button" onClick={copyReferralLink} data-testid="waitlist-copy-referral-button"><Copy size={15} />{copied ? 'Copied' : 'Copy link'}</button></div><p data-testid="waitlist-referral-help">Each teammate who joins through this link moves you forward in the cohort.</p></div>
             <div className="success-actions"><a className="button button-ink" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="waitlist-success-book-link">Book a demo</a><button className="button button-outline" onClick={onClose} data-testid="waitlist-success-close-button">Return to Acoord</button></div>
           </div>
         ) : (

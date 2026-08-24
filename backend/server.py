@@ -60,12 +60,18 @@ class WaitlistRequest(BaseModel):
     ]
     message: str = Field(default="", max_length=1200)
     consent: Literal[True]
+    source_page: str = Field(default="/", min_length=1, max_length=160)
+    referred_by: str | None = Field(default=None, max_length=64)
 
 
 class WaitlistResponse(BaseModel):
     id: str
     email: EmailStr
     status: str
+    queue_position: int
+    referral_code: str
+    referral_link: str
+    referral_count: int
 
 
 class NewsletterRequest(BaseModel):
@@ -88,6 +94,7 @@ DecisionMapIndustry = Literal[
     "ecommerce",
     "saas",
     "fashion",
+    "healthcare",
 ]
 
 
@@ -114,6 +121,7 @@ INDUSTRY_POSTERS = {
     "ecommerce": ("E-COMMERCE", "Margin, trust, and exceptions in one record."),
     "saas": ("SAAS", "A renewal plan grounded across every customer signal."),
     "fashion": ("FASHION", "Evidence and economics without automating taste."),
+    "healthcare": ("HEALTHCARE", "Patient context coordinated with clinical judgment preserved."),
 }
 
 
@@ -123,6 +131,68 @@ def response_paths(map_id: str) -> dict[str, str]:
         "share_path": f"/api/decision-maps/{map_id}/share",
         "poster_path": f"/api/decision-maps/{map_id}/poster.png",
     }
+
+
+async def next_waitlist_join_number() -> int:
+    counter = await db.counters.find_one_and_update(
+        {"_id": "waitlist_join_number"},
+        {"$inc": {"value": 1}},
+        upsert=True,
+        return_document=ReturnDocument.AFTER,
+    )
+    return int(counter["value"])
+
+
+async def unique_referral_code() -> str:
+    for _ in range(8):
+        code = secrets.token_urlsafe(9)
+        exists = await db.waitlist.find_one({"referral_code": code}, {"_id": 0, "id": 1})
+        if not exists:
+            return code
+    raise HTTPException(status_code=500, detail="Unable to create a referral code")
+
+
+async def ensure_waitlist_fields(document: dict) -> dict:
+    updates: dict[str, str | int] = {}
+    if not document.get("join_number"):
+        updates["join_number"] = await next_waitlist_join_number()
+    if not document.get("referral_code"):
+        updates["referral_code"] = await unique_referral_code()
+    if document.get("referral_count") is None:
+        updates["referral_count"] = 0
+    if not document.get("source_page"):
+        updates["source_page"] = document.get("source", "/")
+    if updates:
+        await db.waitlist.update_one({"id": document["id"]}, {"$set": updates})
+        document = {**document, **updates}
+    return document
+
+
+async def waitlist_queue_position(document: dict) -> int:
+    referral_count = int(document.get("referral_count", 0))
+    join_number = int(document["join_number"])
+    ahead = await db.waitlist.count_documents(
+        {
+            "$or": [
+                {"referral_count": {"$gt": referral_count}},
+                {"referral_count": referral_count, "join_number": {"$lt": join_number}},
+            ]
+        }
+    )
+    return ahead + 1
+
+
+async def waitlist_response(document: dict, response_status: str) -> WaitlistResponse:
+    member = await ensure_waitlist_fields(document)
+    return WaitlistResponse(
+        id=member["id"],
+        email=member["email"],
+        status=response_status,
+        queue_position=await waitlist_queue_position(member),
+        referral_code=member["referral_code"],
+        referral_link=f"{app_url.rstrip('/')}/?ref={member['referral_code']}",
+        referral_count=int(member.get("referral_count", 0)),
+    )
 
 
 def public_request_origin(request: Request) -> str:
@@ -180,8 +250,21 @@ def build_poster(industry: str, map_id: str) -> bytes:
 @app.on_event("startup")
 async def prepare_database() -> None:
     await db.waitlist.create_index("email", unique=True)
+    await db.waitlist.create_index("referral_code", unique=True, sparse=True)
+    await db.waitlist.create_index("join_number", unique=True, sparse=True)
+    await db.waitlist.create_index("source_page")
+    await db.waitlist.create_index("referred_by")
     await db.newsletter.create_index("email", unique=True)
     await db.decision_maps.create_index("id", unique=True)
+    existing = await db.waitlist.find({}, {"_id": 0}).sort("created_at", 1).to_list(length=None)
+    max_join_number = max([int(item.get("join_number", 0)) for item in existing] or [0])
+    await db.counters.update_one(
+        {"_id": "waitlist_join_number"},
+        {"$max": {"value": max_join_number}},
+        upsert=True,
+    )
+    for member in existing:
+        await ensure_waitlist_fields(member)
 
 
 @app.get("/api/health")
@@ -198,42 +281,47 @@ async def health() -> dict[str, str]:
 async def join_waitlist(payload: WaitlistRequest) -> WaitlistResponse:
     normalized_email = payload.email.lower()
     existing = await db.waitlist.find_one(
-        {"email": normalized_email}, {"_id": 0, "id": 1, "email": 1}
+        {"email": normalized_email}, {"_id": 0}
     )
     if existing:
-        return WaitlistResponse(
-            id=existing["id"], email=existing["email"], status="already_joined"
-        )
+        return await waitlist_response(existing, "already_joined")
 
     document = payload.model_dump()
+    referring_member = None
+    if payload.referred_by:
+        referring_member = await db.waitlist.find_one(
+            {"referral_code": payload.referred_by}, {"_id": 0, "id": 1}
+        )
     document.update(
         {
             "id": str(uuid4()),
             "email": normalized_email,
+            "join_number": await next_waitlist_join_number(),
+            "referral_code": await unique_referral_code(),
+            "referred_by": referring_member["id"] if referring_member else None,
+            "referral_count": 0,
             "created_at": datetime.now(timezone.utc).isoformat(),
             "consented_at": datetime.now(timezone.utc).isoformat(),
             "privacy_notice_version": "2026-04-08",
-            "source": "acoord.co",
+            "source": f"acoord.co{payload.source_page}",
         }
     )
     try:
         await db.waitlist.insert_one(document)
     except DuplicateKeyError:
         existing = await db.waitlist.find_one(
-            {"email": normalized_email}, {"_id": 0, "id": 1, "email": 1}
+            {"email": normalized_email}, {"_id": 0}
         )
         if existing:
-            return WaitlistResponse(
-                id=existing["id"],
-                email=existing["email"],
-                status="already_joined",
-            )
+            return await waitlist_response(existing, "already_joined")
         raise HTTPException(status_code=409, detail="Email is already registered")
     except Exception as exc:
         raise HTTPException(status_code=500, detail="Unable to save your request") from exc
-    return WaitlistResponse(
-        id=document["id"], email=document["email"], status="joined"
-    )
+    if referring_member:
+        await db.waitlist.update_one(
+            {"id": referring_member["id"]}, {"$inc": {"referral_count": 1}}
+        )
+    return await waitlist_response(document, "joined")
 
 
 @app.post(

@@ -21,6 +21,12 @@
 
 - Product and architecture: https://acoord.co/
 - Interactive workspace demo: https://acoord.co/demo
+- Enterprise pricing: https://acoord.co/pricing
+- ROI estimator: https://acoord.co/roi
+- Partner program: https://acoord.co/partners
+- Healthcare workflow library: https://acoord.co/use-cases/healthcare
+- CFO workflow library: https://acoord.co/use-cases/cfo
+- Connector directory: https://acoord.co/#connectors
 - Technical field notes: https://acoord.co/resources
 - Use cases: https://acoord.co/#use-cases
 - Security overview: https://acoord.co/legal/security

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { AsciiNarrative } from './AsciiNarrative';
-import { MotionControl } from './MotionControl';
+import { InfinityMark } from './InfinityMark';
 
 export const SiteChrome = ({ children, onJoin }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,19 +27,17 @@ export const SiteChrome = ({ children, onJoin }) => {
       <AsciiNarrative mode="ambient" tone="global" label="ACOORD / LIVE SIGNAL" />
       <header className="site-header" data-testid="site-header">
         <Link className="wordmark" to="/" onClick={closeMenu} data-testid="header-logo-link">
-          <span className="wordmark-mark" aria-hidden="true">a:</span>
+          <span className="wordmark-mark"><InfinityMark title="Acoord" testId="header-infinity-mark" /></span>
           <span data-testid="header-logo-text">acoord</span>
         </Link>
         <nav id="primary-navigation" className={`header-nav ${menuOpen ? 'is-open' : ''}`} data-testid="header-navigation">
-          <a href="/#capabilities" onClick={closeMenu} data-testid="header-system-link">Product</a>
-          <a href="/#system" onClick={closeMenu} data-testid="header-agents-link">How it works</a>
-          <a href="/#use-cases" onClick={closeMenu} data-testid="header-use-cases-link">Use cases</a>
+          <a href="/#ahi-live" onClick={closeMenu} data-testid="header-ahi-link">AHI</a>
+          <Link className={location.pathname === '/pricing' ? 'active' : ''} to="/pricing" onClick={closeMenu} data-testid="header-pricing-link">Pricing</Link>
+          <Link className={location.pathname === '/partners' ? 'active' : ''} to="/partners" onClick={closeMenu} data-testid="header-partners-link">Partners</Link>
+          <Link className={location.pathname === '/roi' ? 'active' : ''} to="/roi" onClick={closeMenu} data-testid="header-roi-link">ROI</Link>
           <Link className={location.pathname.startsWith('/resources') ? 'active' : ''} to="/resources" onClick={closeMenu} data-testid="header-resources-link">Resources</Link>
-          <Link className={location.pathname.startsWith('/demo') ? 'active' : ''} to="/demo" onClick={closeMenu} data-testid="header-demo-link">Watch demo</Link>
-          <Link className={location.pathname.startsWith('/investor') ? 'active' : ''} to="/investor" onClick={closeMenu} data-testid="header-investor-link">Investors</Link>
-          <MotionControl />
-          <button className="header-access-link" onClick={() => { closeMenu(); onJoin(); }} data-testid="header-waitlist-button">Download app</button>
-          <a className="button button-ink nav-cta" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="header-book-demo-link">Book a demo <ArrowUpRight size={15} strokeWidth={1.8} /></a>
+          <button className="header-access-link" onClick={() => { closeMenu(); onJoin(); }} data-testid="header-waitlist-button">Join</button>
+          <a className="button button-ink nav-cta" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="header-book-demo-link">Talk to us <ArrowUpRight size={15} strokeWidth={1.8} /></a>
         </nav>
         <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle navigation" aria-expanded={menuOpen} aria-controls="primary-navigation" data-testid="mobile-menu-button">
           {menuOpen ? <X size={21} /> : <Menu size={21} />}
@@ -48,13 +46,13 @@ export const SiteChrome = ({ children, onJoin }) => {
       <main data-testid="main-content">{children}</main>
       <footer className="site-footer expanded-footer" data-testid="site-footer">
         <div className="footer-brand">
-          <span className="wordmark footer-wordmark" data-testid="footer-logo"><span className="wordmark-mark">a:</span>acoord</span>
+          <span className="wordmark footer-wordmark" data-testid="footer-logo"><span className="wordmark-mark"><InfinityMark title="Acoord" testId="footer-infinity-mark" /></span>acoord</span>
           <p data-testid="footer-tagline">Solving artificial coordination. Magic you can trust.</p>
           <a className="footer-book" href={process.env.REACT_APP_BOOKING_URL} target="_blank" rel="noreferrer" data-testid="footer-book-demo-link">Book a demo <ArrowUpRight size={14} /></a>
         </div>
         <div className="footer-directory" data-testid="footer-links">
-          <div><strong>Product</strong><a href="/#capabilities" data-testid="footer-system-link">System</a><Link to="/demo" data-testid="footer-demo-link">Watch demo</Link><a href="/#use-cases" data-testid="footer-stories-link">Use cases</a><button onClick={onJoin} data-testid="footer-access-button">Download the desktop app</button></div>
-          <div><strong>Learn</strong><Link to="/resources" data-testid="footer-field-notes-link">Field notes</Link><Link to="/investor" data-testid="footer-investor-link">Investor brief</Link><Link to="/resources/what-is-an-agentic-operating-system" data-testid="footer-agentic-os-link">Agentic OS</Link><Link to="/resources/hybrid-rag-postgresql-rrf" data-testid="footer-enterprise-rag-link">Enterprise RAG</Link><Link to="/resources/human-in-the-loop-agent-checkpoints" data-testid="footer-checkpoints-link">Human checkpoints</Link></div>
+          <div><strong>Product</strong><a href="/#ahi-live" data-testid="footer-ahi-link">AHI live</a><a href="/#connectors" data-testid="footer-connectors-link">49 connectors</a><Link to="/pricing" data-testid="footer-pricing-link">Pricing</Link><Link to="/roi" data-testid="footer-roi-link">ROI estimator</Link><Link to="/demo" data-testid="footer-demo-link">Watch demo</Link><button onClick={onJoin} data-testid="footer-access-button">Join the waitlist</button></div>
+          <div><strong>Company</strong><Link to="/partners" data-testid="footer-partners-link">Partners</Link><Link to="/use-cases/healthcare" data-testid="footer-healthcare-link">Healthcare</Link><Link to="/use-cases/cfo" data-testid="footer-cfo-link">CFO office</Link><Link to="/resources" data-testid="footer-field-notes-link">Field notes</Link><Link to="/investor" data-testid="footer-investor-link">Investor brief</Link></div>
           <div><strong>Trust</strong><Link to="/legal" data-testid="footer-legal-center-link">Legal center</Link><Link to="/legal/security" data-testid="footer-security-link">Security</Link><Link to="/legal/privacy" data-testid="footer-privacy-link">Privacy</Link><Link to="/legal/acceptable-use" data-testid="footer-acceptable-use-link">Acceptable use</Link></div>
           <div><strong>Legal</strong><Link to="/legal/terms" data-testid="footer-terms-link">Terms</Link><Link to="/legal/cookies" data-testid="footer-cookies-link">Cookies</Link><Link to="/legal/dpa" data-testid="footer-dpa-link">DPA</Link><Link to="/legal/subprocessors" data-testid="footer-subprocessors-link">Service providers</Link></div>
         </div>

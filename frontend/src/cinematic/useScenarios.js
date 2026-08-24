@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 const labels = [
   ['finance', 'Finance'], ['legal', 'Legal'], ['manufacturing', 'Manufacturing'], ['customer-support', 'Customer Support'],
-  ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
+  ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion'], ['healthcare', 'Healthcare']
 ];
 
 export const fallbackScenarios = labels.map(([id, label]) => ({

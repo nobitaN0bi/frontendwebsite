@@ -24,7 +24,8 @@
   });
 
   // Theme Management
-  const currentTheme = safeStorage.get('ahi-theme') || 'light';
+  const requestedTheme = new URLSearchParams(window.location.search).get('theme');
+  const currentTheme = ['light', 'dark'].includes(requestedTheme) ? requestedTheme : (safeStorage.get('ahi-theme') || 'light');
   document.documentElement.setAttribute('data-theme', currentTheme);
 
   window.toggleTheme = function () {
@@ -54,6 +55,7 @@
 
   window.addEventListener('message', (event) => {
     if (event.source !== window.parent || event.data?.type !== 'ahi:scenario') return;
+    if (['light', 'dark'].includes(event.data.theme)) document.documentElement.setAttribute('data-theme', event.data.theme);
     if (typeof event.data.sidebarCollapsed === 'boolean') window.setSidebarCollapsed(event.data.sidebarCollapsed);
   });
 
@@ -133,7 +135,7 @@
       <aside class="app-sidebar ${isCollapsed ? 'collapsed' : ''}" data-testid="ahi-sidebar">
         <div class="sidebar-header">
           <a href="../demo.html" class="brand-logo" title="AHI Desktop Landing Visual">
-            <div class="logo-badge">A</div>
+            <div class="logo-badge">∞</div>
             <span>AHI Desktop</span>
           </a>
           <button class="sidebar-collapse-btn" type="button" onclick="window.toggleSidebar()" aria-expanded="${String(!isCollapsed)}" title="${isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}" data-testid="ahi-sidebar-toggle">

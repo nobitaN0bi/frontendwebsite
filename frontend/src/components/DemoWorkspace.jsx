@@ -26,7 +26,7 @@ const fallbackChannels = [
   ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
 ].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
 
-export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimulation = false, scenarioId: controlledId, scenarioOverride, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
+export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimulation = false, theme = 'light', scenarioId: controlledId, scenarioOverride, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
   const [internalActive, setInternalActive] = useState(0);
   const [touring, setTouring] = useState(false);
   const [localId, setLocalId] = useState('finance');
@@ -56,9 +56,10 @@ export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimul
       type: 'ahi:scenario',
       scenario,
       motion: document.documentElement.dataset.motion || 'cinematic',
+      theme,
       sidebarCollapsed
     }, '*');
-  }, [scenario, sidebarCollapsed]);
+  }, [scenario, sidebarCollapsed, theme]);
 
   useEffect(() => {
     const receiveSidebarState = (event) => {
@@ -108,7 +109,7 @@ export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimul
     setTouring(false);
   };
 
-  const query = `scenario=${encodeURIComponent(scenarioId)}${touring || autoPlaySimulation ? '&autoplay=1' : ''}${showcase ? '&lens=capability' : ''}`;
+  const query = `scenario=${encodeURIComponent(scenarioId)}&theme=${encodeURIComponent(theme)}${touring || autoPlaySimulation ? '&autoplay=1' : ''}${showcase ? '&lens=capability' : ''}`;
 
   return (
     <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''} ${showcase ? 'exported-demo-showcase' : ''}`} data-testid="exported-html-demo">

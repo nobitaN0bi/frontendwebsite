@@ -59,6 +59,10 @@ def test_waitlist_create_and_duplicate_idempotent(api_client):
     assert create_data["status"] == "joined"
     assert isinstance(create_data["id"], str)
     assert len(create_data["id"]) > 0
+    assert create_data["queue_position"] >= 1
+    assert create_data["referral_count"] == 0
+    assert create_data["referral_code"] in create_data["referral_link"]
+    assert "@" not in create_data["referral_link"]
 
     duplicate_response = api_client.post(
         f"{base}/api/waitlist", json=payload, timeout=25
@@ -68,6 +72,7 @@ def test_waitlist_create_and_duplicate_idempotent(api_client):
     assert duplicate_data["email"] == email
     assert duplicate_data["status"] == "already_joined"
     assert duplicate_data["id"] == create_data["id"]
+    assert duplicate_data["referral_code"] == create_data["referral_code"]
 
 
 # Feature: waitlist validation handling for malformed payload
@@ -110,6 +115,68 @@ def test_waitlist_without_consent_rejected(api_client):
     data = response.json()
     assert "detail" in data
     assert isinstance(data["detail"], list)
+
+
+def test_waitlist_referral_owner_friend_and_duplicate(api_client):
+    base = _require_base_url()
+    owner_email = f"test_owner_{uuid4().hex[:10]}@example.com"
+    friend_email = f"test_friend_{uuid4().hex[:10]}@example.com"
+    base_payload = {
+        "name": "TEST Referral Member",
+        "company": "TEST Referral Systems",
+        "role": "Operator",
+        "use_case": "ai-native",
+        "message": "Referral mechanics test",
+        "consent": True,
+        "source_page": "/pricing",
+    }
+    owner_response = api_client.post(
+        f"{base}/api/waitlist", json={**base_payload, "email": owner_email}, timeout=25
+    )
+    assert owner_response.status_code == 201
+    owner = owner_response.json()
+
+    friend_payload = {
+        **base_payload,
+        "email": friend_email,
+        "referred_by": owner["referral_code"],
+        "source_page": "/roi",
+    }
+    friend_response = api_client.post(
+        f"{base}/api/waitlist", json=friend_payload, timeout=25
+    )
+    assert friend_response.status_code == 201
+    assert friend_response.json()["status"] == "joined"
+
+    duplicate_response = api_client.post(
+        f"{base}/api/waitlist", json=friend_payload, timeout=25
+    )
+    assert duplicate_response.status_code == 201
+    assert duplicate_response.json()["status"] == "already_joined"
+
+    owner_return = api_client.post(
+        f"{base}/api/waitlist", json={**base_payload, "email": owner_email}, timeout=25
+    ).json()
+    assert owner_return["referral_count"] == 1
+    assert owner_return["queue_position"] <= owner["queue_position"]
+
+
+def test_waitlist_invalid_referral_code_is_ignored(api_client):
+    base = _require_base_url()
+    payload = {
+        "name": "TEST Invalid Referral",
+        "email": f"test_invalid_ref_{uuid4().hex[:10]}@example.com",
+        "company": "TEST Systems",
+        "role": "Operator",
+        "use_case": "ai-native",
+        "message": "Invalid referral should not block signup",
+        "consent": True,
+        "source_page": "/partners",
+        "referred_by": "not-a-real-referral-code",
+    }
+    response = api_client.post(f"{base}/api/waitlist", json=payload, timeout=25)
+    assert response.status_code == 201
+    assert response.json()["status"] == "joined"
 
 
 # Feature: newsletter create + idempotent duplicate handling

@@ -20,6 +20,10 @@ import OperatorInvestorPage from './pages/OperatorInvestorPage';
 import ExecutiveCustomerPage from './pages/ExecutiveCustomerPage';
 import TechnicalCustomerPage from './pages/TechnicalCustomerPage';
 import WorkflowCustomerPage from './pages/WorkflowCustomerPage';
+import PricingPage from './pages/PricingPage';
+import PartnersPage from './pages/PartnersPage';
+import RoiPage from './pages/RoiPage';
+import WorkflowUseCasePage from './pages/WorkflowUseCasePage';
 
 export default function App() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -40,6 +44,11 @@ export default function App() {
         <Route path="/demo/customer/technical/:department/:industry" element={<TechnicalCustomerPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/demo/customer/workflow/:department/:industry" element={<WorkflowCustomerPage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/map/:id" element={<MapPage onJoin={() => setWaitlistOpen(true)} />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/partners" element={<PartnersPage />} />
+        <Route path="/roi" element={<RoiPage />} />
+        <Route path="/use-cases/healthcare" element={<WorkflowUseCasePage slug="healthcare" onJoin={() => setWaitlistOpen(true)} />} />
+        <Route path="/use-cases/cfo" element={<WorkflowUseCasePage slug="cfo" onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/use-cases/:slug" element={<UseCasePage onJoin={() => setWaitlistOpen(true)} />} />
         <Route path="/resources" element={<ResourcesPage />} />
         <Route path="/resources/:slug" element={<ArticlePage />} />
