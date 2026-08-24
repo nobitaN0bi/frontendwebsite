@@ -1,11 +1,13 @@
 import { ArrowRight } from 'lucide-react';
 import { AsciiArt } from './AsciiArt';
+import { BinaryHandsCanvas } from './BinaryHandsCanvas';
 import { FilmScene } from './FilmScene';
 
 export const HandsScene = ({ onJoin, onSeeAhi }) => (
   <FilmScene id="opening" tone="dark" className="scene-hands" slate="SCENE 01" meta="THE REACH" testId="film-scene-hands">
     <div className="hands-stage" aria-hidden="true">
-      <AsciiArt src="/ascii/hands-ascii.txt" className="hands-art" testId="hands-ascii" />
+      <AsciiArt src="/ascii/hands-ascii.txt" className="hands-art hands-art-fallback" testId="hands-ascii" />
+      <BinaryHandsCanvas />
     </div>
     <div className="hands-copy">
       <p className="film-eyebrow" data-testid="hands-eyebrow"><i />AHI / AGENT HUMAN INTERFACE</p>

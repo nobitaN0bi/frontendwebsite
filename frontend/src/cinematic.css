@@ -91,6 +91,9 @@ body.ahi-story-active .legacy-film-deep-dive .film-hud{display:none}
   mask-image: linear-gradient(90deg, transparent 0 20%, #000 44%, #000 90%, transparent);
   will-change: transform;
 }
+.hands-art-fallback { opacity: .16; filter: blur(.15px); }
+.binary-hands-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .96; }
+.hands-stage::before { content: ''; position: absolute; z-index: 2; top: 12%; bottom: 12%; left: 71%; width: 1px; opacity: .24; background: linear-gradient(transparent, #fff 38%, #fff 62%, transparent); animation: hands-scan 5.6s var(--eio-quart) infinite; }
 .hands-spark { position: absolute; z-index: 2; left: 71%; top: 49%; width: 8px; height: 8px; background: #fff; box-shadow: 0 0 52px 16px rgba(255,255,255,.22); animation: spark-breathe 3.6s var(--eio-quart) infinite; }
 .hands-copy { position: relative; z-index: 3; width: min(1180px, 94vw); }
 .hands-title { margin: 0; font-family: var(--display); font-size: clamp(50px, 8.4vw, 146px); font-weight: 500; line-height: .86; letter-spacing: 0; }
@@ -833,6 +836,7 @@ body.ahi-story-active .legacy-film-deep-dive .film-hud{display:none}
 }
 
 @keyframes hands-approach { from { opacity: 0; transform: scale(.84); } to { opacity: 1; transform: none; } }
+@keyframes hands-scan { 0%, 100% { opacity: .08; transform: translateX(-18vw) scaleY(.35); } 48%, 58% { opacity: .34; transform: translateX(0) scaleY(1); } 82% { opacity: .12; transform: translateX(12vw) scaleY(.5); } }
 @keyframes spark-breathe { 0%, 100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.25); } }
 @keyframes word-rise { from { opacity: 0; transform: translateY(38px); } to { opacity: 1; transform: none; } }
 @keyframes fade-rise { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: none; } }
@@ -947,6 +951,7 @@ body.ahi-story-active .legacy-film-deep-dive .film-hud{display:none}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-snap-type: none; }
   .film-scene *, .film-scene *::before, .film-scene *::after, .hands-stage, .film-hud i { animation: none !important; transition: none !important; }
+  .hands-stage::before { display: none; }
   .infinite-line { opacity: 1; transform: none; }
   .infinite-line p { opacity: 1; }
   .eye-shape { clip-path: none; }

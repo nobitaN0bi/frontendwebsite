@@ -116,7 +116,7 @@ export default function HomePage({ onJoin }) {
       </section>
 
       <section className="editorial-section knowledge-section scene-snap" data-testid="knowledge-section">
-        <div className="section-lead wide-lead"><p className="section-number">19 / BUILT FOR DISCOVERY</p><h2 data-testid="resources-title">Architecture without<br />the hand-waving.</h2><p data-testid="resources-description">Technical field notes answer the production questions platform teams ask before agent systems earn trust.</p></div>
+        <div className="section-lead wide-lead"><p className="section-number">19 / BUILT FOR DISCOVERY</p><h2 data-testid="home-resources-title">Architecture without<br />the hand-waving.</h2><p data-testid="home-resources-description">Technical field notes answer the production questions platform teams ask before agent systems earn trust.</p></div>
         <div className="knowledge-list" data-testid="home-resource-grid">{resources.slice(0, 3).map((resource, index) => <Link to={`/resources/${resource.slug}`} key={resource.slug} data-testid={`home-resource-${resource.slug}-link`}><span>0{index + 1} / {resource.category}</span><h3>{resource.title}</h3><p>{resource.description}</p><ArrowRight size={17} /></Link>)}</div>
         <div className="faq-list" data-testid="home-faq-list">{faqs.map((item, index) => <details key={item.question} data-testid={`faq-item-${index + 1}`}><summary data-testid={`faq-question-${index + 1}`}>{item.question}<span>+</span></summary><p data-testid={`faq-answer-${index + 1}`}>{item.answer}</p></details>)}</div>
         <Link className="text-rule-link" to="/resources" data-testid="home-all-resources-link">Explore all field notes <ArrowRight size={16} /></Link>
