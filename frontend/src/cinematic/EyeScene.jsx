@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useAcoordReducedMotion } from '../hooks/useAcoordReducedMotion';
-import { AsciiArt } from './AsciiArt';
+import { AsciiEyeField } from './AsciiEyeField';
 import { FilmScene } from './FilmScene';
 
 const letters = [['A', 'gent'], ['H', 'uman'], ['I', 'nterface']];
@@ -45,8 +45,8 @@ export const EyeScene = () => {
   return <FilmScene id="ahi" tone="dark" className="scene-eye" slate="SCENE 04" meta="INTRODUCING AHI" testId="film-scene-eye">
     <div className="eye-column">
       <div ref={eyeRef} className="eye-shape" aria-hidden="true" data-testid="ahi-living-eye">
+        <AsciiEyeField />
         <div className="eye-iris">
-          <AsciiArt src="/ascii/iris-ascii.txt" className="eye-art" testId="eye-ascii" />
           <span className="eye-pupil" />
         </div>
         <div className="eye-telemetry"><span>GAZE / LIVE</span><span>AUTHORITY / HUMAN</span><span>TRACE / ON</span></div>

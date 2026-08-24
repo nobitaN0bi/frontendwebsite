@@ -85,7 +85,9 @@ export const BinaryHandsCanvas = () => {
     let runId = 0;
     let particles = [];
     let visible = true;
-    let reduced = document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
+    let active = true;
+    const shouldReduce = () => document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
+    let reduced = shouldReduce();
     const pointer = { x: 0, y: 0 };
 
     const resize = () => {
@@ -95,12 +97,14 @@ export const BinaryHandsCanvas = () => {
       canvas.width = Math.floor(width * ratio);
       canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
-      drawFrame(context, particles, width, height, 0, pointer, reduced);
+      if (visible) drawFrame(context, particles, width, height, 0, pointer, reduced);
     };
     const render = (time, activeRun) => {
-      if (activeRun !== runId) return;
-      const shouldReduce = document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
-      if (shouldReduce) {
+      if (!active || activeRun !== runId || !visible) {
+        animationFrame = 0;
+        return;
+      }
+      if (shouldReduce()) {
         reduced = true;
         canvas.dataset.motionState = 'reduced';
         drawFrame(context, particles, canvas.clientWidth, canvas.clientHeight, 0, pointer, true);
@@ -114,27 +118,36 @@ export const BinaryHandsCanvas = () => {
     const start = () => {
       runId += 1;
       window.cancelAnimationFrame(animationFrame);
+      reduced = shouldReduce();
+      if (!visible) {
+        animationFrame = 0;
+        return;
+      }
       const activeRun = runId;
       canvas.dataset.motionState = reduced ? 'reduced' : 'cinematic';
       animationFrame = reduced ? 0 : window.requestAnimationFrame((time) => render(time, activeRun));
       if (reduced) drawFrame(context, particles, canvas.clientWidth, canvas.clientHeight, 0, pointer, true);
     };
     const updateMotion = () => {
-      reduced = document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
       start();
     };
     const move = (event) => {
       pointer.x = (event.clientX / Math.max(window.innerWidth, 1) - .5) * 2;
       pointer.y = (event.clientY / Math.max(window.innerHeight, 1) - .5) * 2;
     };
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; }, { threshold: .02 });
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible && particles.length) start();
+      else { runId += 1; window.cancelAnimationFrame(animationFrame); }
+    }, { threshold: .02 });
 
     fetch('/ascii/hands-ascii.txt').then((response) => response.text()).then((source) => {
+      if (!active) return;
       const limit = window.innerWidth < 700 ? 1150 : 2300;
       particles = makeParticles(source, limit);
       canvas.dataset.ready = 'true';
       resize();
-      start();
+      if (visible) start();
     }).catch(() => { canvas.dataset.ready = 'fallback'; });
 
     observer.observe(canvas);
@@ -142,6 +155,7 @@ export const BinaryHandsCanvas = () => {
     window.addEventListener('pointermove', move, { passive: true });
     window.addEventListener('acoord:motion', updateMotion);
     return () => {
+      active = false;
       observer.disconnect();
       runId += 1;
       window.cancelAnimationFrame(animationFrame);

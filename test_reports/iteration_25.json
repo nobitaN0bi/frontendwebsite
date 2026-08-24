@@ -1,0 +1,52 @@
+{
+  "summary": "Frontend-only validation completed on the public preview URL for homepage cinematic ASCII/background scope. Eye/Blob/Founder motif placement, readability, reduced-motion freezing, responsive overflow, pricing/partners exclusion, and core CTA/navigation checks passed. One critical regression was reproduced: binary-hands canvas continues changing while offscreen, violating offscreen pause requirement.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "BinaryHandsCanvas",
+        "issue": "Canvas pixels continue changing while canvas is out of viewport (offscreen at founder section), indicating animation loop is still active instead of paused.",
+        "selector": "[data-testid='binary-hands-canvas']",
+        "priority": "CRITICAL"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Homepage cinematic lifecycle (onscreen → offscreen → onscreen)",
+        "issue": "Binary hands canvas does not reliably stop visual updates offscreen; sampled hashes changed repeatedly while inViewport=false.",
+        "affected_selectors": [
+          "[data-testid='binary-hands-canvas']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_25.json"
+  ],
+  "action_items": [
+    "Fix BinaryHandsCanvas offscreen lifecycle so RAF/draw updates fully halt when IntersectionObserver reports non-intersecting.",
+    "Re-test binary canvas for deterministic stop/resume behavior after repeated scroll cycles.",
+    "Optional hardening: ensure reduced-mode state metadata remains consistent across canvases after runtime motion toggle events."
+  ],
+  "critical_code_review_comments": [
+    "AsciiEyeField, AsciiBlobField, and FounderOceanScene matched requested placement, nonblank rendering, and reduced-motion freeze behavior in this run.",
+    "Old duplicate eye backdrop in the Fluid/Strict section is absent (pillar-backdrop/pillar-eye nodes not present), and a single ascii blob field is rendered behind all four cards.",
+    "BinaryHandsCanvas likely has an observer/run-loop lifecycle edge case: offscreen hash changes persisted despite inViewport=false, which conflicts with the implemented stop-on-offscreen intent."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_25.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "92%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Validated against public preview URL. Passed: eye scene integration/readability, blob scene placement/readability, founder comet scene readability + CTA visibility, motif uniqueness (one each on homepage), no homepage runtime duplicate data-testid values, pricing/partners contain none of these canvas motifs, no horizontal overflow at 320x700 / 390x844 / 768x900 / 1440x900 / 1920x800, and See AHI Live deep-link hash flow works (#ahi-live). Failed: binary-hands-canvas kept changing pixel hashes while offscreen at founder section.",
+  "rca of the issue": "Reproduction: load homepage, confirm binary canvas animates at hero, scroll to founder section until binary canvas is out of viewport, sample binary canvas pixel hashes repeatedly (~450ms intervals). Result: hash values keep changing while inViewport=false. This indicates offscreen draw updates are still happening (or restart/cancel race), violating expected offscreen pause contract. Mitigation: enforce strict RAF cancellation/state gate on non-intersection and avoid scheduling next frame when visibility flag is false."
+}

@@ -6,12 +6,12 @@ import { AsciiNarrative } from '../components/AsciiNarrative';
 import { HomeRoiSection } from '../components/HomeRoiSection';
 import { NewsletterForm } from '../components/NewsletterForm';
 import { Seo } from '../components/Seo';
-import { AsciiArt } from '../cinematic/AsciiArt';
 import { EyeScene } from '../cinematic/EyeScene';
 import { HandsScene } from '../cinematic/HandsScene';
 import { InfiniteScene } from '../cinematic/InfiniteScene';
 import { ShareScene } from '../cinematic/ShareScene';
 import { AhiNarratedShowcase } from '../cinematic/AhiNarratedShowcase';
+import { AsciiBlobField } from '../cinematic/AsciiBlobField';
 import { FounderOceanScene } from '../cinematic/FounderOceanScene';
 import { ConnectorDirectory } from '../components/ConnectorDirectory';
 import { useScenarios } from '../cinematic/useScenarios';
@@ -70,15 +70,7 @@ export default function HomePage({ onJoin }) {
       </section>
 
       <section className="editorial-section inverted-section pillar-section scene-snap" id="system" data-testid="how-it-works-section">
-        <AsciiBackdrop variant="pillars" art="eye" />
-        <div className="pillar-backdrop" aria-hidden="true" data-testid="pillar-eye-backdrop">
-          <div className="pillar-eye">
-            <div className="pillar-eye-iris">
-              <AsciiArt src="/ascii/iris-ascii.txt" className="pillar-eye-art" />
-              <span className="pillar-eye-pupil" />
-            </div>
-          </div>
-        </div>
+        <AsciiBlobField />
         <div className="section-lead">
           <p className="section-number" data-testid="how-section-number">16 / HOW AHI WORKS</p>
           <h2 data-testid="how-title">Fluid above.<br />Strict beneath.</h2>
