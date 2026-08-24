@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { FilmScene } from './FilmScene';
 
 const stages = [
-  { key: 'trust', word: 'magic that you can trust.', note: 'Not a demo trick. An architecture.' },
-  { key: 'time', word: 'infinite time', note: 'Work continues while your team sleeps, and resumes exactly where it paused.' },
-  { key: 'intelligence', word: 'infinite intelligence', note: 'Every specialist you need, assembled around one governing intent.' },
-  { key: 'quality', word: 'infinite quality', note: 'Compiled, cited, checkpointed, and reconstructable — every single run.' }
+  { key: 'magic', word: 'Agents should feel like magic.', note: 'AHI makes consequential agent actions visible before they affect the real world.' },
+  { key: 'authority', word: 'Authority should not.', note: 'Evidence, ownership, blast radius, and the human decision stay attached.' },
+  { key: 'fleet', word: 'One person can direct a fleet.', note: 'Agent work, memory, permissions, and organizational context share one command surface.' },
+  { key: 'leverage', word: 'Every member gets leverage.', note: 'The organization learns as one coordinated system without erasing human judgment.' }
 ];
 
 export const InfiniteScene = () => {
@@ -36,7 +36,7 @@ export const InfiniteScene = () => {
   }, []);
 
   return (
-    <FilmScene id="trust" tone="light" className="scene-infinite" slate="SCENE 02" meta="THE PROMISE" testId="film-scene-infinite" innerRef={sceneRef}>
+    <FilmScene id="trust" tone="light" className="scene-infinite" slate="SCENES 02—03" meta="TRUST / COORDINATION" testId="film-scene-infinite" innerRef={sceneRef}>
       <div className="infinite-stack" data-testid="infinite-stack">
         {stages.map((stage, index) => (
           <div

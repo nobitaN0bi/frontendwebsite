@@ -14,7 +14,7 @@ import { IndustryScene } from '../cinematic/IndustryScene';
 import { InfiniteScene } from '../cinematic/InfiniteScene';
 import { PortraitScene } from '../cinematic/PortraitScene';
 import { ShareScene } from '../cinematic/ShareScene';
-import { MacBookDemoHero } from '../cinematic/MacBookDemoHero';
+import { AhiNarratedShowcase } from '../cinematic/AhiNarratedShowcase';
 import { buildFilm } from '../cinematic/filmScript';
 import { useScenarios } from '../cinematic/useScenarios';
 import { capabilities, faqs, operatingSteps } from '../data/marketingContent';
@@ -23,11 +23,11 @@ import { useCases } from '../data/useCases';
 import { useAcoordReducedMotion } from '../hooks/useAcoordReducedMotion';
 
 const iconSet = [GitBranch, Search, Users, LockKeyhole, Cable, Braces, Network];
-const connectorTicker = 'SLACK · SALESFORCE · JIRA · GITHUB · SAP · GMAIL · NOTION · HUBSPOT · ZENDESK · SNOWFLAKE · STRIPE · WORKDAY · SERVICENOW · TEAMS · CONFLUENCE · LINEAR · SHOPIFY · NETSUITE · FIGMA · ASANA — 1,000+ CONNECTORS — ';
+const connectorTicker = 'COMMUNICATION · PROJECTS · CODE · KNOWLEDGE · CRM · STORAGE · MEETINGS · PUBLIC WEB · GOVERNED THROUGH AHI — ';
 const homeSchema = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'SoftwareApplication', name: 'Acoord Ahi', applicationCategory: 'BusinessApplication', operatingSystem: 'Web and desktop', description: 'An agentic operating system for orchestrating AI agents, enterprise knowledge, tools, human checkpoints, and auditable decisions.', url: process.env.REACT_APP_SITE_URL },
+    { '@type': 'SoftwareApplication', name: 'Acoord AHI — Agent Human Interface', applicationCategory: 'BusinessApplication', operatingSystem: 'Web and desktop', description: 'One desktop command surface where every employee can see, approve, deny, steer, and audit the agents working across their organization.', url: process.env.REACT_APP_SITE_URL },
     { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }
   ]
 };
@@ -40,6 +40,12 @@ export default function HomePage({ onJoin }) {
   const [playing, setPlaying] = useState(false);
   const chapterRefs = useRef([]);
   const shareRef = useRef(null);
+
+  const seeAhiLive = (event) => {
+    event.preventDefault();
+    window.history.replaceState(null, '', '#ahi-live');
+    document.getElementById('ahi-live')?.scrollIntoView({ behavior: 'instant', block: 'start' });
+  };
 
   const scenario = useMemo(() => scenarios.find((item) => item.id === industryId) || scenarios[0], [scenarios, industryId]);
   const film = useMemo(() => buildFilm(scenario), [scenario]);
@@ -85,29 +91,30 @@ export default function HomePage({ onJoin }) {
 
   return (
     <>
-      <Seo title="Acoord Ahi — Solving Artificial Coordination" description="Ahi is the agentic operating system where human intent becomes coordinated, inspectable work across AI agents, enterprise knowledge, tools, sandboxes, and human checkpoints." path="/" schema={homeSchema} />
+      <Seo title="Acoord AHI — Solving Artificial Coordination" description="AHI is the Agent Human Interface: one desktop command surface where every employee can see, approve, deny, steer, and audit the agents working across their organization." path="/" schema={homeSchema} />
 
       <div className="film" data-testid="cinematic-film">
-        <HandsScene onJoin={onJoin} />
+        <HandsScene onJoin={onJoin} onSeeAhi={seeAhiLive} />
         <InfiniteScene />
         <EyeScene />
-        <IndustryScene scenarios={scenarios} activeId={industryId} onSelect={selectIndustry} />
-        {film.map((entry, index) => (
-          <ChapterScene
-            key={`${scenario.id}-${entry.id}`}
-            chapter={entry}
-            index={index}
-            total={film.length}
-            scenario={scenario}
-            innerRef={(node) => { chapterRefs.current[index] = node; }}
-            onEnter={() => setChapter(index)}
-          />
-        ))}
-        <ShareScene scenario={scenario} innerRef={shareRef} />
-        <FilmHud industry={scenario.label} chapter={chapter + 1} total={film.length} playing={playing} onToggle={toggleFilm} />
+        <AhiNarratedShowcase />
+        <div className="legacy-film-deep-dive" data-testid="industry-deep-dive">
+          <IndustryScene scenarios={scenarios} activeId={industryId} onSelect={selectIndustry} />
+          {film.map((entry, index) => (
+            <ChapterScene
+              key={`${scenario.id}-${entry.id}`}
+              chapter={entry}
+              index={index}
+              total={film.length}
+              scenario={scenario}
+              innerRef={(node) => { chapterRefs.current[index] = node; }}
+              onEnter={() => setChapter(index)}
+            />
+          ))}
+          <ShareScene scenario={scenario} innerRef={shareRef} />
+          <FilmHud industry={scenario.label} chapter={chapter + 1} total={film.length} playing={playing} onToggle={toggleFilm} />
+        </div>
       </div>
-
-      <MacBookDemoHero scenarioId={industryId} onScenarioChange={setIndustryId} />
 
       <section className="story-problem editorial-section inverted-section ascii-stage scene-snap" data-testid="problem-solution-section">
         <AsciiNarrative mode="signal" tone="dark" label="HUMAN / AGENT / ONE TEAM" />

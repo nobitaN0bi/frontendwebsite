@@ -1,5 +1,5 @@
 export const operatingSteps = [
-  { number: '01', label: 'ASK', title: 'It understands before it moves.', text: 'Ahi connects across 1,000+ integrations and reads how your organisation actually works — people, systems, policies, history — into one living ontology. Context first. Always.' },
+  { number: '01', label: 'ASK', title: 'It understands before it moves.', text: 'AHI reads how your organisation actually works — people, systems, policies, and history — into one living ontology through approved integrations. Context first. Always.' },
   { number: '02', label: 'ACT', title: 'The connectors become hands.', text: 'The same integrations that taught it your world now do the work in it. Ahi drafts, files, routes, reconciles, and ships — proactively, the moment intent is clear.' },
   { number: '03', label: 'EXPERT', title: 'Hire the expert you never had.', text: 'Ontology-grounded digital experts join like teammates. No social-media GTM function? Hire that expert today — the adjacent marketing team supervises it. No new headcount.' },
   { number: '04', label: 'EXPLAINABLE', title: 'Every run can be replayed.', text: 'Traceable execution end to end: who asked, what ran, which evidence it touched, who approved. You can understand all of it — and prove it.' }

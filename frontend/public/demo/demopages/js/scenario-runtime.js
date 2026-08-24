@@ -45,7 +45,7 @@
     setText('.account-name', scenario.owner);
     setText('.account-role', scenario.role);
     setText('#settings-modal h3', scenario.owner);
-    setText('#settings-modal h3 + p', `investor@acoord.co · ${scenario.role}`);
+    setText('#settings-modal h3 + p', `${scenario.id === 'investor' ? 'investor' : 'operator'}@acoord.co · ${scenario.role}`);
     document.querySelectorAll('.avatar-badge').forEach((node) => { node.textContent = scenario.label.slice(0, 2).toUpperCase(); });
   };
 
@@ -58,7 +58,7 @@
       [/\bJane\b/g, scenario.people[0] || scenario.owner],
       [/\bAlex\b/g, scenario.people[1] || scenario.owner],
       [/\bSarah\b/g, scenario.people[2] || scenario.owner],
-      [/jane\.doe@ahi-operating\.platform/g, 'investor@acoord.co']
+      [/jane\.doe@ahi-operating\.platform/g, `${scenario.id === 'investor' ? 'investor' : 'operator'}@acoord.co`]
     ];
     const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     let node = walker.nextNode();
@@ -66,12 +66,12 @@
       if (!['SCRIPT', 'STYLE'].includes(node.parentElement?.tagName)) {
         let copy = node.nodeValue;
         replacements.forEach(([pattern, value]) => { copy = copy.replace(pattern, value); });
-        if (copy.trim() === 'JD') copy = copy.replace('JD', 'IN');
+        if (copy.trim() === 'JD') copy = copy.replace('JD', scenario.label.slice(0, 2).toUpperCase());
         node.nodeValue = copy;
       }
       node = walker.nextNode();
     }
-    document.querySelectorAll('.avatar-circle').forEach((avatar) => { if (avatar.textContent.trim() === 'JD') avatar.textContent = 'IN'; });
+    document.querySelectorAll('.avatar-circle').forEach((avatar) => { if (avatar.textContent.trim() === 'JD') avatar.textContent = scenario.label.slice(0, 2).toUpperCase(); });
   };
 
   const populateHome = (scenario) => {
@@ -89,7 +89,8 @@
     ].forEach((copy, index) => { if (recentMetadata[index]) recentMetadata[index].textContent = copy; });
     const names = document.querySelectorAll('.page-container span[style*="font-weight: 600"]');
     [...scenario.people, ...scenario.agents.slice(0, 3)].forEach((name, index) => { if (names[index]) names[index].textContent = name; });
-    ['Investor', 'Product diligence', 'Enterprise operator'].forEach((role, index) => {
+    const roleLabels = scenario.id === 'investor' ? ['Investor', 'Product diligence', 'Enterprise operator'] : ['Human operator', 'Workflow owner', 'Risk reviewer'];
+    roleLabels.forEach((role, index) => {
       const row = names[index]?.parentElement?.parentElement;
       if (row?.lastElementChild) row.lastElementChild.textContent = role;
     });

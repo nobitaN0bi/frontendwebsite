@@ -16,7 +16,7 @@
       border: 1px solid var(--border-subtle);
       color: var(--text-secondary);
       cursor: pointer;
-      transition: all var(--transition-fast);
+      transition: transform var(--transition-fast), opacity var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
     }
     .category-filter-pill:hover, .category-filter-pill.active {
       background: var(--accent-primary);
@@ -36,7 +36,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all var(--transition-normal);
+      transition: transform var(--transition-normal), opacity var(--transition-normal), background-color var(--transition-normal), color var(--transition-normal), border-color var(--transition-normal);
       cursor: pointer;
       position: relative;
     }
@@ -97,7 +97,7 @@
       align-items: center;
       gap: 10px;
       cursor: grab;
-      transition: all var(--transition-fast);
+      transition: transform var(--transition-fast), opacity var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
     }
     .node-palette-item:hover {
       border-color: var(--accent-primary);
@@ -123,7 +123,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       cursor: pointer;
       user-select: none;
-      transition: all var(--transition-fast);
+      transition: transform var(--transition-fast), opacity var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
     }
     .canvas-node:hover, .canvas-node.selected {
       border-color: var(--accent-primary);

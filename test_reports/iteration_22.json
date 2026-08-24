@@ -1,0 +1,61 @@
+{
+  "summary": "Frontend-only validation executed on the public preview for homepage AHI amendment and route safety. Core AHI sequencing, 30/70 desktop split, mobile overflow safety, direct mode interactions, reversible approval, steering apply, neutral homepage iframe scenario, reduced-motion behavior, and route regressions passed. Three notable issues remain: hero headline exact-copy mismatch, legacy FilmHud visibility during AHI story, and browser narration stub compatibility failing the Playwright speech-harness acceptance.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "Hero opening headline",
+        "issue": "Rendered hero title text does not match the required exact primary headline 'Solving Artificial Coordination' (current DOM text resolves to 'Solvingartificialcoordination.' with lowercase words and trailing period).",
+        "selector": "[data-testid='hero-title']",
+        "priority": "HIGH"
+      },
+      {
+        "component": "Legacy film HUD during AHI section",
+        "issue": "Legacy FilmHud remains visible while the AHI story is in view, violating the requirement that old nine-chapter FilmHud must not bleed into/overlay the AHI story.",
+        "selector": ".film-hud, [data-testid='ahi-live-story']",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [
+      {
+        "flow": "Browser narration Playwright speechSynthesis harness",
+        "issue": "Unable to validate required 6-chapter spoken sequence with test stubs; current hook/runtime behavior is not stub-friendly and throws type errors when stubbed voices are non-native, preventing deterministic Playwright narration verification.",
+        "affected_selectors": [
+          "[data-testid='ahi-narration-play-button']",
+          "[data-testid='ahi-narration-status']"
+        ]
+      }
+    ],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/iteration_22.json"
+  ],
+  "action_items": [
+    "Update hero H1 copy rendering to exact phrase 'Solving Artificial Coordination' while preserving visual style.",
+    "Suppress/hide legacy FilmHud whenever AHI story section is active/in-view.",
+    "Harden narration for automation harnesses (voice assignment guardrails, stub-safe speech path) and re-run narrated-sequence acceptance test.",
+    "Reconfirm narration controls sequence: Observe -> Scale auto-advance -> idle using a deterministic Playwright stub after fix."
+  ],
+  "critical_code_review_comments": [
+    "AhiNarratedShowcase and AhiModePanel data-testid coverage is strong; no duplicate data-testid values detected on homepage.",
+    "Desktop split is correctly implemented in CSS as narrative 30% / sticky product 70% (validated at 1024x900 and 1440x900).",
+    "grep scan found multiple 'transition: all' declarations in exported demo static pages (/frontend/public/demo/demopages/*); if these were introduced in this amendment they conflict with the no-transition-all acceptance rule and should be narrowed to explicit properties.",
+    "Homepage strict-sandbox iframe scenario override is neutral and contains AHI/Acoord Product Workspace/Human operator content with no investor terms detected on homepage context."
+  ],
+  "updated_files": [
+    "/app/test_reports/iteration_22.json"
+  ],
+  "success_rate": {
+    "backend": "N/A (skipped: frontend-only request)",
+    "frontend": "86%"
+  },
+  "seed_data_creation": "None",
+  "retest_needed": true,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Validated pass areas: hero actions count=2 with #ahi-live jump, AHI ordering eye->AHI->deep-dive, desktop 70/30 product split, direct mode control click integrity, approve/deny reversibility, steer apply result rendering, observe/connect/audit/scale data blocks, touch targets >=44px for narration and mode controls, reduced-motion running animations=0 with static eye gaze, no duplicate data-testid on homepage, and no horizontal overflow on '/', '/demo', '/demopages', '/demo/workspace', '/investor', '/resources', '/legal', '/map/not-found'. Narration was attempted with three stub strategies; stop condition reached per loop-prevention guidance.",
+  "rca of the issue": "1) Hero copy mismatch: reproduction on '/' via [data-testid='hero-title']; underlying JSX uses styled split spans yielding non-exact textual output against strict headline requirement. 2) FilmHud bleed: while [data-testid='ahi-live-story'] is visible, .film-hud remains visible, so old deep-dive HUD is not sufficiently gated to legacy section only. 3) Narration harness failure: useBrowserNarration assigns utterance.voice from getVoices and expects native SpeechSynthesisVoice semantics; automation stubs with plain objects trigger runtime type errors ('Failed to set the voice property...'), blocking deterministic speech sequence verification. Investor and enterprise scenario content shown in product reels remain explicitly **MOCKED** simulations."
+}
