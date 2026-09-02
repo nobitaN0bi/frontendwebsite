@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Search, X } from 'lucide-react';
 import { connectorCategories, connectors } from '../data/connectors';
 
-export const ConnectorDirectory = () => {
+export const ConnectorDirectory = ({ compact = false }) => {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState('All');
   const filtered = useMemo(() => connectors.filter((connector) => {
@@ -12,11 +12,11 @@ export const ConnectorDirectory = () => {
   }), [category, query]);
 
   return (
-    <section className="connector-directory" id="connectors" data-testid="connector-directory-section">
-      <header className="connector-directory-head">
+    <section className={`connector-directory ${compact ? 'is-compact' : ''}`} id={compact ? undefined : 'connectors'} data-testid="connector-directory-section">
+      {!compact && <header className="connector-directory-head">
         <div><span>49 / CONNECTOR SURFACES</span><h2 data-testid="connector-directory-title">Connect the systems.<br />Keep one decision line.</h2></div>
         <p data-testid="connector-directory-description">AHI reads from, acts through, and writes proof back to the tools your organization already trusts.</p>
-      </header>
+      </header>}
       <div className="connector-toolbar" data-testid="connector-directory-toolbar">
         <label className="connector-search"><Search size={16} /><span className="sr-only">Search connectors</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search 49 connectors" data-testid="connector-search-input" />{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear connector search" data-testid="connector-search-clear-button"><X size={15} /></button>}</label>
         <div className="connector-filters" role="group" aria-label="Filter connectors by category">

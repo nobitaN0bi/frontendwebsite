@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAcoordReducedMotion } from '../hooks/useAcoordReducedMotion';
 import { AsciiEyeField } from './AsciiEyeField';
 import { FilmScene } from './FilmScene';
@@ -7,7 +7,18 @@ const letters = [['A', 'gent'], ['H', 'uman'], ['I', 'nterface']];
 
 export const EyeScene = () => {
   const eyeRef = useRef(null);
+  const sceneRef = useRef(null);
   const reduced = useAcoordReducedMotion();
+  const [entered, setEntered] = useState(reduced);
+
+  useEffect(() => {
+    if (reduced) { setEntered(true); return undefined; }
+    const node = sceneRef.current;
+    if (!node) return undefined;
+    const observer = new IntersectionObserver(([entry]) => { if (entry.isIntersecting) { setEntered(true); observer.disconnect(); } }, { threshold: .18 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [reduced]);
 
   useEffect(() => {
     const eye = eyeRef.current;
@@ -42,9 +53,9 @@ export const EyeScene = () => {
     };
   }, [reduced]);
 
-  return <FilmScene id="ahi" tone="dark" className="scene-eye" slate="SCENE 04" meta="INTRODUCING AHI" testId="film-scene-eye">
-    <div className="eye-column">
-      <div ref={eyeRef} className="eye-shape" aria-hidden="true" data-testid="ahi-living-eye">
+  return <FilmScene id="ahi" tone="dark" className={`scene-eye is-compact ${entered ? 'is-entered' : ''}`} slate="02 / THE INTERFACE" meta="INTRODUCING AHI" testId="film-scene-eye">
+    <div ref={sceneRef} className="eye-column">
+      <div ref={eyeRef} className="eye-shape" style={{ '--s': entered ? 1 : 0 }} aria-hidden="true" data-testid="ahi-living-eye">
         <AsciiEyeField />
         <div className="eye-iris">
           <span className="eye-pupil" />

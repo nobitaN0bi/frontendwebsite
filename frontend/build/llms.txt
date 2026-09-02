@@ -1,5 +1,12 @@
 # Acoord
 
+## Canonical homepage structure
+- Opening: Solving Artificial Coordination
+- AHI definition: Agent Human Interface, a governed command surface between people and AI agents
+- Product proof: nine modeled industry scenarios across nine connected Ahi surfaces
+- Operational proof: human-controlled workflows, 49 connector surfaces, and a directional ROI estimator
+- Authority boundary: people approve, redirect, deny, and retain the decision record
+
 > Acoord is an agentic operating system for coordinating people, AI agents, enterprise tools, and trusted decisions.
 
 ## Canonical entity facts
