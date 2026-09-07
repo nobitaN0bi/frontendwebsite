@@ -58,7 +58,7 @@ export const ShareScene = ({ scenario, innerRef }) => {
           <h2 data-testid="share-title">Your team missed<br />the screening.</h2>
           <p className="share-story" data-testid="share-story">
             You just watched {scenario.company} take one {scenario.label.toLowerCase()} problem from a sentence
-            to a signed, provable decision. The decision map retells those nine chapters as a story your team
+            to a signed, provable decision. The decision map retells those eight connected surfaces as a story your team
             can read in four minutes — what arrived, what the system learned to be true, where the human line
             held, and the record that outlived the run.
           </p>

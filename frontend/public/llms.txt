@@ -3,7 +3,7 @@
 ## Canonical homepage structure
 - Opening: Solving Artificial Coordination
 - AHI definition: Agent Human Interface, a governed command surface between people and AI agents
-- Product proof: nine modeled industry scenarios across nine connected Ahi surfaces
+- Product proof: eighteen modeled knowledge-work ICPs across Home, Library, Chat, Apps, Code, Browser, Computer, and Teamspaces
 - Operational proof: human-controlled workflows, 49 connector surfaces, and a directional ROI estimator
 - Authority boundary: people approve, redirect, deny, and retain the decision record
 

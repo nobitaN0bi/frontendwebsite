@@ -82,7 +82,7 @@ export default function MapPage({ onJoin }) {
         <p className="map-intro" data-testid="map-intro">
           Someone on your team watched this run and wanted you to see it. What follows is the whole story —
           a modeled simulation of the Ahi agentic operating system working a real-shaped {scenario.label.toLowerCase()} problem:
-          nine chapters, one human line, and an outcome you can trace back to its evidence.
+          eight Ahi surfaces, one human line, and an outcome you can trace back to its evidence.
         </p>
         <blockquote className="map-quote" data-testid="map-quote">
           <span>IT BEGAN AS A SENTENCE</span>

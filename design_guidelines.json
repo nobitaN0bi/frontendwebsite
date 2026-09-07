@@ -1,152 +1,20 @@
 {
   "theme": "Acoord Brutalist Terminal System",
-  "design_philosophy": "Monochrome, 1px hard-rule architecture, Unbounded display headers, JetBrains Mono body & terminal code. Procedural ASCII motion with zero fluff and strict deduplication.",
-  "consolidation_blueprint": {
-    "goal": "Consolidate duplicated homepage sections into a unified, high-density 5-part homepage while keeping dedicated routes (/pricing, /partners, /roi, /use-cases/healthcare, /use-cases/cfo) accessible without repeating their full summaries.",
-    "removed_or_merged_sections": [
-      "Removed floating route summary cards that repeated /pricing tier breakdowns from main scroll.",
-      "Removed redundant healthcare & CFO case study landing blocks from homepage flow; replaced with direct nav route links.",
-      "Merged separate ROI estimators and Connector showcases into a single unified Tabbed Proof container."
-    ],
-    "five_part_homepage_structure": [
-      {
-        "step": 1,
-        "section_id": "part-1-opening-hands",
-        "name": "Binary Hands Opening",
-        "description": "Compact, responsive procedural binary-hands canvas with high-impact Acoord tagline and immediate waitlist CTA.",
-        "desktop_height": "calc(100vh - 4rem) max 680px",
-        "mobile_height": "min(80vh, 520px)",
-        "content": "Monochrome binary hands ASCII canvas, main H1 'ACOORD AGENT ENGINE', subtitle, and waitlist pill CTA."
-      },
-      {
-        "step": 2,
-        "section_id": "part-2-ahi-eye-intro",
-        "name": "AHI Eye & Autonomous Health Intelligence Intro",
-        "description": "ASCII Eye pointer-following canvas with Machine-Readable summary of AHI architecture and Agentic Engine capabilities.",
-        "desktop_height": "420px",
-        "mobile_height": "auto (padding 2rem)",
-        "content": "Interactive pointer-following ASCII Iris/Eye, mechanical intro headline, 3 core architecture bullet specs."
-      },
-      {
-        "step": 3,
-        "section_id": "part-3-compact-30-70-demo",
-        "name": "Compact 30/70 Synchronized 9-Industry Demo",
-        "description": "Zoomed-out / compact 30/70 split screen featuring 9-industry selector on left (30%) synced with a scaled-down MacBook frame demo on right (70%).",
-        "desktop_layout": "Grid 10-cols: 3 cols sticky text/industry selector + 7 cols MacBook frame with scale(0.88) zoom-out effect.",
-        "mobile_layout": "Stacked flex layout: 9-industry pill selector on top, compact MacBook container underneath with overflow scroll guard.",
-        "desktop_height": "sticky container min-h-[580px]",
-        "mobile_height": "auto",
-        "content": "Synced 9-industry scenarios (Healthcare, CFO, Logistics, Legal, Supply Chain, Retail, Energy, Tech, Finance) with real-time JSON terminal payload in MacBook mockup."
-      },
-      {
-        "step": 4,
-        "section_id": "part-4-tabbed-proof",
-        "name": "Consolidated Tabbed Proof (Workflows / Connectors / ROI)",
-        "description": "Single high-density tabbed container replacing fragmented proof sections. Eliminates deduplicated route summaries.",
-        "tabs": [
-          {
-            "id": "tab-workflows",
-            "label": "OPERATIONAL WORKFLOWS",
-            "content": "Interactive 4-step execution flow showing agent decision trees and automated audit logs."
-          },
-          {
-            "id": "tab-connectors",
-            "label": "49 ENTERPRISE CONNECTORS",
-            "content": "Searchable data grid of 49 pre-built enterprise connectors (EHR, ERP, CRM, SQL) with 1px border brutalist cards."
-          },
-          {
-            "id": "tab-roi-calculator",
-            "label": "FINANCIAL ROI ESTIMATOR",
-            "content": "Interactive terminal ROI slider calculating labor hours saved, cost reduction, and payback timeline."
-          }
-        ],
-        "desktop_height": "min-h-[540px]",
-        "mobile_height": "auto"
-      },
-      {
-        "step": 5,
-        "section_id": "part-5-founder-ocean-close",
-        "name": "Founder Statement & Procedural Ocean Canvas Close",
-        "description": "Procedural HTML5 monochrome ocean wave canvas with founder note, disclaimer footer, and machine-readable sitemap links.",
-        "desktop_height": "500px",
-        "mobile_height": "auto",
-        "content": "Founder perspective note, procedural ocean ASCII/canvas ambient effect, waitlist secondary modal trigger, and AEO footer."
-      }
-    ]
-  },
-  "route_accessibility_matrix": {
-    "pricing": {
-      "path": "/pricing",
-      "status": "Accessible direct route",
-      "homepage_presence": "Nav link + Tabbed Proof ROI reference only (no duplicated tier cards on homepage)"
-    },
-    "partners": {
-      "path": "/partners",
-      "status": "Accessible direct route",
-      "homepage_presence": "Nav link + Connector directory tab reference"
-    },
-    "roi": {
-      "path": "/roi",
-      "status": "Accessible direct route",
-      "homepage_presence": "Tab 3 in Tabbed Proof section"
-    },
-    "healthcare": {
-      "path": "/use-cases/healthcare",
-      "status": "Accessible direct route",
-      "homepage_presence": "Healthcare option in Industry Demo 30/70 selector"
-    },
-    "cfo": {
-      "path": "/use-cases/cfo",
-      "status": "Accessible direct route",
-      "homepage_presence": "CFO option in Industry Demo 30/70 selector"
-    }
-  },
-  "responsive_scaling_and_dimensions": {
-    "320px_mobile_mini": {
-      "container_padding": "p-3",
-      "macbook_scale": "scale(1.0) full width fit inside screen max-h-[300px]",
-      "font_size_h1": "text-2xl",
-      "font_size_body": "text-xs"
-    },
-    "390px_mobile_standard": {
-      "container_padding": "p-4",
-      "macbook_scale": "scale(1.0) full width max-h-[340px]",
-      "font_size_h1": "text-3xl",
-      "font_size_body": "text-xs"
-    },
-    "768px_tablet": {
-      "container_padding": "p-6",
-      "macbook_scale": "scale(0.95)",
-      "font_size_h1": "text-4xl",
-      "font_size_body": "text-sm"
-    },
-    "1440px_macbook_standard": {
-      "container_padding": "p-8",
-      "macbook_scale": "scale(0.85) (zoomed out compact desktop scale)",
-      "font_size_h1": "text-5xl",
-      "font_size_body": "text-sm"
-    },
-    "1920px_desktop_ultrawide": {
-      "container_padding": "p-12 max-w-[1600px] mx-auto",
-      "macbook_scale": "scale(0.80) (zoomed out compact ultrawide scale)",
-      "font_size_h1": "text-6xl",
-      "font_size_body": "text-base"
-    }
-  },
+  "design_philosophy": "Monochrome, 1px hard-rule architecture, Unbounded display headers, JetBrains Mono body & terminal code. Procedural ASCII motion with zero fluff, compact 30/70 synchronized product proof, and strict deduplication across 16+ ICP industries.",
+  "context_type": "Marketing & Product Demonstration Split-Screen",
   "typography": {
-    "fonts": [
-      {
-        "family": "Unbounded",
-        "weights": ["400", "700", "900"],
-        "usage": "Headings, primary section titles, brand mark, major CTA buttons"
-      },
-      {
-        "family": "JetBrains Mono",
-        "weights": ["300", "400", "500", "700"],
-        "usage": "Body text, code blocks, tab navigation, labels, data tables, metrics, AEO machine summaries"
-      }
-    ],
-    "instructions_to_main_agent": "Use Unbounded for headlines and key display text. Use JetBrains Mono for body, specs, code, and UI elements. Always maintain left alignment for content readability. Set tight letter spacing (`tracking-tight`) on headlines."
+    "heading_font": "Unbounded",
+    "body_font": "JetBrains Mono",
+    "code_font": "JetBrains Mono",
+    "hierarchy": {
+      "h1_hero": "text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight",
+      "h2_section": "text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight",
+      "h3_subsection": "text-xl sm:text-2xl font-semibold",
+      "h4_card": "text-lg sm:text-xl font-medium",
+      "body": "text-sm sm:text-base leading-relaxed",
+      "caption": "text-xs font-mono uppercase tracking-widest text-zinc-400"
+    },
+    "instructions": "Use Unbounded for main titles, Unbounded/JetBrains Mono for subheadings. Never default to Inter or Arial for headlines. Letter spacing for headlines must be tracking-tight."
   },
   "colors": {
     "background": "#000000",
@@ -160,40 +28,63 @@
     "accent_white": "#ffffff",
     "macbook_display_bg": "#050505",
     "forbidden_color": "#7351B7",
-    "instructions": "Strict monochrome palette (pure white, deep voids, slate dark grays). Colorful accent dots are allowed exclusively inside the simulated MacBook code runner tabs."
+    "instructions": "Monochrome palette (pure black #000000, dark void #0a0a0a, card surface #111111, crisp white text #ffffff). No generic full-screen gradients. Tinted grays only."
   },
   "visual_enhancers": {
     "borders": "1px solid #333333 hard rules throughout",
-    "shadows": "None. Soft blur shadows are strictly prohibited.",
-    "radius": "0px sharp corners. Pill buttons (rounded-full) allowed only for primary action CTAs.",
-    "glassmorphism": "Allowed for sticky header only: bg-black/90 backdrop-blur-md border-b border-[#333333]. Never use full transparent headers."
+    "shadows": "None or minimal 1px crisp inset border line. Soft blur shadows are strictly prohibited.",
+    "radius": "rounded-none (0px sharp corners). Pill buttons (rounded-full) allowed only for primary action CTAs.",
+    "glassmorphism": "bg-black/90 backdrop-blur-md border-b border-[#333333] for sticky header. Never fully transparent without blur/scrim."
   },
-  "procedural_ascii_motifs": {
-    "rule": "Preserve exactly ONE instance of each procedural motif across the entire page.",
-    "motifs": [
+  "component_name": "AcoordProductStoryline3070",
+  "grids": {
+    "30_70_split": "grid grid-cols-1 lg:grid-cols-10 gap-6 lg:gap-8 min-h-[620px]",
+    "left_rail": "col-span-1 lg:col-span-3 sticky top-20 flex flex-col gap-6",
+    "right_product_mockup": "col-span-1 lg:col-span-7 relative flex flex-col justify-center items-center scale-95 lg:scale-[0.88] transform-gpu origin-top-left",
+    "bento_proof": "grid grid-cols-1 md:grid-cols-3 gap-4 p-6 border border-[#333333]"
+  },
+  "layouts": {
+    "five_part_homepage_structure": [
       {
-        "name": "Binary Hands Canvas",
-        "location": "Part 1 (Opening Hands)",
-        "type": "Interactive ASCII binary hands canvas"
+        "step": 1,
+        "section_id": "part-1-opening-hands",
+        "name": "Binary Hands Opening",
+        "desktop_height": "calc(100vh - 4rem) max 680px",
+        "mobile_height": "min(80vh, 520px)",
+        "content": "Monochrome binary hands ASCII canvas, main H1 'ACOORD AGENT ENGINE', subtitle, and waitlist pill CTA."
       },
       {
-        "name": "AHI Iris / Eye Canvas",
-        "location": "Part 2 (AHI Eye Intro)",
-        "type": "Interactive pointer-following ASCII eye canvas"
+        "step": 2,
+        "section_id": "part-2-ahi-eye-intro",
+        "name": "AHI Eye & Autonomous Health Intelligence Intro",
+        "desktop_height": "420px",
+        "mobile_height": "auto (padding 2rem)",
+        "content": "Interactive pointer-following ASCII Iris/Eye, mechanical intro headline, 3 core architecture bullet specs."
       },
       {
-        "name": "MacBook Sync Execution Terminal",
-        "location": "Part 3 (Product Demo)",
-        "type": "Procedural code execution typewriter in MacBook screen"
+        "step": 3,
+        "section_id": "part-3-compact-30-70-demo",
+        "name": "Compact 30/70 Synchronized 16-Industry Demo",
+        "desktop_layout": "Grid 10-cols: 3 cols sticky left rail (30%) + 7 cols MacBook frame demo (70%) with scale(0.88) compact zoom-out effect.",
+        "mobile_layout": "Stacked flex layout: Industry selector pills on top, compact MacBook container underneath.",
+        "content": "16+ synchronized ICP scenarios (AI & Data, Construction, Engineering, Finance, IT Leadership, IT Services, Legal, Logistics, Manufacturing, Operations, Real Estate, Science, Healthcare, Customer Operations, Commerce, Professional Services)."
       },
       {
-        "name": "Ocean Wave Canvas",
-        "location": "Part 5 (Founder Close)",
-        "type": "Procedural monochrome wave canvas in footer close"
+        "step": 4,
+        "section_id": "part-4-tabbed-proof",
+        "name": "Consolidated Tabbed Proof (Workflows / Connectors / ROI)",
+        "tabs": ["OPERATIONAL WORKFLOWS", "49 ENTERPRISE CONNECTORS", "FINANCIAL ROI ESTIMATOR"],
+        "content": "Single high-density tabbed container replacing fragmented proof sections."
+      },
+      {
+        "step": 5,
+        "section_id": "part-5-founder-ocean-close",
+        "name": "Founder Statement & Procedural Ocean Canvas Close",
+        "content": "Founder perspective note, procedural ocean wave canvas, waitlist secondary trigger, and AEO footer."
       }
     ]
   },
-  "motion_and_animation_spec": {
+  "motion": {
     "timing_functions": {
       "entry": "cubic-bezier(0.16, 1, 0.3, 1) (ease-out)",
       "on_screen_movement": "cubic-bezier(0.4, 0, 0.2, 1) (ease-in-out)",
@@ -201,43 +92,43 @@
     },
     "rules": [
       "NO spring bounce or elastic overshoot.",
-      "Animations MUST only use GPU-accelerated CSS properties: `transform` and `opacity`.",
-      "Transitions MUST be element-specific (e.g. `transition: transform 0.2s ease-out, opacity 0.2s ease-out`), NEVER `transition: all`.",
-      "Full support for `prefers-reduced-motion: reduce` via `useAcoordReducedMotion` hook."
+      "Animations MUST only use transform and opacity.",
+      "Transitions MUST be element-specific, NEVER transition: all.",
+      "Full support for prefers-reduced-motion: reduce."
     ]
   },
-  "agent_engine_optimization_aeo": {
-    "semantic_hierarchy": "Strict semantic tags (<header>, <main>, <section id='...'>, <article>, <nav>, <footer>).",
-    "json_ld_schema": "Structured JSON-LD inserted in <head> representing SoftwareApplication & Organization schemas for agentic crawler discovery.",
-    "machine_readable_summaries": "Every major section includes an accessible machine-readable summary paragraph formatted in JetBrains Mono with explicit metadata attributes.",
-    "discoverability": "llms.txt and sitemap.xml links provided in footer for LLM web crawlers.",
-    "disclaimers": "Visible modeled-claim disclaimer notice present under ROI and Performance metrics ('*Modeled operational estimates based on synthetic benchmark data')."
+  "accessibility": {
+    "contrast_ratio": "WCAG AA / AAA monochrome high contrast (21:1 black/white)",
+    "testing_attributes": "All interactive and informational elements MUST include kebab-case data-testid attributes (e.g. data-testid='industry-selector-item-healthcare').",
+    "keyboard_navigation": "Visible focus rings, tab order compliance across all 8 AHI desktop surfaces."
   },
-  "brand_logo": {
-    "type": "svg_infinity",
-    "description": "Acoord sharp infinity mark built with 1px stroke terminal vector",
-    "svg_code": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"square\" data-testid=\"brand-logo-svg\"><path d=\"M8 8 C 4 8, 4 16, 8 16 C 12 16, 12 8, 16 8 C 20 8, 20 16, 16 16 C 12 16, 12 8, 8 8 Z\"/></svg>"
+  "media": {
+    "aspect_ratios": "16:10 for MacBook product mockup window",
+    "image_constraints": "Mobile image height max 80vh"
+  },
+  "3d_libraries": {
+    "canvas_rendering": "HTML5 2D Canvas procedural ASCII fields (Binary Hands, AHI Eye, Ocean Wave, MacBook live terminal code).",
+    "implementation": "Lightweight custom Canvas loops with requestAnimationFrame, zero heavy external 3D bundle bloat."
   },
   "image_urls": {
     "macbook_frame": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=1200&q=80",
-    "notes": "Primary visuals are generated procedurally via ASCII/HTML5 Canvas to maintain brutalist terminal speed and identity."
-  },
-  "accessibility": {
-    "contrast": "WCAG AAA compliant monochrome (black bg #000000 with white text #ffffff provides 21:1 ratio).",
-    "testing_attributes": "All interactive and informational elements MUST include a `data-testid` attribute in kebab-case (e.g., `data-testid='waitlist-submit-button'`, `data-testid='tab-workflows'`)."
+    "sponsor_logos": [
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=200&q=80"
+    ]
   },
   "instructions_to_main_agent": [
-    "Ensure /app/design_guidelines.json contains valid JSON.",
-    "Consolidate the homepage into the strict 5-part structure: Hands -> AHI Eye Intro -> 30/70 Compact MacBook Demo -> Tabbed Proof -> Founder/Ocean Close.",
-    "Ensure direct routes /pricing, /partners, /roi, /use-cases/healthcare, and /use-cases/cfo are accessible in navigation and footer.",
-    "Scale down MacBook demo width on desktop to create a zoomed-out compact feel (~85% scale).",
-    "Add data-testid attributes to all interactive controls and key section containers."
+    "Ensure /app/design_guidelines.json is strictly valid raw JSON.",
+    "Synchronize 30% left storyline narrative with 70% right MacBook product screen across all 16+ ICP industries.",
+    "Support the 8 real AHI surfaces: Home, Library, Chat, Apps, Code, Browser, Computer, Teamspaces.",
+    "Ensure all interactive elements have data-testid attributes.",
+    "Never add fake endorsement claims; use explicit modelled-scenario wording.",
+    "Preserve routes /pricing, /partners, /roi, /use-cases/healthcare, /use-cases/cfo."
   ],
-  "universal_guidelines_for_main_agent": [
-    "You MUST NOT apply universal transition (`transition: all`).",
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You MUST NOT apply universal transition (transition: all).",
     "You MUST NOT center align the app container in CSS.",
-    "Ensure all interactive elements have `data-testid` attributes.",
-    "Do NOT use complete transparent backgrounds in sticky headers or overlays.",
+    "All interactive elements MUST include data-testid attributes.",
+    "Do NOT use complete transparent backgrounds in headers or overlays.",
     "Use sonner for toast notifications."
   ]
 }

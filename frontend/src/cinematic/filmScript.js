@@ -1,94 +1,12 @@
 const count = (list) => (Array.isArray(list) ? list.length : 0);
 
 export const buildFilm = (scenario) => [
-  {
-    id: 'dispatch',
-    kind: 'dispatch',
-    surface: 'Dispatch',
-    act: 'ACT I — INTENT',
-    title: 'The work arrives as a sentence, not a spec.',
-    story: scenario.intent,
-    caption: `${scenario.owner} opens the request in plain language. A lead orchestrator reads the stakes, names the constraints, and wakes only the ${count(scenario.agents)} specialists this decision actually needs.`,
-    state: `INTENT::ROUTED — SPECIALISTS::${count(scenario.agents)} — HUMAN::OWNER ${scenario.owner.toUpperCase()}`
-  },
-  {
-    id: 'ontology',
-    kind: 'ontology',
-    surface: 'Ontology',
-    act: 'ACT I — GROUND',
-    title: 'Before it moves, it learns what is true here.',
-    story: scenario.trigger,
-    caption: `People, policies, systems, and evidence become one graph: ${(scenario.graphNodes || []).slice(0, 4).join(' · ')}. Nothing runs against a guess about your organisation.`,
-    state: `ONTOLOGY::BOUND — NODES::${count(scenario.graphNodes)} — TENANT::SCOPED`
-  },
-  {
-    id: 'builder',
-    kind: 'builder',
-    surface: 'Agent builder',
-    act: 'ACT II — COMPILE',
-    title: 'The plan becomes a contract, not a prompt.',
-    story: `${scenario.workflow} compiles into a typed execution plan with explicit boundaries and one human gate.`,
-    caption: 'Visual state is compiled through a strict AST. Broken topology, unscoped tools, and missing approvals are rejected before a single step executes.',
-    state: `AST::VALID — STEPS::${count(scenario.tasks)} — UNSAFE_BINDINGS::0`
-  },
-  {
-    id: 'docs',
-    kind: 'docs',
-    surface: 'Docs + thread',
-    act: 'ACT II — DRAFT',
-    title: 'The decision is written while it is being made.',
-    story: `${scenario.document} is co-authored by people and agents, with every claim carrying its source.`,
-    caption: 'No end-of-week reconstruction. Rationale, citations, and dissent land in the same document the reviewer will sign.',
-    state: `DOC::LIVE — CITATIONS::${Math.min(3, count(scenario.knowledge))} — EDITORS::HUMAN+AGENT`
-  },
-  {
-    id: 'knowledge',
-    kind: 'knowledge',
-    surface: 'Knowledge',
-    act: 'ACT II — RETRIEVE',
-    title: 'Private context, ranked two ways at once.',
-    story: `Hybrid retrieval fuses meaning and exact identifiers across ${count(scenario.knowledge)} internal sources.`,
-    caption: 'Vector similarity finds the concept. Lexical ranking keeps the account number, clause, or part code intact. Reciprocal fusion returns one grounded context.',
-    state: `RAG::HYBRID — SOURCES::${count(scenario.knowledge)} — FUSION::RRF`
-  },
-  {
-    id: 'collaboration',
-    kind: 'collaboration',
-    surface: 'Collaboration',
-    act: 'ACT II — COORDINATE',
-    title: 'People and specialists in one moving thread.',
-    story: scenario.message,
-    caption: `${(scenario.people || []).join(', ')} stay present while agents work. CRDT state converges, so nobody edits a stale version of the decision.`,
-    state: `CHANNEL::${String(scenario.channel || 'operations').toUpperCase()} — PRESENCE::${count(scenario.people)} — MERGE::DETERMINISTIC`
-  },
-  {
-    id: 'code',
-    kind: 'code',
-    surface: 'Code',
-    act: 'ACT III — EXECUTE',
-    title: 'A coding agent that never leaves its boundary.',
-    story: scenario.codeTask,
-    caption: `The full coding panel — files, editor, run policy, terminal, tests — executes ${scenario.codeFile} away from the application host with no egress and scoped credentials.`,
-    state: `SANDBOX::ISOLATED — EGRESS::DENIED — ARTIFACTS::PERSISTED`
-  },
-  {
-    id: 'browser',
-    kind: 'browser',
-    surface: 'Browser',
-    act: 'ACT III — VERIFY',
-    title: 'It checks the outside world before you sign.',
-    story: scenario.browserTitle,
-    caption: `Approved external sources are opened, read, and captured as evidence: ${(scenario.browserItems || []).join('; ')}.`,
-    state: `SOURCE::APPROVED — CAPTURES::${count(scenario.browserItems)} — CITED::TRUE`
-  },
-  {
-    id: 'teamspaces',
-    kind: 'decision',
-    surface: 'Teamspaces',
-    act: 'ACT III — DECIDE',
-    title: 'The human line, and the record that outlives it.',
-    story: scenario.checkpoint,
-    caption: `${scenario.outcome} Owners, state, rationale, and evidence stay in ${scenario.teamspace} as one reconstructable line.`,
-    state: `CHECKPOINT::APPROVED — OUTCOME::${String(scenario.metric || '').toUpperCase()} — AUDIT::WRITTEN`
-  }
+  { id: 'home', kind: 'home', surface: 'Home', act: '01 — FRAME', title: 'The work starts in plain language.', story: scenario.intent, caption: `${scenario.owner} names the outcome and constraints. Home assembles ${count(scenario.people)} people and ${count(scenario.agents)} specialists without turning the request into a technical spec.`, state: `INTENT::ROUTED — OWNER::${scenario.owner.toUpperCase()} — AUTHORITY::HUMAN` },
+  { id: 'library', kind: 'library', surface: 'Library', act: '02 — GROUND', title: 'Every answer begins with retrievable evidence.', story: scenario.libraryQuery || scenario.trigger, caption: `Hybrid search ranks exact identifiers and semantic context across ${count(scenario.knowledge)} permitted sources: ${(scenario.knowledge || []).slice(0, 3).join(' · ')}.`, state: `RAG::HYBRID — SOURCES::${count(scenario.knowledge)} — CITATIONS::REQUIRED` },
+  { id: 'chat', kind: 'chat', surface: 'Chat', act: '03 — COORDINATE', title: 'People and agents share one moving thread.', story: scenario.message, caption: `${(scenario.people || []).join(', ')} remain present while specialists synthesize evidence, expose disagreement, and escalate the decision.`, state: `CHANNEL::${String(scenario.channel).toUpperCase()} — PRESENCE::${count(scenario.people)} — MERGE::LIVE` },
+  { id: 'apps', kind: 'apps', surface: 'Apps', act: '04 — COMPOSE', title: 'Capabilities become a governed workflow.', story: `${scenario.workflow} connects ${(scenario.apps || scenario.agents).slice(0, 3).join(', ')}.`, caption: 'Apps packages retrieval, analysis, action, and approval into reusable operating tools with explicit boundaries.', state: `WORKFLOW::COMPILED — SPECIALISTS::${count(scenario.agents)} — GATES::ENFORCED` },
+  { id: 'code', kind: 'code', surface: 'Code', act: '05 — COMPUTE', title: 'When code is useful, it stays inside its boundary.', story: scenario.codeTask, caption: `${scenario.codeFile} runs with scoped credentials, isolated execution, retained artifacts, and no production write until approval.`, state: `SANDBOX::ISOLATED — EGRESS::SCOPED — ARTIFACTS::RETAINED` },
+  { id: 'browser', kind: 'browser', surface: 'Browser', act: '06 — VERIFY', title: 'Current external evidence joins the record.', story: scenario.browserTitle, caption: `Browser opens approved sources and captures the facts that can change the decision: ${(scenario.browserItems || []).join('; ')}.`, state: `SOURCE::APPROVED — CAPTURES::${count(scenario.browserItems)} — FRESHNESS::VISIBLE` },
+  { id: 'computer', kind: 'computer', surface: 'Computer', act: '07 — EXECUTE', title: 'The system can act, while people keep the boundary.', story: scenario.computerTask, caption: `${(scenario.computerSteps || []).join(' → ')}. Every action is observable, interruptible, and recorded before the next step begins.`, state: `SESSION::SUPERVISED — CONTROL::INTERRUPTIBLE — WRITE::CHECKPOINTED` },
+  { id: 'teamspaces', kind: 'teamspaces', surface: 'Teamspaces', act: '08 — DECIDE', title: 'The decision becomes shared organizational memory.', story: scenario.checkpoint, caption: `${scenario.outcome} Pages, owners, evidence, approvals, and execution state remain in ${scenario.teamspace} as one reconstructable line.`, state: `CHECKPOINT::HUMAN — OUTCOME::${String(scenario.metric).toUpperCase()} — AUDIT::WRITTEN` }
 ];

@@ -1,41 +1,36 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Maximize2, Pause, Play } from 'lucide-react';
+import { industryCatalog, industryGroups } from '../data/industryCatalog';
 
 const scenes = [
-  { id: 'home', label: 'Dispatch', caption: 'Route the enterprise intent and assemble the right specialists.' },
-  { id: 'ontology', label: 'Ontology', caption: 'Ground people, policies, systems, and evidence in one graph.' },
-  { id: 'apps', label: 'Agent builder', caption: 'Compile the operating plan with explicit boundaries and checkpoints.' },
-  { id: 'doc-workspace', label: 'Docs + thread', caption: 'Co-author the decision rationale with cited evidence.' },
-  { id: 'library', label: 'Knowledge', caption: 'Retrieve private context through hybrid enterprise search.' },
-  { id: 'chat', label: 'Collaboration', caption: 'Coordinate people and specialist agents in the flow of work.' },
-  { id: 'code', label: 'Code', caption: 'Run the full coding agent panel inside an isolated sandbox.' },
-  { id: 'browser', label: 'Browser', caption: 'Collect current external evidence from approved sources.' },
-  { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist owners, work state, approvals, and the final decision.' }
-  ,{ id: 'meeting-keeper', label: 'Meeting Keeper', caption: 'Capture decisions, evidence, owners, and follow-up from the live meeting.' }
-  ,{ id: 'studio', label: 'Multimodal Studio', caption: 'Compose slides, images, and video into one reviewable product story.' }
+  { id: 'home', label: 'Home', caption: 'Frame intent and assemble the right people and specialists.' },
+  { id: 'library', label: 'Library', caption: 'Search permitted knowledge with exact and semantic retrieval.' },
+  { id: 'chat', label: 'Chat', caption: 'Coordinate people, agents, email, and meetings in one thread.' },
+  { id: 'apps', label: 'Apps', caption: 'Compose reusable agents and governed operating workflows.' },
+  { id: 'code', label: 'Code', caption: 'Run bounded computation inside an isolated sandbox.' },
+  { id: 'browser', label: 'Browser', caption: 'Research and capture current external evidence.' },
+  { id: 'computer', label: 'Computer', caption: 'Execute supervised actions in an observable computer session.' },
+  { id: 'teamspaces', label: 'Teamspaces', caption: 'Persist pages, owners, approvals, and the final decision.' }
 ];
 
 const showcaseLabels = {
-  home: 'Understand request', ontology: 'Ground context', apps: 'Plan workflow', 'doc-workspace': 'Write decision',
-  library: 'Find evidence', chat: 'Review together', code: 'Act in sandbox', browser: 'Verify sources', teamspaces: 'Remember decision',
-  'meeting-keeper': 'Keep meeting memory', studio: 'Create multimodal story'
+  home: 'Frame intent', library: 'Find evidence', chat: 'Coordinate', apps: 'Compose workflow',
+  code: 'Compute safely', browser: 'Verify sources', computer: 'Execute visibly', teamspaces: 'Record decision'
 };
 
-const fallbackChannels = [
-  ['finance', 'Finance'], ['legal', 'Legal'], ['manufacturing', 'Manufacturing'], ['customer-support', 'Customer Support'],
-  ['logistics', 'Logistics'], ['ecommerce', 'E-commerce'], ['saas', 'SaaS'], ['fashion', 'Fashion']
-].map(([id, label]) => ({ id, label, company: label, hook: 'Loading enterprise scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready' }));
+const fallbackChannels = industryCatalog.map(({ id, label, group }) => ({ id, label, group, company: label, hook: 'Loading modeled scenario…', checkpoint: 'Human approval preserved.', outcome: 'Decision state remains reconstructable.', metric: 'Scenario ready', agents: ['Lead orchestrator'] }));
 
 export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimulation = false, theme = 'light', scenarioId: controlledId, scenarioOverride, onScenarioChange, activeSceneIndex, onActiveSceneChange }) => {
   const [internalActive, setInternalActive] = useState(0);
   const [touring, setTouring] = useState(false);
-  const [localId, setLocalId] = useState('finance');
+  const [localId, setLocalId] = useState('ai-data');
   const [channels, setChannels] = useState(fallbackChannels);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    if (showcase) return false;
     try {
       const saved = window.localStorage.getItem('ahi-showcase-sidebar-collapsed');
-      return saved === null ? showcase : saved === '1';
-    } catch { return showcase; }
+      return saved === '1';
+    } catch { return false; }
   });
   const iframeRef = useRef(null);
   const activeRef = useRef(0);
@@ -115,14 +110,10 @@ export const DemoWorkspace = ({ compact = false, showcase = false, autoPlaySimul
     <div className={`exported-demo exported-demo-light ${compact ? 'exported-demo-compact' : ''} ${showcase ? 'exported-demo-showcase' : ''}`} data-testid="exported-html-demo">
       <div className="demo-channel-shell" data-testid="enterprise-demo-channels">
         <div className="demo-channel-heading">
-          <span data-testid="demo-channel-label">Choose the enterprise channel</span>
-          <strong data-testid="demo-channel-instruction">One operating problem. Eleven connected surfaces. Every step explainable.</strong>
+          <span data-testid="demo-channel-label">Choose the industry / ICP</span>
+          <strong data-testid="demo-channel-instruction">One knowledge-work decision. Eight connected surfaces. Every step explainable.</strong>
         </div>
-        <div className="demo-channel-list" role="tablist" aria-label="Enterprise demo channels">
-          {channels.map((channel) => (
-            <button key={channel.id} type="button" role="tab" aria-selected={channel.id === scenarioId} className={channel.id === scenarioId ? 'active' : ''} onClick={() => selectScenario(channel.id)} data-testid={`demo-channel-${channel.id}-tab`}>{channel.label}</button>
-          ))}
-        </div>
+        <label className="demo-channel-select" htmlFor="demo-industry-select"><span>MODELED OPERATING STORY</span><select id="demo-industry-select" value={scenarioId} onChange={(event) => selectScenario(event.target.value)} data-testid="demo-industry-select">{industryGroups.map((group) => <optgroup label={group.label} key={group.label}>{group.ids.map((id) => { const channel = channels.find((item) => item.id === id); return channel ? <option value={id} key={id}>{channel.label}</option> : null; })}</optgroup>)}</select></label>
       </div>
 
       <div className="demo-chapter-bar" data-testid="demo-chapter-navigation">

@@ -260,6 +260,12 @@
 .ahi-story.is-compact .ahi-narrative-column article > strong { margin-top: 14px; display: block; color: #808080; font: 600 7px/1.5 var(--ahi-mono); }
 .ahi-story.is-compact .ahi-narrative-column article > button { margin-top: 16px; }
 .ahi-story.is-compact .ahi-industry-rail { min-height: 58px; }
+.ahi-story.is-compact .ahi-industry-selector { min-height: 62px; padding: 8px 0; display: grid; grid-template-columns: minmax(210px, .62fr) minmax(180px, .38fr); align-items: center; gap: 16px; border-bottom: 1px solid #3a3a3a; }
+.ahi-story.is-compact .ahi-industry-selector label { min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px; }
+.ahi-story.is-compact .ahi-industry-selector label > span, .ahi-story.is-compact .ahi-industry-selector > div > span { color: #808080; font: 600 7px var(--ahi-mono); letter-spacing: .1em; }
+.ahi-story.is-compact .ahi-industry-selector select { width: 100%; min-height: 44px; padding: 0 34px 0 12px; color: #fff; background: #0a0a0a; border: 1px solid #4a4a4a; border-radius: 0; cursor: pointer; font: 600 9px var(--ahi-mono); }
+.ahi-story.is-compact .ahi-industry-selector > div { min-width: 0; display: grid; gap: 5px; }
+.ahi-story.is-compact .ahi-industry-selector > div strong { overflow: hidden; color: #fff; font: 500 9px var(--ahi-mono); text-overflow: ellipsis; white-space: nowrap; }
 .ahi-story.is-compact .ahi-macbook-wrap { width: min(83%, 950px); margin: 12px auto 0; }
 .ahi-story.is-compact .ahi-macbook-lid { padding: 7px 7px 9px; border-radius: 13px 13px 5px 5px; }
 .ahi-story.is-compact .ahi-live-screen { overflow: hidden; }
@@ -341,6 +347,8 @@
   .ahi-story.is-compact .ahi-proof-header strong { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .ahi-story.is-compact .ahi-narration-controls > span { display: none; }
   .ahi-story.is-compact .ahi-industry-rail { min-height: 54px; }
+  .ahi-story.is-compact .ahi-industry-selector { grid-template-columns: 1fr; gap: 7px; }
+  .ahi-story.is-compact .ahi-industry-selector > div { display: none; }
   .ahi-story.is-compact .ahi-macbook-wrap { width: 100%; margin-top: 10px; }
   .ahi-story.is-compact .ahi-macbook-lid { padding: 4px 4px 6px; border-radius: 9px 9px 3px 3px; }
   .ahi-story.is-compact .ahi-macbook-base { height: 7px; }

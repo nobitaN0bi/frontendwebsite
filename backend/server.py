@@ -86,15 +86,24 @@ class NewsletterResponse(BaseModel):
 
 
 DecisionMapIndustry = Literal[
+    "ai-data",
+    "construction",
+    "engineering",
     "finance",
+    "it-leadership",
+    "it-services",
     "legal",
-    "manufacturing",
-    "customer-support",
     "logistics",
-    "ecommerce",
-    "saas",
-    "fashion",
+    "manufacturing",
+    "operations",
+    "real-estate",
+    "science",
     "healthcare",
+    "customer-operations",
+    "commerce",
+    "professional-services",
+    "public-sector",
+    "education",
 ]
 
 
@@ -113,15 +122,28 @@ class DecisionMapResponse(BaseModel):
 
 
 INDUSTRY_POSTERS = {
+    "ai-data": ("AI & DATA", "Model evidence and promotion authority in one release line."),
+    "construction": ("CONSTRUCTION", "Schedule, safety, cost, and accountable project control."),
+    "engineering": ("ENGINEERING", "Release evidence and residual risk before deployment."),
     "finance": ("FINANCE", "A cited risk decision before market open."),
+    "it-leadership": ("IT LEADERSHIP", "Portfolio, identity, cost, and business continuity aligned."),
+    "it-services": ("IT SERVICES", "Tenant-safe incident command with SLA evidence visible."),
     "legal": ("LEGAL", "Clause-level evidence with counsel in control."),
-    "manufacturing": ("MANUFACTURING", "From sensor drift to bounded containment."),
-    "customer-support": ("CUSTOMER SUPPORT", "Grounded resolution at enterprise scale."),
     "logistics": ("LOGISTICS", "A disrupted network, replanned with authority visible."),
+    "manufacturing": ("MANUFACTURING", "From sensor drift to bounded containment."),
+    "operations": ("OPERATIONS", "Capacity, service, and ownership in one operating plan."),
+    "real-estate": ("REAL ESTATE", "Asset evidence and capital authority in one record."),
+    "science": ("SCIENCE", "Evidence, uncertainty, computation, and scientific judgment."),
+    "healthcare": ("HEALTHCARE", "Patient context coordinated with clinical judgment preserved."),
+    "customer-operations": ("CUSTOMER OPERATIONS", "Grounded service at scale with sensitive exceptions held."),
+    "commerce": ("COMMERCE", "Margin, trust, and customer exceptions in one record."),
+    "professional-services": ("PROFESSIONAL SERVICES", "Client recommendations grounded without invented certainty."),
+    "public-sector": ("PUBLIC SECTOR", "Published criteria, public evidence, accountable authority."),
+    "education": ("EDUCATION", "Learning evidence coordinated with faculty judgment preserved."),
+    "customer-support": ("CUSTOMER SUPPORT", "Grounded resolution at enterprise scale."),
     "ecommerce": ("E-COMMERCE", "Margin, trust, and exceptions in one record."),
     "saas": ("SAAS", "A renewal plan grounded across every customer signal."),
     "fashion": ("FASHION", "Evidence and economics without automating taste."),
-    "healthcare": ("HEALTHCARE", "Patient context coordinated with clinical judgment preserved."),
 }
 
 
@@ -237,7 +259,7 @@ def build_poster(industry: str, map_id: str) -> bytes:
     draw.line((70, 94, 1130, 94), fill="#ffffff", width=2)
     draw.text((70, 124), label, fill="#ffffff", font=poster_font(31))
     draw.text((70, 190), "ONE DECISION.", fill="#ffffff", font=poster_font(67))
-    draw.text((70, 266), "NINE CHAPTERS.", fill="#ffffff", font=poster_font(67))
+    draw.text((70, 266), "EIGHT SURFACES.", fill="#ffffff", font=poster_font(67))
     draw.multiline_text((73, 377), statement, fill="#ffffff", font=poster_font(34), spacing=8)
     draw.rectangle((0, 510, 1200, 630), fill="#ffffff")
     draw.text((70, 535), f"REEL {map_id[:8].upper()}  /  MODELED RUN  /  4 MIN READ", fill="#000000", font=poster_font(24))
@@ -446,7 +468,7 @@ async def share_decision_map(map_id: str, request: Request) -> HTMLResponse:
     poster_url = f"{origin}/api/decision-maps/{document['id']}/poster.png"
     share_url = f"{origin}/api/decision-maps/{document['id']}/share"
     title = f"{label.title()} decision map | Acoord"
-    description = f"One decision, nine chapters. {statement}"
+    description = f"One decision, eight AHI surfaces. {statement}"
     page = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <title>{html.escape(title)}</title>

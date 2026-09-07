@@ -15,7 +15,7 @@ const homeSchema = {
     { '@type': 'SoftwareApplication', '@id': `${siteUrl}/#ahi`, name: 'Acoord AHI — Agent Human Interface', applicationCategory: 'BusinessApplication', operatingSystem: 'Web and desktop', description: 'One command surface to observe, approve, steer, connect, and audit agents across an organization.', featureList: ['Human approval checkpoints', 'Evidence-grounded workflows', 'Enterprise connectors', 'Durable decision records'], provider: { '@id': `${siteUrl}/#organization` }, url: siteUrl },
     { '@type': 'WebPage', '@id': `${siteUrl}/#homepage`, name: 'Acoord AHI — Solving Artificial Coordination', url: siteUrl, description: 'A compact five-part introduction to AHI, product proof, workflows, connectors, ROI, and human authority.', mainEntity: { '@id': `${siteUrl}/#ahi` }, hasPart: [
       { '@type': 'WebPageElement', name: 'Agent Human Interface introduction', url: `${siteUrl}/#ahi` },
-      { '@type': 'WebPageElement', name: 'Nine-industry AHI product demo', url: `${siteUrl}/#ahi-live` },
+      { '@type': 'WebPageElement', name: 'Eighteen-industry AHI product demo', url: `${siteUrl}/#ahi-live` },
       { '@type': 'WebPageElement', name: 'Operational proof: workflows, 49 connectors, and ROI', url: `${siteUrl}/#connectors` }
     ] }
   ]
@@ -23,7 +23,7 @@ const homeSchema = {
 
 export default function HomePage({ onJoin }) {
   const scenarios = useScenarios();
-  const [industryId, setIndustryId] = useState('finance');
+  const [industryId, setIndustryId] = useState('ai-data');
 
   const seeAhiLive = (event) => {
     event.preventDefault();

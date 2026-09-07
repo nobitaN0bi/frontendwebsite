@@ -947,6 +947,9 @@ button, .button, input, select, textarea { border-radius: 0; }
 
 /* Enterprise channel storytelling for the exported Ahi demo */
 .demo-channel-shell { padding: 30px clamp(22px, 4vw, 68px); display: grid; grid-template-columns: minmax(210px, .45fr) 1.55fr; align-items: end; gap: 45px; border-bottom: 1px solid #fff; }
+.demo-channel-select { min-width: 0; display: grid; gap: 8px; }
+.demo-channel-select > span { color: #8b8b8b; font: 600 8px var(--mono); letter-spacing: .12em; }
+.demo-channel-select select { width: 100%; min-height: 48px; padding: 0 40px 0 14px; color: #fff; background: #000; border: 1px solid #555; border-radius: 0; cursor: pointer; font: 600 10px var(--mono); }
 .demo-channel-heading { display: flex; flex-direction: column; gap: 8px; }
 .demo-channel-heading span, .demo-mock-label { color: #8f8f8f; font: 600 8px var(--mono); letter-spacing: .11em; text-transform: uppercase; }
 .demo-channel-heading strong { font: 500 21px/1.15 var(--display); }

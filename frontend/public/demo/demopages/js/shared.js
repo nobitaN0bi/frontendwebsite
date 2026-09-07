@@ -125,10 +125,8 @@
       { id: 'apps', label: 'Apps', icon: `<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>`, href: 'apps.html' },
       { id: 'code', label: 'Code', icon: `<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>`, href: 'code.html' },
       { id: 'browser', label: 'Browser', icon: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>`, href: 'browser.html' },
-      { id: 'teamspaces', label: 'Teamspaces', icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`, href: 'teamspaces.html' },
-      { id: 'ontology', label: 'Ontology', icon: `<path d="M12 2L2 7l10 5 10-5-10-5z M2 17l10 5 10-5 M2 12l10 5 10-5"/>`, href: 'ontology.html' }
-      ,{ id: 'meeting-keeper', label: 'Meeting Keeper', icon: `<rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>`, href: 'meeting-keeper.html' }
-      ,{ id: 'studio', label: 'Multimodal Studio', icon: `<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 13l2-2 3 3 2-2 3 3"/><circle cx="8" cy="9" r="1"/>`, href: 'studio.html' }
+      { id: 'computer', label: 'Computer', icon: `<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>`, href: 'computer.html' },
+      { id: 'teamspaces', label: 'Teamspaces', icon: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>`, href: 'teamspaces.html' }
     ];
 
     return `
@@ -170,21 +168,31 @@
                 <div class="tree-node ${activeTabId === 'teamspaces' ? 'active' : ''}" onclick="window.toggleTreeNode(this, event)">
                   <svg class="tree-arrow expanded" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                   <span>🏢</span>
-                  <span style="flex:1; font-weight:600;">Core Engineering</span>
+                  <span style="flex:1; font-weight:600;" data-sidebar-teamspace-name>Operating Command</span>
                 </div>
                 <div class="tree-children" style="display: flex;">
                   <div class="tree-node" onclick="location.href='doc-workspace.html'">
-                    <span>📄</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">ADR Records</span>
+                    <span>📄</span> <span data-sidebar-page style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Decision brief</span>
                   </div>
                   <div class="tree-node" onclick="location.href='teamspaces.html'">
-                    <span>🗃️</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Sprint Tracker</span>
+                    <span>🗃️</span> <span data-sidebar-page style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Evidence register</span>
                   </div>
-                  <div class="tree-node" onclick="location.href='ontology.html'">
-                    <span>🧠</span> <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Knowledge Graph</span>
+                  <div class="tree-node" onclick="location.href='teamspaces.html'">
+                    <span>✓</span> <span data-sidebar-page style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Approval record</span>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="sidebar-directory" data-sidebar-people>
+            <div class="sidebar-section-title">PEOPLE</div>
+            ${['Owner', 'Reviewer', 'Approver'].map((role, index) => `<div class="sidebar-directory-row"><i class="status-dot ${index === 2 ? 'away' : 'online'}"></i><span data-sidebar-person>${['Knowledge lead', 'Domain reviewer', 'Accountable approver'][index]}</span><small data-sidebar-person-role>${role}</small></div>`).join('')}
+          </div>
+
+          <div class="sidebar-directory" data-sidebar-agents>
+            <div class="sidebar-section-title">AGENTS</div>
+            ${['Lead orchestrator', 'Evidence specialist', 'Decision recorder'].map((name, index) => `<div class="sidebar-directory-row"><i class="status-dot ${index === 0 ? 'running' : 'online'}"></i><span data-sidebar-agent>${name}</span><small>${index === 0 ? 'Active' : 'Ready'}</small></div>`).join('')}
           </div>
         </div>
 
@@ -222,10 +230,8 @@
             <li class="cmd-item" onclick="location.href='apps.html'"><span style="display:flex; align-items:center; gap:8px;">⚡ <strong>Apps Tab</strong></span><span class="badge badge-primary">⌘4</span></li>
             <li class="cmd-item" onclick="location.href='code.html'"><span style="display:flex; align-items:center; gap:8px;">💻 <strong>Code</strong></span><span class="badge badge-primary">⌘5</span></li>
             <li class="cmd-item" onclick="location.href='browser.html'"><span style="display:flex; align-items:center; gap:8px;">🌐 <strong>Browser</strong></span><span class="badge badge-primary">⌘6</span></li>
-            <li class="cmd-item" onclick="location.href='teamspaces.html'"><span style="display:flex; align-items:center; gap:8px;">🏢 <strong>Teamspaces</strong></span><span class="badge badge-primary">⌘7</span></li>
-            <li class="cmd-item" onclick="location.href='ontology.html'"><span style="display:flex; align-items:center; gap:8px;">🧠 <strong>Ontology</strong></span><span class="badge badge-success">Graph</span></li>
-            <li class="cmd-item" onclick="location.href='meeting-keeper.html'"><span style="display:flex; align-items:center; gap:8px;">🎙️ <strong>Meeting Keeper</strong></span><span class="badge badge-primary">Live</span></li>
-            <li class="cmd-item" onclick="location.href='studio.html'"><span style="display:flex; align-items:center; gap:8px;">◫ <strong>Multimodal Studio</strong></span><span class="badge badge-primary">Create</span></li>
+            <li class="cmd-item" onclick="location.href='computer.html'"><span style="display:flex; align-items:center; gap:8px;">▣ <strong>Computer</strong></span><span class="badge badge-primary">⌘7</span></li>
+            <li class="cmd-item" onclick="location.href='teamspaces.html'"><span style="display:flex; align-items:center; gap:8px;">🏢 <strong>Teamspaces</strong></span><span class="badge badge-primary">⌘8</span></li>
           </ul>
         </div>
       </div>

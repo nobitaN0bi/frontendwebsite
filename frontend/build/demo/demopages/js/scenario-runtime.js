@@ -1,34 +1,30 @@
 (function () {
   const page = window.location.pathname.split('/').pop().replace('.html', '') || 'home';
   const params = new URLSearchParams(window.location.search);
-  const scenarioId = params.get('scenario') || 'finance';
+  const scenarioId = params.get('scenario') || 'ai-data';
   const autoplay = params.get('autoplay') === '1';
   const actions = {
-    home: ['Route enterprise intent', 'Classifying the trigger', 'Selecting specialist agents', 'Opening the human checkpoint'],
-    ontology: ['Ground the shared graph', 'Resolving people and systems', 'Linking policies and evidence', 'Locking tenant-scoped context'],
-    apps: ['Compile the workflow', 'Validating node bindings', 'Applying policy boundaries', 'Checkpointing execution state'],
-    'doc-workspace': ['Draft the decision brief', 'Retrieving cited evidence', 'Co-authoring the rationale', 'Holding approval language'],
+    home: ['Frame the knowledge-work decision', 'Reading the operating trigger', 'Assembling people and agents', 'Opening the accountable checkpoint'],
     library: ['Retrieve enterprise knowledge', 'Running hybrid lexical search', 'Reranking semantic matches', 'Returning cited context'],
-    chat: ['Coordinate the response', 'Reading channel context', 'Inviting specialist agents', 'Escalating the decision'],
+    chat: ['Coordinate the response', 'Reading human and channel context', 'Inviting specialist agents', 'Escalating the decision'],
+    apps: ['Compose the operating workflow', 'Validating app and agent bindings', 'Applying policy boundaries', 'Checkpointing execution state'],
     code: ['Run the isolated analysis', 'Provisioning the sandbox', 'Executing bounded code', 'Persisting verified output'],
     browser: ['Collect external evidence', 'Opening the approved source', 'Extracting structured facts', 'Citing the current guidance'],
-    teamspaces: ['Persist the operating plan', 'Syncing collaborative state', 'Assigning accountable owners', 'Recording the final decision']
-    ,'meeting-keeper': ['Capture the live meeting', 'Separating decisions and action items', 'Assigning accountable owners', 'Saving the cited meeting record']
-    ,studio: ['Compose the multimodal brief', 'Generating slide and image variants', 'Rendering the product demo sequence', 'Holding publish approval']
+    computer: ['Execute the supervised computer run', 'Opening the scoped session', 'Completing approved actions', 'Pausing at the human boundary'],
+    teamspaces: ['Persist the operating decision', 'Syncing pages and work state', 'Assigning accountable owners', 'Recording approval and outcome'],
+    'doc-workspace': ['Draft the decision brief', 'Retrieving cited evidence', 'Co-authoring the rationale', 'Holding approval language']
   };
 
   const metrics = {
     home: [['Open runs', '12', '14'], ['Specialists', '4', '6'], ['Reviews', '3', '4'], ['Context', '84%', '93%']],
-    ontology: [['Entities', '181', '188'], ['Links', '624', '649'], ['Policies', '28', '31'], ['Coverage', '87%', '92%']],
-    apps: [['Nodes', '8', '11'], ['Tools', '14', '16'], ['Checks', '6', '8'], ['Ready', '82%', '100%']],
-    'doc-workspace': [['Sources', '12', '16'], ['Comments', '7', '9'], ['Owners', '3', '4'], ['Resolved', '68%', '81%']],
     library: [['Sources', '42', '47'], ['Citations', '18', '24'], ['Chunks', '142k', '145k'], ['Relevance', '.88', '.93']],
     chat: [['Participants', '7', '9'], ['Agents', '3', '4'], ['Threads', '5', '6'], ['Review', 'Pending', 'Ready']],
+    apps: [['Apps', '3', '4'], ['Agents', '3', '4'], ['Checks', '6', '8'], ['Ready', 'Held', 'Review']],
     code: [['Files', '18', '21'], ['Tests', '42', '48'], ['Findings', '6', '3'], ['Sandbox', 'Scoped', 'Verified']],
     browser: [['Sources', '8', '12'], ['Facts', '31', '44'], ['Citations', '10', '16'], ['Freshness', '2h', 'Now']],
-    teamspaces: [['Owners', '4', '5'], ['Tasks', '18', '22'], ['Decisions', '6', '7'], ['State', 'Review', 'Recorded']],
-    'meeting-keeper': [['Speakers', '6', '7'], ['Decisions', '3', '5'], ['Actions', '7', '11'], ['Coverage', '76%', '96%']],
-    studio: [['Assets', '14', '19'], ['Variants', '8', '12'], ['Scenes', '6', '9'], ['Publish', 'Held', 'Ready']]
+    computer: [['Actions', '0', '3'], ['Evidence', '0', '6'], ['Controls', 'Scoped', 'Held'], ['State', 'Ready', 'Paused']],
+    teamspaces: [['Owners', '3', '4'], ['Pages', '4', '5'], ['Decisions', '0', '1'], ['State', 'Review', 'Recorded']],
+    'doc-workspace': [['Sources', '12', '16'], ['Comments', '7', '9'], ['Owners', '3', '4'], ['Resolved', '68%', '81%']]
   };
 
   const setText = (selector, value, index = 0) => {
@@ -39,9 +35,12 @@
   const escapeHtml = (value) => String(value).replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
 
   const populateSidebar = (scenario) => {
-    setText('.teamspace-tree .tree-node span[style*="font-weight:600"]', scenario.teamspace);
-    const treeLabels = document.querySelectorAll('.tree-children .tree-node span:last-child');
-    [scenario.document, scenario.tasks[0], 'Evidence graph'].forEach((label, index) => { if (treeLabels[index]) treeLabels[index].textContent = label; });
+    setText('[data-sidebar-teamspace-name]', scenario.teamspace);
+    const treeLabels = document.querySelectorAll('[data-sidebar-page]');
+    (scenario.pages || [scenario.document, scenario.tasks[0], 'Approval record']).forEach((label, index) => { if (treeLabels[index]) treeLabels[index].textContent = label; });
+    document.querySelectorAll('[data-sidebar-person]').forEach((node, index) => { node.textContent = scenario.people[index] || scenario.owner; });
+    document.querySelectorAll('[data-sidebar-person-role]').forEach((node, index) => { node.textContent = scenario.peopleRoles?.[index] || ['Owner', 'Reviewer', 'Approver'][index]; });
+    document.querySelectorAll('[data-sidebar-agent]').forEach((node, index) => { node.textContent = scenario.agents[index] || scenario.agents[0]; });
     setText('.account-name', scenario.owner);
     setText('.account-role', scenario.role);
     setText('#settings-modal h3', scenario.owner);
@@ -78,7 +77,9 @@
     setText('.page-container h1', `${scenario.company} command center`);
     setText('.page-container h1 + p', `One operating context · ${scenario.agents.length} active specialists · human authority preserved`);
     const search = document.getElementById('home-search');
-    if (search) search.placeholder = scenario.intent;
+    if (search) { search.value = scenario.intent; search.placeholder = scenario.intent; }
+    const quickActions = document.querySelectorAll('.page-container .btn-secondary');
+    [`Open ${scenario.pages?.[0] || scenario.document}`, `Open ${scenario.pages?.[1] || 'evidence'}`, `Run ${scenario.apps?.[0] || scenario.workflow}`, `Open #${scenario.channel}`].forEach((label, index) => { if (quickActions[index]) quickActions[index].textContent = label; });
     const recentTitles = document.querySelectorAll('.recent-item > div > div > div:first-child');
     [scenario.document, scenario.tasks[3], scenario.workflow].forEach((title, index) => { if (recentTitles[index]) recentTitles[index].textContent = title; });
     const recentMetadata = document.querySelectorAll('.recent-item > div > div > div:nth-child(2)');
@@ -89,7 +90,7 @@
     ].forEach((copy, index) => { if (recentMetadata[index]) recentMetadata[index].textContent = copy; });
     const names = document.querySelectorAll('.page-container span[style*="font-weight: 600"]');
     [...scenario.people, ...scenario.agents.slice(0, 3)].forEach((name, index) => { if (names[index]) names[index].textContent = name; });
-    const roleLabels = scenario.id === 'investor' ? ['Investor', 'Product diligence', 'Enterprise operator'] : ['Human operator', 'Workflow owner', 'Risk reviewer'];
+    const roleLabels = scenario.peopleRoles || ['Human operator', 'Workflow owner', 'Risk reviewer'];
     roleLabels.forEach((role, index) => {
       const row = names[index]?.parentElement?.parentElement;
       if (row?.lastElementChild) row.lastElementChild.textContent = role;
@@ -97,14 +98,15 @@
   };
 
   const populateOntology = (scenario) => {
-    document.querySelectorAll('.node-label-text').forEach((node, index) => { node.textContent = scenario.graphNodes[index] || scenario.graphNodes[0]; });
+    const nodes = scenario.graphNodes || scenario.knowledge || [scenario.teamspace];
+    document.querySelectorAll('.node-label-text').forEach((node, index) => { node.textContent = nodes[index] || nodes[0]; });
     const search = document.querySelector('.floating-search-pill input');
     if (search) search.placeholder = `Search ${scenario.company} entities...`;
   };
 
   const populateApps = (scenario) => {
     const cards = document.querySelectorAll('.app-directory-card');
-    [scenario.workflow, `${scenario.label} Evidence Retriever`, `${scenario.label} Approval Guard`].forEach((title, index) => {
+    (scenario.apps || [scenario.workflow, `${scenario.label} Evidence Retriever`, `${scenario.label} Approval Guard`]).forEach((title, index) => {
       const card = cards[index];
       if (!card) return;
       card.dataset.title = title;
@@ -112,6 +114,7 @@
       if (directCopy[1]) directCopy[1].textContent = title;
       if (directCopy[2]) directCopy[2].textContent = index === 0 ? scenario.hook : index === 1 ? `Grounds work in ${scenario.knowledge.slice(0, 3).join(', ')}.` : scenario.checkpoint;
     });
+    setText('.category-filter-pill + .badge', `${(scenario.apps || []).length || 3} ${scenario.label} operating tools`);
     const nodes = document.querySelectorAll('.canvas-node [style*="font-weight:700"]');
     [scenario.trigger, `Agent: ${scenario.agents[1]}`, `End: ${scenario.document}`].forEach((title, index) => { if (nodes[index]) nodes[index].textContent = title; });
     setText('#pipeline-log-terminal', `[Ahi Compiler] ${scenario.workflow} validated. Ready for checkpointed execution.`);
@@ -133,7 +136,9 @@
     const titles = document.querySelectorAll('.doc-card .doc-body > div[style*="font-weight:700"]');
     scenario.knowledge.forEach((title, index) => { if (titles[index]) titles[index].textContent = title; });
     const search = document.getElementById('lib-search');
-    if (search) search.placeholder = `Search ${scenario.label.toLowerCase()} knowledge and cited evidence...`;
+    if (search) { search.value = scenario.libraryQuery || scenario.intent; search.placeholder = `Search ${scenario.label.toLowerCase()} knowledge and cited evidence...`; }
+    const metadata = document.querySelectorAll('.doc-card .doc-body > div:last-child');
+    metadata.forEach((node, index) => { node.textContent = index < 3 ? `Cited source · relevance ${(0.96 - index * .03).toFixed(2)}` : `Connected to ${scenario.teamspace}`; });
     setText('.page-container .card h3', `Suggested actions for ${scenario.document}`);
   };
 
@@ -145,6 +150,10 @@
     if (messages[0]) messages[0].textContent = scenario.message;
     if (messages[1]) messages[1].innerHTML = `<strong>${escapeHtml(scenario.agents[0])} synthesis:</strong><br>${escapeHtml(scenario.agentReply)}`;
     if (messages[2]) messages[2].textContent = `${scenario.owner}: keep the final action behind the recorded approval checkpoint.`;
+    const authors = document.querySelectorAll('#msg-container .msg-card [style*="font-weight: 700"]');
+    if (authors[0]) authors[0].textContent = scenario.people[0];
+    if (authors[1]) authors[1].textContent = `${scenario.agents[0]} · AI participant`;
+    if (authors[2]) authors[2].textContent = scenario.people[1];
     const input = document.getElementById('chat-input');
     if (input) input.placeholder = `Message #${scenario.channel} or invoke @ahi...`;
   };
@@ -168,9 +177,24 @@
     scenario.browserItems.forEach((title, index) => { if (itemTitles[index]) itemTitles[index].textContent = title; });
     const timeline = document.querySelectorAll('#agent-timeline > div');
     ['Open approved source', 'Extract relevant evidence', 'Cite into operating context'].forEach((title, index) => { if (timeline[index]?.firstElementChild) timeline[index].firstElementChild.textContent = `Step ${index + 1}: ${title}`; });
+    const bookmarks = document.querySelectorAll('.bookmarks-bar [onclick*="navigateBrowser"]');
+    (scenario.knowledge || []).slice(0, bookmarks.length).forEach((title, index) => { bookmarks[index].textContent = `↗ ${title}`; });
+  };
+
+  const populateComputer = (scenario) => {
+    setText('#computer-task-title', scenario.computerTask);
+    setText('#computer-session-owner', `${scenario.owner} · supervised session`);
+    const steps = document.querySelectorAll('[data-computer-step]');
+    (scenario.computerSteps || []).forEach((title, index) => { if (steps[index]) steps[index].textContent = title; });
+    setText('#computer-output', scenario.computerOutput);
+    setText('#computer-checkpoint', scenario.checkpoint);
   };
 
   const populateTeamspaces = (scenario) => {
+    setText('.top-bar-left span', scenario.teamspace);
+    const explorer = document.querySelectorAll('.ts-tree-sidebar [data-teamspace-page]');
+    (scenario.pages || []).forEach((title, index) => { if (explorer[index]) explorer[index].textContent = title; });
+    setText('.ts-tree-sidebar .badge', `Owner: ${scenario.owner}`);
     setText('#doc-editor-view h1', scenario.document);
     const paragraphs = document.querySelectorAll('#doc-editor-view p');
     if (paragraphs[0]) paragraphs[0].innerHTML = `<strong>Context & trigger:</strong><br>${escapeHtml(scenario.trigger)}`;
@@ -193,7 +217,7 @@
 
   const populatePage = (scenario) => {
     populateSidebar(scenario);
-    ({ home: populateHome, ontology: populateOntology, apps: populateApps, 'doc-workspace': populateDocument, library: populateLibrary, chat: populateChat, code: populateCode, browser: populateBrowser, teamspaces: populateTeamspaces, 'meeting-keeper': populateMeetings, studio: populateStudio }[page] || (() => {}))(scenario);
+    ({ home: populateHome, apps: populateApps, 'doc-workspace': populateDocument, library: populateLibrary, chat: populateChat, code: populateCode, browser: populateBrowser, computer: populateComputer, teamspaces: populateTeamspaces, ontology: populateOntology, 'meeting-keeper': populateMeetings, studio: populateStudio }[page] || (() => {}))(scenario);
   };
 
   const injectTelemetry = () => {

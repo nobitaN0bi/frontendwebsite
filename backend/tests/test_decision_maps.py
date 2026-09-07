@@ -17,8 +17,9 @@ if not BASE_URL:
                     break
 
 INDUSTRIES = [
-    "finance", "legal", "manufacturing", "customer-support",
-    "logistics", "ecommerce", "saas", "fashion",
+    "ai-data", "construction", "engineering", "finance", "it-leadership", "it-services",
+    "legal", "logistics", "manufacturing", "operations", "real-estate", "science",
+    "healthcare", "customer-operations", "commerce", "professional-services", "public-sector", "education",
 ]
 
 
@@ -106,7 +107,7 @@ def test_share_page_contains_absolute_metadata_and_redirect(api):
 
 
 def test_poster_is_social_card_png(api):
-    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "fashion"}, timeout=10)
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "commerce"}, timeout=10)
     map_id = created.json()["id"]
     response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/poster.png", timeout=10)
     assert response.status_code == 200
@@ -116,7 +117,7 @@ def test_poster_is_social_card_png(api):
 
 
 def test_poster_dimensions_are_1200x630(api):
-    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "saas"}, timeout=10)
+    created = api.post(f"{BASE_URL}/api/decision-maps", json={"industry": "ai-data"}, timeout=10)
     map_id = created.json()["id"]
     response = api.get(f"{BASE_URL}/api/decision-maps/{map_id}/poster.png", timeout=10)
     assert response.status_code == 200

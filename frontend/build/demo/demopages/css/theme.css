@@ -127,7 +127,7 @@ html, body {
 .sidebar-collapse-btn svg { width: 14px; height: 14px; }
 .app-sidebar.collapsed .sidebar-collapse-btn { transform: rotate(180deg); }
 .app-sidebar.collapsed .sidebar-header { padding: 0 10px; justify-content: center; gap: 6px; }
-.app-sidebar.collapsed .brand-logo span, .app-sidebar.collapsed .theme-toggle-btn, .app-sidebar.collapsed .sidebar-section-title, .app-sidebar.collapsed .sidebar-teamspaces, .app-sidebar.collapsed .account-info, .app-sidebar.collapsed .sidebar-account-footer > .btn-icon, .app-sidebar.collapsed .sidebar-item > span, .app-sidebar.collapsed .sidebar-item > .badge { display: none; }
+.app-sidebar.collapsed .brand-logo span, .app-sidebar.collapsed .theme-toggle-btn, .app-sidebar.collapsed .sidebar-section-title, .app-sidebar.collapsed .sidebar-teamspaces, .app-sidebar.collapsed .sidebar-directory, .app-sidebar.collapsed .account-info, .app-sidebar.collapsed .sidebar-account-footer > .btn-icon, .app-sidebar.collapsed .sidebar-item > span, .app-sidebar.collapsed .sidebar-item > .badge { display: none; }
 .app-sidebar.collapsed .brand-logo { gap: 0; }.app-sidebar.collapsed .logo-badge { width: 26px; height: 26px; border-radius: 7px; }
 .app-sidebar.collapsed .sidebar-nav { padding: 14px 8px; }.app-sidebar.collapsed .sidebar-menu { gap: 5px; }.app-sidebar.collapsed .sidebar-item { min-height: 40px; padding: 0; justify-content: center; border-radius: 7px; }.app-sidebar.collapsed .sidebar-item svg { width: 17px; height: 17px; }
 .app-sidebar.collapsed .sidebar-account-footer { padding: 10px; justify-content: center; }.app-sidebar.collapsed .account-profile { flex: 0 0 auto; }.app-sidebar.collapsed .avatar-badge { width: 28px; height: 28px; }
@@ -271,6 +271,11 @@ html, body {
   padding-left: 18px;
   margin-top: 2px;
 }
+
+.sidebar-directory { display: flex; flex-direction: column; gap: 3px; }
+.sidebar-directory-row { min-width: 0; min-height: 27px; padding: 4px 8px; display: grid; grid-template-columns: 7px minmax(0, 1fr) auto; align-items: center; gap: 7px; color: var(--text-secondary); font-size: .72rem; }
+.sidebar-directory-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sidebar-directory-row small { max-width: 64px; overflow: hidden; color: var(--text-tertiary); font-size: .58rem; text-overflow: ellipsis; white-space: nowrap; }
 
 /* User Account Footer Widget */
 .sidebar-account-footer {
@@ -608,6 +613,12 @@ html[data-lens="capability"] .scenario-workbar { min-height: 54px; grid-template
 }
 
 @media (max-width: 760px) {
+  .app-sidebar { width: 64px; }
+  .app-sidebar .brand-logo span, .app-sidebar .theme-toggle-btn, .app-sidebar .sidebar-section-title, .app-sidebar .sidebar-teamspaces, .app-sidebar .sidebar-directory, .app-sidebar .account-info, .app-sidebar .sidebar-account-footer > .btn-icon, .app-sidebar .sidebar-item > span, .app-sidebar .sidebar-item > .badge { display: none; }
+  .app-sidebar .sidebar-header { padding: 0 10px; justify-content: center; gap: 6px; }
+  .app-sidebar .sidebar-nav { padding: 14px 8px; }
+  .app-sidebar .sidebar-menu { gap: 5px; }
+  .app-sidebar .sidebar-item { min-height: 40px; padding: 0; justify-content: center; border-radius: 7px; }
   .scenario-workbar { grid-template-columns: 1fr auto; }
   .scenario-live-copy { grid-column: 1 / -1; grid-row: 2; }
 }
